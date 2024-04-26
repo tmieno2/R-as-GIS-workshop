@@ -1,0 +1,15 @@
+# Packages
+
+```{r}
+library(sf)
+```
+
+# shapefile for importing and exporting practices
+
+```{r}
+nc <-
+  st_read(system.file("shape/nc.shp", package = "sf")) %>%
+  dplyr::select(AREA, NAME, FIPS)
+
+st_write(nc, "Lectures/Data/nc_practice.shp")
+```
