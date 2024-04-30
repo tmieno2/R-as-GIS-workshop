@@ -568,7 +568,7 @@
   // Document level settings ----
 
   // Determine if we need to install R packages
-  globalThis.qwebrInstallRPackagesList = ['ggplot2', 'dplyr', 'sf', 'data.table'];
+  globalThis.qwebrInstallRPackagesList = ['ggplot2', 'dplyr', 'sf', 'sp'];
 
   // Specify possible locations to search for the repository
   globalThis.qwebrPackageRepoURLS = ['https://repo.r-wasm.org/'];
@@ -590,7 +590,7 @@
   };
 
   // Store cell data
-  globalThis.qwebrCellDetails = [{"code":"nc <-\n  st_read(system.file(\"shape/nc.shp\", package = \"sf\")) %>%\n  dplyr::select(AREA, NAME, FIPS)","options":{"fig-cap":"","autorun":"true","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-1","context":"setup","fig-height":5,"comment":"","editor-max-height":""},"id":1},{"code":"nc <-\n  st_read(system.file(\"shape/nc.shp\", package = \"sf\")) %>%\n  dplyr::select(AREA, NAME, FIPS)","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-2","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":2},{"code":"class(nc)","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-3","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":3},{"code":"nc  ","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-4","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":4},{"code":"dplyr::select(nc, geometry)","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-5","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":5},{"code":"st_geometry(nc[1, ])[[1]][[1]][[1]] %>% head(10)","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-6","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":6},{"code":"#--- create a POINT ---#\na_point <- st_point(c(2,1))","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-7","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":7},{"code":"#--- check the class of the object ---#\nclass(a_point)","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-8","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":8},{"code":"#--- collection of points in a matrix form ---#\n(\ns1 <- rbind(c(2,3),c(3,4),c(3,5),c(1,5))\n)","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-9","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":9},{"code":"#--- create a \"LINESTRING\" ---#\na_linestring <- sf::st_linestring(s1)\n\n#--- check the class ---#\nclass(a_linestring)","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-10","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":10},{"code":"plot(a_linestring)","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-11","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":11},{"code":"(p1 <- rbind(c(0,0), c(3,0), c(3,2), c(2,5), c(1,3), c(0,0)))","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-12","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":12},{"code":"a_polygon <- st_polygon(list(p1))\n\nclass(a_polygon)","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-13","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":13},{"code":"plot(a_polygon, col = \"red\")","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-14","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":14},{"code":"#--- a hole within p1 ---#\np2 <- rbind(c(1,1), c(1,2), c(2,2), c(1,1))\n\n#--- create a polygon with hole ---#\na_plygon_with_a_hole <- st_polygon(list(p1,p2))","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-15","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":15},{"code":"#--- see what it looks like ---#\nplot(a_plygon_with_a_hole, col = \"red\")","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-16","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":16},{"code":"#--- create a matrix for another polygon ---#\np3 <- rbind(c(4,0), c(5,0), c(5,3), c(4,2), c(4,0)) ","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-17","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":17},{"code":"a_multipolygon <- \n  st_multipolygon(\n    list(\n      list(p1,p2), # the polygon with a hole\n      list(p3) # the new polygon created above\n    )\n  )","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-18","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":18},{"code":"plot(a_multipolygon, col = \"red\")","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-19","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":19},{"code":"","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-20","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":20},{"code":"","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-21","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":21},{"code":" ","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-22","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":22},{"code":"#--- create an sfc ---#\nsfc_ex <- sf::st_sfc(\n  list(\n    a_point,\n    a_linestring,\n    a_polygon,\n    a_multipolygon\n  )\n)","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-23","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":23},{"code":"class(sfc_ex)","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-24","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":24},{"code":"#--- create a data.frame ---#\ndf_ex <- data.frame(\n  name = c('A', 'B', 'C', 'D')\n)\n\n#--- add the sfc as a column ---#\ndf_ex$geometry <- sfc_ex ","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-25","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":25},{"code":"class(df_ex)","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-26","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":26},{"code":"#--- let R recognize the data frame as sf ---#\nsf_ex <- st_as_sf(df_ex)\n\n#--- see what it looks like ---#\nsf_ex","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-27","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":27},{"code":"#--- check the class ---#\nclass(sf_ex)","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-28","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":28},{"code":"a_point \n\na_polygon","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-29","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":29},{"code":"","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-30","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":30},{"code":"st_crs(nc)","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-31","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":31},{"code":"nc_utm <- st_transform(nc, 26914)","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-32","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":32},{"code":"st_crs(nc_utm)","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-33","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":33},{"code":"dplyr::select(nc, geometry)","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-34","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":34},{"code":"dplyr::select(nc_utm, geometry)","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-35","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":35},{"code":"#--- transform ---#\nnc_utm_back_to_original <-\n  st_transform(\n    nc_utm,\n    st_crs(nc)\n  )","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-36","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":36},{"code":"st_crs(nc_utm_back_to_original)","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-37","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":37},{"code":"","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-38","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":38},{"code":"","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-39","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":39},{"code":"plot(nc) ","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-40","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":40},{"code":"library(tmap)\ntm_nc_polygons <- tm_shape(nc) + tm_polygons() ","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-41","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":41},{"code":"tmap_leaflet(tm_nc_polygons)","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-42","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":42},{"code":"download.file(\"https://www.dropbox.com/home/TeachingUNL/Data-Science-with-R/Chapter-8-SpatialData/blue.rds?raw=1\", \"data.csv\")","options":{"fig-cap":"","autorun":"false","warning":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","results":"markup","fig-width":7,"output":"true","classes":"","out-width":"700px","out-height":"","read-only":"false","dpi":72,"message":"true","label":"unnamed-chunk-43","context":"interactive","fig-height":5,"comment":"","editor-max-height":""},"id":43}];
+  globalThis.qwebrCellDetails = [{"code":"nc <-\n  st_read(system.file(\"shape/nc.shp\", package = \"sf\")) %>%\n  dplyr::select(AREA, NAME, FIPS)\n\n#--- install and library the data package ---#\ninstall.packages(\"r.spatial.workshop.datasets\", repos = c(\"https://tmieno2.r-universe.dev\", \"https://cran.r-project.org\"))\nlibrary(r.spatial.workshop.datasets)\n\n#--- load datasets ---#\ndata(wells_ne)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"setup","autorun":"true","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-1","classes":""},"id":1},{"code":"nc <-\n  st_read(system.file(\"shape/nc.shp\", package = \"sf\")) %>%\n  dplyr::select(AREA, NAME, FIPS)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-2","classes":""},"id":2},{"code":"class(nc)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-3","classes":""},"id":3},{"code":"nc  ","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-4","classes":""},"id":4},{"code":"dplyr::select(nc, geometry)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-5","classes":""},"id":5},{"code":"st_geometry(nc[1, ])[[1]][[1]][[1]] %>% head(10)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-6","classes":""},"id":6},{"code":"#--- create a POINT ---#\na_point <- st_point(c(2, 1))","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"true","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-7","classes":""},"id":7},{"code":"#--- check the class of the object ---#\nclass(a_point)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-8","classes":""},"id":8},{"code":"#--- collection of points in a matrix form ---#\n(\ns1 <- rbind(c(2,3),c(3,4),c(3,5),c(1,5))\n)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"true","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-9","classes":""},"id":9},{"code":"#--- create a \"LINESTRING\" ---#\na_linestring <- sf::st_linestring(s1)\n\n#--- check the class ---#\nclass(a_linestring)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"true","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-10","classes":""},"id":10},{"code":"plot(a_linestring)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-11","classes":""},"id":11},{"code":"(p1 <- rbind(c(0,0), c(3,0), c(3,2), c(2,5), c(1,3), c(0,0)))","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"true","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-12","classes":""},"id":12},{"code":"a_polygon <- st_polygon(list(p1))\n\nclass(a_polygon)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"true","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-13","classes":""},"id":13},{"code":"plot(a_polygon, col = \"red\")","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-14","classes":""},"id":14},{"code":"#--- a hole within p1 ---#\np2 <- rbind(c(1,1), c(1,2), c(2,2), c(1,1))\n\n#--- create a polygon with hole ---#\na_plygon_with_a_hole <- st_polygon(list(p1,p2))","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"true","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-15","classes":""},"id":15},{"code":"#--- see what it looks like ---#\nplot(a_plygon_with_a_hole, col = \"red\")","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-16","classes":""},"id":16},{"code":"#--- create a matrix for another polygon ---#\np3 <- rbind(c(4,0), c(5,0), c(5,3), c(4,2), c(4,0)) ","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"true","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-17","classes":""},"id":17},{"code":"a_multipolygon <- \n  st_multipolygon(\n    list(\n      list(p1,p2), # the polygon with a hole\n      list(p3) # the new polygon created above\n    )\n  )","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-18","classes":""},"id":18},{"code":"plot(a_multipolygon, col = \"red\")","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-19","classes":""},"id":19},{"code":"","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-20","classes":""},"id":20},{"code":"","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-21","classes":""},"id":21},{"code":" ","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-22","classes":""},"id":22},{"code":"#--- create an sfc ---#\nsfc_ex <- sf::st_sfc(\n  list(\n    a_point,\n    a_linestring,\n    a_polygon,\n    a_multipolygon\n  )\n)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-23","classes":""},"id":23},{"code":"class(sfc_ex)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-24","classes":""},"id":24},{"code":"#--- create a data.frame ---#\ndf_ex <- data.frame(\n  name = c('A', 'B', 'C', 'D')\n)\n\n#--- add the sfc as a column ---#\ndf_ex$geometry <- sfc_ex ","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-25","classes":""},"id":25},{"code":"class(df_ex)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-26","classes":""},"id":26},{"code":"#--- let R recognize the data frame as sf ---#\nsf_ex <- st_as_sf(df_ex)\n\n#--- see what it looks like ---#\nsf_ex","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-27","classes":""},"id":27},{"code":"#--- check the class ---#\nclass(sf_ex)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-28","classes":""},"id":28},{"code":"a_point \n\na_polygon","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-29","classes":""},"id":29},{"code":"","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-30","classes":""},"id":30},{"code":"st_crs(nc)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-31","classes":""},"id":31},{"code":"nc_utm <- st_transform(nc, 26914)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-32","classes":""},"id":32},{"code":"st_crs(nc_utm)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-33","classes":""},"id":33},{"code":"dplyr::select(nc, geometry)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-34","classes":""},"id":34},{"code":"dplyr::select(nc_utm, geometry)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-35","classes":""},"id":35},{"code":"#--- transform ---#\nnc_utm_back_to_original <-\n  st_transform(\n    nc_utm,\n    st_crs(nc)\n  )","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-36","classes":""},"id":36},{"code":"st_crs(nc_utm_back_to_original)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-37","classes":""},"id":37},{"code":"","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-38","classes":""},"id":38},{"code":"","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-39","classes":""},"id":39},{"code":"plot(nc) ","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-40","classes":""},"id":40},{"code":"library(tmap)\ntm_nc_polygons <- tm_shape(nc) + tm_polygons() ","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-41","classes":""},"id":41},{"code":"tmap_leaflet(tm_nc_polygons)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-42","classes":""},"id":42},{"code":"#--- read irrigation well registration data ---#\ndata(wells_ne, package = \"r.spatial.workshop.datasets\")\n\n#--- check its class ---#\nclass(wells_ne)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-43","classes":""},"id":43},{"code":"#--- take a look ---#\nhead(wells_ne)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-44","classes":""},"id":44},{"code":"#--- recognize it as an sf ---#\nwells_ne_sf <- sf::st_as_sf(\n  wells_ne,\n  coords = c(\n    \"longdd\",\n    \"latdd\"\n  ),\n  crs = 4269\n)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"setup","autorun":"true","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-45","classes":""},"id":45},{"code":"#--- recognize it as an sf ---#\nwells_ne_sf <- sf::st_as_sf(\n  wells_ne,\n  coords = c(\n    \"longdd\",\n    \"latdd\"\n  ),\n  crs = 4269\n)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-46","classes":""},"id":46},{"code":"data(mower_sensor, package = \"r.spatial.workshop.datasets\")\n\n#--- write the code below ---#\n","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-47","classes":""},"id":47},{"code":"wells_ne_sp <- as(wells_ne_sf, \"Spatial\")\n\nclass(wells_ne_sp)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-48","classes":""},"id":48},{"code":"wells_ne_sf_again <- sf::st_as_sf(wells_ne_sp)\n\nclass(wells_ne_sf_again)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-49","classes":""},"id":49},{"code":"#--- here is what the data looks like ---#\ndplyr::select(wells_ne_sf, wellid)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-50","classes":""},"id":50},{"code":"#--- do some transformations ---#\nwells_ne_sf %>% \n  #--- select variables (geometry will always remain after select) ---#\n  dplyr::select(wellid) %>% \n  #--- removes observations with wellid <= 20000 ---#\n  dplyr::filter(wellid > 20000) %>% \n  #--- modify wellid ---#\n  dplyr::mutate(wellid = wellid + 20) ","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-51","classes":""},"id":51},{"code":"nc_buffer <- st_buffer(nc[1, ], dist = 1)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-52","classes":""},"id":52},{"code":"ggplot() +\n    geom_sf(data = nc_buffer, fill = \"blue\", alpha = 0.2)   +\n    geom_sf(data = nc[1, ]) ","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-53","classes":""},"id":53},{"code":"(\nnc <- \n  dplyr::mutate(nc, area = st_area(nc)) %>% \n  dplyr::select(area)\n)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-54","classes":""},"id":54},{"code":"class(nc$area)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-55","classes":""},"id":55},{"code":"nc <- dplyr::mutate(nc, \n  area = st_area(nc) %>% as.numeric(),\n  ) %>% \n  dplyr::select(area)\n\nclass(nc$area)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-56","classes":""},"id":56},{"code":"nc_centroids <- st_centroid(nc)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-57","classes":""},"id":57},{"code":"ggplot() +\n  geom_sf(data = nc) +\n  geom_sf(data = nc_centroids)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-58","classes":""},"id":58},{"code":"st_centroid(nc_centroids) %>% st_coordinates() %>% head()","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-59","classes":""},"id":59},{"code":"cbind(nc, st_coordinates(nc_centroids)) %>% head()","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-60","classes":""},"id":60},{"code":"st_distance(sf) ","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-61","classes":""},"id":61},{"code":"nc[1:5, ] %>% \n    #--- get the centroid of the counties ---#\n    st_centroid() %>% \n    #--- calculate the distance between the centroids ---#\n    st_distance() ","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-62","classes":""},"id":62},{"code":"st_distance(\n    st_centroid(nc[1:5, ]),\n    st_centroid(nc[6:10, ])\n)","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-63","classes":""},"id":63},{"code":"#--- type codes below ---#\nplot()","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-64","classes":""},"id":64},{"code":"#--- type codes below ---#","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-65","classes":""},"id":65},{"code":"#--- type codes below ---#","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-66","classes":""},"id":66},{"code":"#--- type codes below ---#","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-67","classes":""},"id":67},{"code":"#--- type codes below ---#","options":{"editor-font-scale":"0.7","output":"true","out-width":"700px","warning":"true","dpi":72,"editor-quick-suggestions":"false","comment":"","message":"true","out-height":"","fig-height":5,"context":"interactive","autorun":"false","read-only":"false","results":"markup","fig-cap":"","editor-max-height":"","fig-width":7,"label":"unnamed-chunk-68","classes":""},"id":68}];
 
   </script>
   <script type="module">
@@ -1667,26 +1667,33 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </section>
 <section id="before-you-start" class="slide level2 scrollable">
 <h2>Before you start</h2>
+<p><br></p>
 <h3 id="learning-objectives">Learning objectives</h3>
 <p>The objectives of this chapter is to learn how to use R as GIS, specifically how to handle vector spatial data.</p>
+<p><br></p>
 <h3 id="table-of-contents">Table of contents</h3>
 <ol type="1">
-<li><a href="@sec-data-structure">Understanding the data structure of <code>sf</code></a></li>
-<li><a href="#/create-sf">Create sf objects yourself</a></li>
-<li><a href="#/dif-sfg">Different Types of Simple Feature Geometry (<code>sfg</code>)</a></li>
-<li><a href="#/const">Constructing <code>sfc</code> and <code>sf</code> from <code>sfg</code></a></li>
-<li><a href="#/input-output">Importing and exporting spatial datasets</a></li>
-<li><a href="#/proj">Projection</a></li>
-<li><a href="#/view">Quick and Interactive View of an <code>sf</code> Object</a></li>
-<li><a href="#/sf-to-sp">Conversion to and from <code>sp</code> objects</a></li>
-<li><a href="#/non-trans">Non-spatial Transformation of <code>sf</code></a></li>
-<li><a href="#/non-int-geo">Non-interactive geometrical operations</a></li>
+<li><a href="#/sec-data-structure">Understanding the data structure of <code>sf</code></a></li>
+<li><a href="#/sec-sfg">Simple Feature Geometry(<code>sfg</code>)</a></li>
+<li><a href="#/sec-construct-sfc-sf">Constructing simple feature column (<code>sfc</code>) and simple feature (<code>sf</code>)</a></li>
+<li><a href="#/sec-input-output">Reading and writing vector data</a></li>
+<li><a href="#/sec-projection">Projection</a></li>
+<li><a href="#/sec-quick-viz">Quick Visualization</a></li>
+<li><a href="#/sec-dataframe=sf">Turning a data.frame of points into an <code>sf</code></a></li>
+<li><a href="#/sec-sf-to-sp">Conversion to and from <code>sp</code> objects</a></li>
+<li><a href="#/sec-non-trans">Non-spatial Transformation of <code>sf</code></a></li>
+<li><a href="#/sec-non-int-spatial-operations">Non-interactive geometrical operations</a></li>
 </ol>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="prerequisites-and-preparation" class="slide level2">
-<h2>Prerequisites and Preparation</h2>
+<section id="getting-started" class="slide level2">
+<h2>Getting started</h2>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Prerequisites and Preparation</a></li><li><a href="#tabset-1-2">Introduction of the <code>sf</code> package</a></li><li><a href="#tabset-1-3">Data preparation</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
+<p><br></p>
 <div title="Prerequisites">
 <div class="callout callout-tip no-icon callout-titled callout-style-default">
 <div class="callout-body">
@@ -1694,6 +1701,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p><strong>Prerequisites</strong></p>
 </div>
 <div class="callout-content">
+<p>You understand</p>
 <ul>
 <li><p>What Geographic Coordinate System (GCS), Coordinate Reference System (CRS), and projection are (<a href="https://annakrystalli.me/intro-r-gis/gis.html">this</a> is a good resource)</p></li>
 <li><p>Distinctions between vector and raster data (<a href="https://gis.stackexchange.com/questions/57142/what-is-the-difference-between-vector-and-raster-data-models">this</a> is a simple summary of the difference)</p></li>
@@ -1702,6 +1710,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 </div>
 </div>
+<p><br></p>
 <div title="Preparation">
 <div class="callout callout-tip no-icon callout-titled callout-style-default">
 <div class="callout-body">
@@ -1710,17 +1719,16 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <div class="callout-content">
 <ul>
-<li><p>Set the working directory to a directory</p></li>
-<li><p>Create the “Data” folder under the directory you have set as the working directory</p></li>
-<li><p>Go <a href="https://www.dropbox.com/sh/iih8icftc4xa7nm/AABfQj82A-i8GWaHgHngLMQAa?dl=0">here</a>, download all the files, and then save them in the “Data” folder you created in the step above</p></li>
+<li><p>Create a project folder for this course (follow <a href="https://intro2r.com/rsprojs.html">this guideline</a>)</p></li>
+<li><p>Create the “Data” folder under the project folder</p></li>
+<li><p>Download all the dataset files from <a href="https://figshare.com/articles/dataset/Datasets_for_R-as-GIS_book_lectures_and_workshops/24529897">here</a>, and then save them in the “Data” folder you created in the step above</p></li>
 </ul>
 </div>
 </div>
 </div>
 </div>
-</section>
-<section id="introduction" class="slide level2">
-<h2>Introduction</h2>
+</div>
+<div id="tabset-1-2">
 <ul>
 <li><p>The <code>sf</code> package provides a simply way of storing geographic information and the attributes of the geographic units in a single dataset called simple feature (<code>sf</code>).</p></li>
 <li><p>The <code>sf</code> package allows you to do almost all the spatial operations you would need for your research</p>
@@ -1740,18 +1748,25 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </ul></li>
 </ul></li>
 </ul>
-</section>
-<section id="preparation" class="slide level2">
-<h2>Preparation</h2>
+</div>
+<div id="tabset-1-3">
 <p>Read the North Carolina county boundary data:</p>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><br></p>
 <p>Check the class:</p>
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</div>
+</div>
+</div>
 </section>
 <section id="sec-data-structure" class="slide level2">
-<h2>Data structure of <code>sf</code></h2>
+<h2>Understanding the data structure of <code>sf</code></h2>
+<div class="panel-tabset">
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Inside an sf obejct</a></li><li><a href="#tabset-2-2">The <code>geometry</code> column</a></li><li><a href="#tabset-2-3">Simple Feature Geometry (<code>sfg</code>)</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1">
 <div class="columns">
 <div class="column" style="width:50%;">
 <div id="qwebr-insertion-location-4"></div>
@@ -1776,9 +1791,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 </div>
 </div>
-</section>
-<section id="the-geometry-column" class="slide level2">
-<h2>The <code>geometry</code> column</h2>
+</div>
+<div id="tabset-2-2">
 <div class="columns">
 <div class="column" style="width:50%;">
 <div id="qwebr-insertion-location-5"></div>
@@ -1793,9 +1807,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </ul>
 </div>
 </div>
-</section>
-<section id="simple-feature-geometry-sfg" class="slide level2">
-<h2>Simple Feature Geometry (<code>sfg</code>)</h2>
+</div>
+<div id="tabset-2-3">
 <div class="columns">
 <div class="column" style="width:60%;">
 <p>Let’s see what an <code>sfg</code> is made of.</p>
@@ -1814,9 +1827,16 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </ul>
 </div>
 </div>
+</div>
+</div>
+</div>
 </section>
-<section id="different-types-of-simple-feature-geometry-sfg" class="slide level2">
-<h2>Different Types of Simple Feature Geometry (<code>sfg</code>)</h2>
+<section id="sec-sfg" class="slide level2">
+<h2>Simple Feature Geometry (<code>sfg</code>)</h2>
+<div class="panel-tabset">
+<ul id="tabset-3" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-3-1">Different Types of Simple Feature Geometry (<code>sfg</code>)</a></li><li><a href="#tabset-3-2"><code>POINT</code></a></li><li><a href="#tabset-3-3"><code>LINESTRING</code></a></li><li><a href="#tabset-3-4"><code>POLYGON</code></a></li><li><a href="#tabset-3-5"><code>POLYGON</code> with holes</a></li><li><a href="#tabset-3-6"><code>MULTIPOLYGON</code></a></li><li><a href="#tabset-3-7">Exercises</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1">
 <p>Some of the moist common types of spatial objects represented by <code>sfg</code> are the following:</p>
 <ul>
 <li><p><code>POINT</code>: area-less feature that represents a point (e.g., well, city, farmland)</p></li>
@@ -1825,13 +1845,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <li><p><code>POLYGON</code>: geometry with a positive area (e.g., county, state, country)</p></li>
 <li><p><code>MULTIPOLYGON</code>: collection of polygons to represent a single object (e.g., countries with islands: U.S., Japan, etc)</p></li>
 </ul>
-</section>
-<section id="simple-feature-geometry-sfg-1" class="slide level2">
-<h2>Simple Feature Geometry (<code>sfg</code>)</h2>
-<div class="panel-tabset">
-<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1"><code>POINT</code></a></li><li><a href="#tabset-1-2"><code>LINESTRING</code></a></li><li><a href="#tabset-1-3"><code>POLYGON</code></a></li><li><a href="#tabset-1-4"><code>POLYGON</code> with holes</a></li><li><a href="#tabset-1-5"><code>MULTIPOLYGON</code></a></li></ul>
-<div class="tab-content">
-<div id="tabset-1-1">
+</div>
+<div id="tabset-3-2">
 <p><code>POINT</code> is the simplest geometry type and is represented by a vector of two numeric values. An example below shows how a <code>POINT</code> feature can be made from scratch:</p>
 <div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -1841,7 +1856,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>you can see that it’s indeed a <code>POINT</code> object. But, it’s also an <code>sfg</code> object. So, <code>a_point</code> is an <code>sfg</code> object of type <code>POINT</code>.</p>
 </div>
-<div id="tabset-1-2">
+<div id="tabset-3-3">
 <p>A <code>LINESTRING</code> object is represented by a sequence of points in a matrix:</p>
 <div id="qwebr-insertion-location-9"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -1853,7 +1868,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>As you can see, each pair of consecutive points in the matrix are connected by a straight line to form a line.</p>
 </div>
-<div id="tabset-1-3">
+<div id="tabset-3-4">
 <ul>
 <li>Just like the <code>LINESTRING</code> object we created earlier, a <code>POLYGON</code> is represented by a collection of points.</li>
 <li>However, the first and last points in the matrix have to be the same to form a polygon</li>
@@ -1867,7 +1882,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div id="qwebr-insertion-location-14"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </div>
-<div id="tabset-1-4">
+<div id="tabset-3-5">
 <ul>
 <li><p>A <code>POLYGON</code> can have holes in it.</p></li>
 <li><p>The first matrix of a list becomes the exterior ring, and all the subsequent matrices will be holes within the exterior ring.</p></li>
@@ -1878,7 +1893,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div id="qwebr-insertion-location-16"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </div>
-<div id="tabset-1-5">
+<div id="tabset-3-6">
 <p>To create a <code>MULTIPOLYGON</code> object you create a list of lists of matrices, with each inner list representing a polygon.</p>
 <div id="qwebr-insertion-location-17"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -1889,78 +1904,63 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div id="qwebr-insertion-location-19"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </div>
-</div>
-</div>
-</section>
-<section id="exercises" class="slide level2">
-<h2>Exercises</h2>
-<div class="panel-tabset">
-<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Create a <code>POINT</code></a></li><li><a href="#tabset-2-2">Create a <code>LINESTRING</code></a></li><li><a href="#tabset-2-3">Create a <code>POLYGON</code></a></li></ul>
-<div class="tab-content">
-<div id="tabset-2-1">
+<div id="tabset-3-7">
+<h4 id="create-a-point">Create a <code>POINT</code></h4>
 <div id="qwebr-insertion-location-20"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</div>
-<div id="tabset-2-2">
+<p><br></p>
+<h4 id="create-a-linestring">Create a <code>LINESTRING</code></h4>
 <div id="qwebr-insertion-location-21"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</div>
-<div id="tabset-2-3">
+<p><br></p>
+<h4 id="create-a-polygon">Create a <code>POLYGON</code></h4>
 <div id="qwebr-insertion-location-22"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </div>
 </div>
 </div>
 </section>
-<section id="constructing-sfc-from-sfg" class="slide level2">
-<h2>Constructing <code>sfc</code> from <code>sfg</code></h2>
-<p><code>sfg</code> is an object class that represents a single spatial object.</p>
-<div class="fragment">
-<p>We can combine multiple <code>sfg</code>s as a list to create a simple feature geometry list-column (<code>sfc</code>).</p>
-</div>
-<div class="fragment">
+<section id="sec-construct-sfc-sf" class="slide level2">
+<h2>Constructing simple feature column (<code>sfc</code>) and simple feature (<code>sf</code>)</h2>
+<div class="panel-tabset">
+<ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-4-1">Constructing <code>sfc</code> from <code>sfg</code>s</a></li><li><a href="#tabset-4-2">Constructing an <code>sf</code> using an <code>sfc</code></a></li><li><a href="#tabset-4-3">Exercises</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1">
+<ul>
+<li><p><code>sfg</code> is an object class that represents a single spatial object.</p></li>
+<li><p>We can combine multiple <code>sfg</code>s as a list to create a simple feature geometry list-column (<code>sfc</code>).</p></li>
+</ul>
 <p>To make a simple feature geometry list-column (<code>sfc</code>), you can simply supply a list of <code>sfg</code> to the <code>st_sfc()</code> function as follows:</p>
 <div id="qwebr-insertion-location-23"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</div>
-<div class="fragment">
 <p>Check its class:</p>
 <div id="qwebr-insertion-location-24"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </div>
-</section>
-<section id="constructing-an-sf-using-an-sfc" class="slide level2">
-<h2>Constructing an <code>sf</code> using an <code>sfc</code></h2>
+<div id="tabset-4-2">
 <p>To create an <code>sf</code> object, you first add an <code>sfc</code> as a column to a <code>data.frame</code>.</p>
 <div id="qwebr-insertion-location-25"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div class="fragment">
+<p><br></p>
 <p>At this point, it is not yet recognized as an <code>sf</code> by R yet.</p>
 <div id="qwebr-insertion-location-26"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</div>
-<div class="fragment">
+<p><br></p>
 <p>You can register it as an <code>sf</code> object using <code>st_as_sf()</code>.</p>
 <div id="qwebr-insertion-location-27"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</div>
-<div class="fragment">
+<p><br></p>
 <p>As you can see <code>sf_ex</code> is now recognized also as an <code>sf</code> object.</p>
 <div id="qwebr-insertion-location-28"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </div>
-</section>
-<section id="exercises-2" class="slide level2">
-<h2>Exercises 2</h2>
-<div class="panel-tabset">
-<ul id="tabset-3" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-3-1">Exercises 2.1</a></li><li><a href="#tabset-3-2">Exercises 2.2</a></li></ul>
-<div class="tab-content">
-<div id="tabset-3-1">
+<div id="tabset-4-3">
+<h4 id="exercises-2.1">Exercises 2.1</h4>
 <p>Create an <code>sfc</code> using the <code>POINT</code> and <code>POLYGON</code> you made earlier.</p>
 <div id="qwebr-insertion-location-29"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</div>
-<div id="tabset-3-2">
+<p><br></p>
+<h4 id="exercises-2.2">Exercises 2.2</h4>
 <p>Create an <code>sf</code> object using the <code>sfc</code> object you created in the previous exercise, where the additional variable in the <code>sf</code> object is <code>id</code> with the <code>POINT</code> and <code>POLYGON</code> assigned <code>id = 1</code> and <code>id = 2</code>, respectively.</p>
 <div id="qwebr-insertion-location-30"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -1968,12 +1968,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 </div>
 </section>
-<section id="reading-and-writing-vector-data" class="slide level2">
+<section id="sec-input-output" class="slide level2">
 <h2>Reading and writing vector data</h2>
 <div class="panel-tabset">
-<ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-4-1">Basics</a></li><li><a href="#tabset-4-2">Importing a shapefile</a></li><li><a href="#tabset-4-3">Exporting to a shapefile</a></li><li><a href="#tabset-4-4">Alternative formats</a></li><li><a href="#tabset-4-5">Geopackage</a></li><li><a href="#tabset-4-6">R data set (rds)</a></li></ul>
+<ul id="tabset-5" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-5-1">Basics</a></li><li><a href="#tabset-5-2">Importing a shapefile</a></li><li><a href="#tabset-5-3">Exporting to a shapefile</a></li><li><a href="#tabset-5-4">Alternative formats</a></li><li><a href="#tabset-5-5">Geopackage</a></li><li><a href="#tabset-5-6">R data set (rds)</a></li></ul>
 <div class="tab-content">
-<div id="tabset-4-1">
+<div id="tabset-5-1">
 <ul>
 <li><p>The vast majority of people still use ArcGIS software to handle spatial data, which has its own system of storing spatial data called <span style="color:red">shapefile</span> system.</p></li>
 <li><p>shapefile is a collection of files including</p>
@@ -1988,7 +1988,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <li><p>So, it is important to learn how to read and write shapefiles</p></li>
 </ul>
 </div>
-<div id="tabset-4-2">
+<div id="tabset-5-2">
 <p>You can use <code>sf::st_read()</code> to read a shapefile. It reads in a shapefile and then turn the data into an sf object.</p>
 <h4 id="syntax">Syntax</h4>
 <div class="cell">
@@ -2021,7 +2021,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 </div>
 </div>
-<div id="tabset-4-3">
+<div id="tabset-5-3">
 <p>You can use the <code>sf::st_write()</code> function to write an <code>sf</code> object to shape files.</p>
 <h4 id="syntax-1">Syntax</h4>
 <div class="cell">
@@ -2053,7 +2053,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 </div>
 </div>
-<div id="tabset-4-4">
+<div id="tabset-5-4">
 <ul>
 <li><p>If your collaborator is using ArcGIS and demanding that he/she needs a shapefile for his/her work, sure you can write to a shapefile.</p></li>
 <li><p>But, there is really no need to work with the shapefile system. It is a myth that spatial datasets have to be stored as shapefile.</p></li>
@@ -2062,7 +2062,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <li><p>But, first and foremost, it is annoying to have many files for a single spatial object</p></li>
 </ul>
 </div>
-<div id="tabset-4-5">
+<div id="tabset-5-5">
 <p>One of the alternative data formats that is considered superior to the shapefile system is <a href="https://www.geopackage.org/">GeoPackage</a>, which overcomes various limitations associated with shapefile.</p>
 <ul>
 <li><p>Unlike the shapefile system, it produces only a single file with .gpkg extension.</p></li>
@@ -2082,7 +2082,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>nc <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"Data/nc_exported.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<div id="tabset-4-6">
+<div id="tabset-5-6">
 <p>Or better yet, if your collaborator uses R (or if it is only you who is going to use the data), then just save an <code>sf</code> object as an rds file using <code>saveRDS()</code>, which can be of course read using <code>readRDS()</code>.</p>
 <p><br></p>
 <h4 id="save">Save</h4>
@@ -2113,15 +2113,15 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 </div>
 </section>
-<section id="projection" class="slide level2">
+<section id="sec-projection" class="slide level2">
 <h2>Projection</h2>
 <div class="panel-tabset">
-<ul id="tabset-5" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-5-1">Motivation</a></li><li><a href="#tabset-5-2">Checking the current CRS</a></li><li><a href="#tabset-5-3">Project or re-project <code>sf</code> objects</a></li><li><a href="#tabset-5-4">Projection using the CRS of another <code>sf</code></a></li><li><a href="#tabset-5-5">Exercises</a></li></ul>
+<ul id="tabset-6" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-6-1">Motivation</a></li><li><a href="#tabset-6-2">Checking the current CRS</a></li><li><a href="#tabset-6-3">Project or re-project <code>sf</code> objects</a></li><li><a href="#tabset-6-4">Projection using the CRS of another <code>sf</code></a></li><li><a href="#tabset-6-5">Exercises</a></li></ul>
 <div class="tab-content">
-<div id="tabset-5-1">
+<div id="tabset-6-1">
 <p>You often need to reproject an <code>sf</code> using a different coordinate reference system (CRS) because you need it to have the same CRS as an <code>sf</code> object that you are interacting it with (spatial join) or mapping it with.</p>
 </div>
-<div id="tabset-5-2">
+<div id="tabset-6-2">
 <p>In order to check the current CRS for an <code>sf</code> object, you can use the <code>sf::st_crs()</code> function.</p>
 <div id="qwebr-insertion-location-31"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2140,7 +2140,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </ul></li>
 </ul>
 </div>
-<div id="tabset-5-3">
+<div id="tabset-6-3">
 <p>You can use <code>sf::st_transform()</code> to apply a different projection method to an <code>sf</code> object.</p>
 <h4 id="syntax-2">Syntax</h4>
 <div class="cell">
@@ -2163,7 +2163,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div id="qwebr-insertion-location-35"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </div>
-<div id="tabset-5-4">
+<div id="tabset-6-4">
 <ul>
 <li><p>You often need to change the CRS of an <code>sf</code> object when you interact (e.g., spatial subsetting, joining, etc) it with another <code>sf</code> object.</p></li>
 <li><p>In such a case, you can extract the CRS of the other <code>sf</code> object using <code>st_crs()</code> and use it for transformation.</p></li>
@@ -2176,7 +2176,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div id="qwebr-insertion-location-37"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </div>
-<div id="tabset-5-5">
+<div id="tabset-6-5">
 <h4 id="exercise-1">Exercise 1</h4>
 <p>Check the CRS of <code>Fairway_Five</code>.</p>
 <div id="qwebr-insertion-location-38"></div>
@@ -2190,12 +2190,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 </div>
 </section>
-<section id="quick-visualization" class="slide level2">
+<section id="sec-quick-viz" class="slide level2">
 <h2>Quick Visualization</h2>
 <div class="panel-tabset">
-<ul id="tabset-6" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-6-1">Quick view using <code>plot()</code></a></li><li><a href="#tabset-6-2">Interactive view using <code>mapView()</code></a></li><li><a href="#tabset-6-3">Interactive view using the <code>tmap</code> package</a></li></ul>
+<ul id="tabset-7" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-7-1">Quick view using <code>plot()</code></a></li><li><a href="#tabset-7-2">Interactive view using <code>mapView()</code></a></li><li><a href="#tabset-7-3">Interactive view using the <code>tmap</code> package</a></li></ul>
 <div class="tab-content">
-<div id="tabset-6-1">
+<div id="tabset-7-1">
 <p>The easiest way to visualize an <code>sf</code> object is to use <code>plot()</code>:</p>
 <div id="qwebr-insertion-location-40"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2205,7 +2205,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <li><p>We will learn how to create more elaborate maps that are of publication-quality using the <code>ggplot2</code> package later</p></li>
 </ul>
 </div>
-<div id="tabset-6-2">
+<div id="tabset-7-2">
 <p>Sometimes it is useful to be able to tell where certain spatial objects are and what values are associated with them on a map.</p>
 <p>The <code>mapView()</code> function from the <code>mapview</code> package can create an interactive map where you can point to a spatial object and the associated information is revealed on the map.</p>
 <div class="cell">
@@ -2215,7 +2215,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <span id="cb10-4"><a href=""></a><span class="fu">mapView</span>(nc)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<div id="tabset-6-3">
+<div id="tabset-7-3">
 <p>Alternatively, you could use the <code>tmap</code> package to create interactive maps.</p>
 <p>You can first create a static map following a syntax like this:</p>
 <div class="cell">
@@ -2238,32 +2238,287 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 </div>
 </section>
-<section id="turning-a-data.frame-of-points-into-an-sf" class="slide level2">
-<h2>Turning a data.frame of points into an <code>sf</code></h2>
+<section id="turning-a-data.frame-of-points-into-an-sf-sec-dataframesf" class="slide level2">
+<h2>Turning a data.frame of points into an <code>sf</code> {#sec-dataframe=sf}</h2>
 <div class="panel-tabset">
-<ul id="tabset-7" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-7-1">Motivation</a></li><li><a href="#tabset-7-2">Preparation</a></li></ul>
+<ul id="tabset-8" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-8-1">Motivation</a></li><li><a href="#tabset-8-2">Preparation</a></li><li><a href="#tabset-8-3">Making an <code>sf</code></a></li><li><a href="#tabset-8-4">Exercise</a></li></ul>
 <div class="tab-content">
-<div id="tabset-7-1">
+<div id="tabset-8-1">
 <ul>
 <li><p>Often times, you have a dataset with geographic coordinates as variables in a csv or other formats</p></li>
-<li><p>It would not be recognized as a spatial dataset by R immediately when it is read into R.</p></li>
+<li><p>It would not be recognized immediately as a spatial dataset by R when it is read into R.</p></li>
 <li><p>In this case, you need to identify which variables represent the geographic coordinates from the data set, and create an <code>sf</code> yourself.</p></li>
-<li><p>Fortunately, it is easy to do so using the <code>st_as_sf()</code> function.</p></li>
+<li><p>Fortunately, it is easy to do so using the <code>sf::st_as_sf()</code> function.</p></li>
 </ul>
 </div>
-<div id="tabset-7-2">
-<p>Let’s read a dataset (irrigation wells in Nebraska):</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="co">#--- read irrigation well registration data ---#</span></span>
-<span id="cb12-2"><a href=""></a>(</span>
-<span id="cb12-3"><a href=""></a>wells <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">'./Data/well_registration.rds'</span>)  <span class="sc">%&gt;%</span> </span>
-<span id="cb12-4"><a href=""></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(wellid, ownerid, acres, longdd, latdd)</span>
-<span id="cb12-5"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>In this dataset, <code>longdd</code> and <code>latdd</code> represent longitude and latitude, respectively.</p>
-<p>We also know (yes, YOU need to know the CRS of your data) that the geographic coordinates system of this data is NAD 83 (epsg=4269) for this dataset.</p>
+<div id="tabset-8-2">
+<p>Let’s get a dataset (irrigation wells in Nebraska) to work with:</p>
 <div id="qwebr-insertion-location-43"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><br></p>
+<p><code>wells_ne</code> is a <code>data.frame</code> and has <code>longdd</code> and <code>latdd</code> representing longitude and latitude, respectively. Note that it is NOT an <code>sf</code> object.</p>
+<div id="qwebr-insertion-location-44"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><br></p>
+<div title="Important">
+<div class="callout callout-note no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>YOU need to know the GRS/CRS of your data because you need to provide R with that information!</li>
+<li>The geographic coordinates system of this data is NAD 83 (epsg=4269) for this dataset.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-8-3">
+<p>We can turn a dataset (e.g., <code>data.frame</code>, <code>tibble</code>, <code>data.table</code>) into an <code>sf</code> object using <code>sf::st_as_sf()</code>.</p>
+<h4 id="syntax-3">Syntax</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>sf<span class="sc">::</span><span class="fu">st_as_sf</span>(</span>
+<span id="cb12-2"><a href=""></a>  data.frame, </span>
+<span id="cb12-3"><a href=""></a>  <span class="at">coords =</span> <span class="fu">c</span>(</span>
+<span id="cb12-4"><a href=""></a>    longitude var name, </span>
+<span id="cb12-5"><a href=""></a>    latitude var name</span>
+<span id="cb12-6"><a href=""></a>  ),</span>
+<span id="cb12-7"><a href=""></a>  <span class="at">crs =</span> crs</span>
+<span id="cb12-8"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<h4 id="example-4">Example</h4>
+<div id="qwebr-insertion-location-45"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-46"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</div>
+<div id="tabset-8-4">
+<p>Using the <code>LAT</code> (latitude) and <code>LNG</code> (longitude) columns, turn the tibble into an <code>sf</code>, and then assign the CRS of WGS 84 using its EPSG code.</p>
+<div id="qwebr-insertion-location-47"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</div>
+</div>
+</div>
+</section>
+<section id="sec-sf-to-sp" class="slide level2">
+<h2>Conversion to and from <code>sp</code> objects</h2>
+<div class="panel-tabset">
+<ul id="tabset-9" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-9-1">Motivation</a></li><li><a href="#tabset-9-2"><code>sf</code> to <code>sp</code></a></li><li><a href="#tabset-9-3"><code>sp</code> to <code>sf</code></a></li></ul>
+<div class="tab-content">
+<div id="tabset-9-1">
+<ul>
+<li><p>The <code>sp</code> package is the predecessor of the <code>sf</code> package (developed by the same person)</p></li>
+<li><p>There are many (older) packages that only accept spatial objects defined by the <code>sp</code> package</p>
+<ul>
+<li><code>spdep</code>: spatial econometrics</li>
+<li><code>GWmodel</code>: runs geographically-weighted regression</li>
+</ul></li>
+<li><p>In that case, it is good to know how to convert an <code>sf</code> object to an <code>sp</code> object, vice versa.</p></li>
+</ul>
+</div>
+<div id="tabset-9-2">
+<p>You can convert an <code>sf</code> object to its <code>sp</code> counterpart by <code>as(sf_object, "Spatial")</code></p>
+<div id="qwebr-insertion-location-48"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</div>
+<div id="tabset-9-3">
+<p>You can convert an <code>sp</code> object to its <code>sf</code> counterpart by <code>sf::st_as_sf(sp_object)</code>.</p>
+<div id="qwebr-insertion-location-49"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</div>
+</div>
+</div>
+</section>
+<section id="sec-non-trans" class="slide level2">
+<h2>Non-spatial Transformation of `sf</h2>
+<div class="panel-tabset">
+<ul id="tabset-10" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-10-1">Note</a></li><li><a href="#tabset-10-2"><code>dplyr</code> verbs</a></li></ul>
+<div class="tab-content">
+<div id="tabset-10-1">
+<ul>
+<li><p>An important feature of an <code>sf</code> object is that it is basically a <code>data.frame</code> with geometric information stored as a variable (column).</p></li>
+<li><p>This means that transforming an <code>sf</code> object works just like transforming a <code>data.frame</code>.</p></li>
+<li><p>Basically, everything you can do to a <code>data.frame</code>, you can do to an <code>sf</code> as well.</p></li>
+<li><p><code>dplyr</code> verbs work well with <code>sf</code></p></li>
+</ul>
+</div>
+<div id="tabset-10-2">
+<p>The following code selects <code>wellid</code> variable using <code>dplyr::select()</code>:</p>
+<div id="qwebr-insertion-location-50"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Notice that <code>geometry</code> column will be retained after <code>dplyr::select()</code> even if you did not tell R to keep it above.</p>
+<p><br></p>
+<p>Of course, you can apply other <code>dplyr</code> verbs just like you do with a <code>data.frame</code>. Here, let’s apply <code>dplyr::select()</code>, <code>dplyr::filter()</code>, and <code>dplyr::mutate()</code> in sequence using a piping operator.</p>
+<div id="qwebr-insertion-location-51"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><br></p>
+<div title="Note">
+<div class="callout callout-note no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>You cannot do this with the spatial objects defined by the <code>sp</code> package</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="sec-non-int-spatial-operations" class="slide level2">
+<h2>Non-interactive geometrical operations</h2>
+<div class="panel-tabset">
+<ul id="tabset-11" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-11-1">Motivation</a></li><li><a href="#tabset-11-2">Create buffers</a></li><li><a href="#tabset-11-3">Find the area of polygons</a></li><li><a href="#tabset-11-4">Find the centroid of polygons</a></li><li><a href="#tabset-11-5">Calculate the distance between points</a></li></ul>
+<div class="tab-content">
+<div id="tabset-11-1">
+
+</div>
+<div id="tabset-11-2">
+<p>You can use <code>sf::st_buffer()</code> to create buffers of the specified length around points, lines, and polygons.</p>
+<h4 id="syntax-4">Syntax</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource eval number-lines code-with-copy"><code class="sourceCode"><span id="cb13-1"><a href=""></a>st_buffer(sf object, dist = distance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><code>dist</code>: provide the distance in the unit of the CRS</li>
+</ul>
+<h4 id="example-5">Example</h4>
+<div id="qwebr-insertion-location-52"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<ul>
+<li><p>You get this warning because you should not be calculating euclidean distance using longitude and latitude.</p></li>
+<li><p>Make sure you project first, and then apply <code>st_buffer()</code>.</p></li>
+</ul>
+<h4 id="visualization">Visualization</h4>
+<div id="qwebr-insertion-location-53"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</div>
+<div id="tabset-11-3">
+<p>You can use <code>st_area()</code> to calculate the area of all the polygons in an <code>sf</code> object.</p>
+<h4 id="example-6">Example</h4>
+<div id="qwebr-insertion-location-54"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><br></p>
+<h4 id="caveat">Caveat</h4>
+<p>By default, area calculated by <code>st_area()</code> is <code>units</code>.</p>
+<div id="qwebr-insertion-location-55"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><br></p>
+<p>So, you want to convert it to a numeric variable like this if you want to subject it to numeric operations later:</p>
+<div id="qwebr-insertion-location-56"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</div>
+<div id="tabset-11-4">
+<p>You can use <code>st_centroid()</code> to find the centroid of each of all the polygons in an <code>sf</code> object.</p>
+<h4 id="example-7">Example</h4>
+<div id="qwebr-insertion-location-57"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>As you can see, <code>st_centroid()</code> returns an <code>sf</code> of centroids as points. The centroids look like this:</p>
+<p><br></p>
+<div id="qwebr-insertion-location-58"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><br></p>
+<h4 id="matrix-of-coordinates">Matrix of coordinates</h4>
+<p>If you want longitude (X) and latitude (Y) of the centroids, you can further apply <code>st_coordinates()</code>.</p>
+<div id="qwebr-insertion-location-59"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><br></p>
+<p>Of course, you can easily add the XY matrix to the original <code>sf</code> file using <code>cbind()</code>:</p>
+<div id="qwebr-insertion-location-60"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</div>
+<div id="tabset-11-5">
+<p>You can use <code>st_distance()</code> to calculate the distance between points.</p>
+<h4 id="syntax-1-1">Syntax 1</h4>
+<div id="qwebr-insertion-location-61"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>This finds the distance between the points in <code>sf</code>.</p>
+<h4 id="syntax-2-1">Syntax 2</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">st_distance</span>(sf_1, sf_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This finds the distance between each of the points in <code>sf_1</code> and each of the points in <code>sf_2</code>.</p>
+<h4 id="example-1-1">Example 1</h4>
+<div id="qwebr-insertion-location-62"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>The output of <code>st_distance()</code> is a matrix of distances whose <span class="math inline">\([i,j]\)</span> element is the distance between the <span class="math inline">\(i\)</span>th <code>sfg</code> of <code>nc[1:5, ]</code> and <span class="math inline">\(j\)</span>th <code>sfg</code> of <code>nc[1:5, ]</code>.</p>
+<h4 id="example-2-1">Example 2</h4>
+<div id="qwebr-insertion-location-63"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>The output of the <code>st_distance()</code> operation above is a matrix of distances whose <span class="math inline">\([i,j]\)</span> element is the distance between the <span class="math inline">\(i\)</span>th <code>sfg</code> of <code>st_centroid(nc[1:5, ])</code> and <span class="math inline">\(j\)</span>th <code>sfg</code> of <code>st_centroid(nc[6:10, ])</code>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-3" class="slide level2">
+<h2>Exercise</h2>
+<div class="panel-tabset">
+<ul id="tabset-12" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-12-1">Exercise 1</a></li><li><a href="#tabset-12-2">Exercise 2</a></li><li><a href="#tabset-12-3">Exercise 3</a></li><li><a href="#tabset-12-4">Exercise 4</a></li></ul>
+<div class="tab-content">
+<div id="tabset-12-1">
+<p>First, plot <code>fairway_grid</code> to get a sense of what the dataset looks like:</p>
+<div id="qwebr-insertion-location-64"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><br></p>
+<p>Transform <code>fairway_grid</code> so that its CRS is NAD 83/UTM zone 14N (its EPSG code is 26914) and name it <code>fairway_grid_utm</code>.</p>
+<div id="qwebr-insertion-location-65"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><br></p>
+<h4 id="answer-codes">Answer codes</h4>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="fu">plot</span>(fairway_grid) </span>
+<span id="cb15-2"><a href=""></a></span>
+<span id="cb15-3"><a href=""></a>fairway_grid_utm <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(fairway_grid, <span class="dv">26914</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<div id="tabset-12-2">
+<p>Create buffers around the grid polygons in <code>fairway_grid_utm</code> where the radius of the buffer is 10 meter, and name it <code>fairway_grid_buffers</code>.</p>
+<div id="qwebr-insertion-location-66"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><br></p>
+<h4 id="answer-codes-1">Answer codes</h4>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>fairway_grid_buffers <span class="ot">&lt;-</span> <span class="fu">st_buffer</span>(fairway_grid_utm, <span class="at">dist =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<div id="tabset-12-3">
+<p>Find the centroid of each of the buffer polygons you created in Exercise 2, and then name it <code>buffers_centroids</code>.</p>
+<div id="qwebr-insertion-location-67"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><br></p>
+<h4 id="answer-codes-2">Answer codes</h4>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>buffers_centroids <span class="ot">&lt;-</span> <span class="fu">st_centroid</span>(fairway_grid_buffers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<div id="tabset-12-4">
+<p>Calculated the distances between the centroids in <code>buffers_centroids</code>.</p>
+<div id="qwebr-insertion-location-68"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><br></p>
+<h4 id="answer-codes-3">Answer codes</h4>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fu">st_distance</span>(buffers_centroids)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </div>
 </div>
 </div>
