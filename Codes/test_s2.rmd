@@ -1,0 +1,13 @@
+```{r}
+library(sf)
+library(units)
+## udunits database from /usr/share/xml/udunits/udunits2.xml
+nc <- read_sf(system.file("gpkg/nc.gpkg", package = "sf"))
+sf_use_s2(TRUE)
+a1 <- st_area(nc)
+sf_use_s2(FALSE)
+## Spherical geometry (s2) switched off
+a2 <- st_area(nc)
+plot(a1, a2)
+abline(0, 1)
+```

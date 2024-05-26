@@ -1,0 +1,72 @@
+---
+title: "R as GIS: Raster Data Basics"
+format: 
+  revealjs: 
+    theme: [default, custom.scss]
+    fontsize: 1em
+    callout-icon: false
+    scrollable: true
+    echo: true
+webr:
+  packages: ['ggplot2', 'dplyr', 'terra'] # Install R packages on document open
+# autoload-packages: false       # Disable automatic loading of packages
+# show-startup-message: false    # Disable displaying status of webR initialization
+  cell-options:
+    editor-font-scale: 0.7
+filters:
+  - webr
+---
+
+```{r, include = FALSE}
+library(terra)
+library(dplyr)
+library(data.table)
+```
+
+## Before you start
+
+<br>
+
+### Learning objectives
+
+The objectives of this chapter is to learn spatial interactive operations that involves two `sf` objects. Specifically,
+
++ overlay an `sf` object on another `sf` object to extract (or join) values from the `sf` object
+
+<br>
+
+### Table of contents
+
+1. [Topological Relations](#top)
+2. [Spatial Subsetting](#subset)
+3. [Spatial Value Extraction](#extract)
+
+```{webr-r}
+#| context: setup
+#| 
+#--- install and library the data package ---#
+install.packages("r.spatial.workshop.datasets", repos = c("https://tmieno2.r-universe.dev", "https://cran.r-project.org"))
+library(r.spatial.workshop.datasets)
+
+#--- Irrigation wells in Nebraska as sf ---#
+data(wells_ne)
+wells_ne <-
+  sf::st_as_sf(
+    wells_ne,
+    coords = c(
+      "longdd",
+      "latdd"
+    ),
+    crs = 4269
+  )
+
+#--- Nebraska county boundary ---# 
+data(ne_counties, package = "r.spatial.workshop.datasets")
+
+#--- Iowa corn acres ---#
+data(ia_corn_acres)
+
+#--- HUC units ---#
+data(huc_ia)
+```
+

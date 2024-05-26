@@ -220,7 +220,7 @@ Some of the moist common types of spatial objects represented by `sfg` are the f
 `POINT` is the simplest geometry type and is represented by a vector of two numeric values. An example below shows how a `POINT` feature can be made from scratch:
 
 ```{webr-r}
-#| autorun: true
+
 #--- create a POINT ---#
 a_point <- st_point(c(2, 1))
 ```
@@ -834,7 +834,7 @@ Let's get a dataset (irrigation wells in Nebraska) to work with:
 
 ```{webr-r}
 #--- read irrigation well registration data ---#
-data(wells_ne, package = "r.spatial.workshop.datasets")
+data(wells_ne)
 
 #--- check its class ---#
 class(wells_ne)
@@ -905,10 +905,10 @@ wells_ne_sf <- sf::st_as_sf(
 
 ### Exercise
 
-Using the `LAT` (latitude) and `LNG` (longitude) columns, turn the tibble into an `sf`, and then assign the CRS of WGS 84 using its EPSG code.  
+Using the `LAT` (latitude) and `LNG` (longitude) columns, turn the `tibble` into an `sf`, and then assign the CRS of WGS 84 using its EPSG code.  
 
 ```{webr-r}
-data(mower_sensor, package = "r.spatial.workshop.datasets")
+data(mower_sensor)
 
 #--- write the code below ---#
 
@@ -1164,6 +1164,14 @@ The output of the `st_distance()` operation above is a matrix of distances whose
 ## Exercise
 
 ::: {.panel-tabset}
+
+### Data preparation
+
+Run the following code to get `fairway_grid` data. Then, inspect the data (e.g., by plotting) to get a good sense of what the data looks like.
+
+```{r}
+data(fairway_grid)
+```
 
 ### Exercise 1
 
