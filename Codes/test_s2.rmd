@@ -3,11 +3,35 @@ library(sf)
 library(units)
 ## udunits database from /usr/share/xml/udunits/udunits2.xml
 nc <- read_sf(system.file("gpkg/nc.gpkg", package = "sf"))
+
 sf_use_s2(TRUE)
 a1 <- st_area(nc)
+
 sf_use_s2(FALSE)
 ## Spherical geometry (s2) switched off
+
 a2 <- st_area(nc)
+
 plot(a1, a2)
+
 abline(0, 1)
+```
+
+
+```{r}
+library(s2)
+uk <- s2_data_countries("United Kingdom")
+class(uk)
+## [1] "s2_geography" "wk_vctr"
+uk_sfc <- st_as_sfc(uk)
+uk_buffer <- s2_buffer_cells(uk, distance = 20000)
+uk_buffer2 <- s2_buffer_cells(uk, distance = 20000, max_cells = 10000)
+uk_buffer3 <- s2_buffer_cells(uk, distance = 20000, max_cells = 100)
+class(uk_buffer)
+## [1] "s2_geography" "wk_vctr"
+plot(uk_sfc)
+plot(st_as_sfc(uk_buffer))
+plot(st_as_sfc(uk_buffer2))
+plot(st_as_sfc(uk_buffer3))
+uk_sf <- st_as_sf(uk)
 ```

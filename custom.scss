@@ -2,14 +2,20 @@
 
 // Code configurations ----------------------------
 
-// code for in the block
-.sourceCode {
-  font-size: 0.7rem;
+// code in a regular R code chunk
+code.sourceCode.r {
+  font-size: 0.9rem;
 }
 
+// code in an webr code chunk 
+// .reveal .mtk1{
+//   font-size: 0.8rem;
+// }
+
 // code in text
-code {
+.reveal code {
   font-size: 1rem;
+  color: rgb(118, 13, 216)
 }
 
 // results of running codes
@@ -17,11 +23,16 @@ pre div code {
   font-size: 0.7rem;
 }
 
+// results of running codes in an webr code chunk
+.reveal .qwebr-output-code-stdout{
+  font-size: 0.8rem;
+}
+
 // Header ----------------------------
 
 .reveal h2 {
   font-size: 1.8rem;
-  color: #eb4f34;
+  color: #f59219;
 }
 
 .reveal h2 code {
@@ -40,8 +51,6 @@ pre div code {
 .reveal .callout.callout-style-default div.callout-content {
   font-size: 1rem;
 }
-
-
 
 .content-box-blue {
   background-color: #F0F8FF;
@@ -73,4 +82,29 @@ pre div code {
 
 .content-box-yellow {
   background-color: #fef5c4;
+}
+
+a[role="tab"] {
+  color: #06a666;
+}
+
+a[aria-selected="true"] {
+  color: #ed0c0c;
+}
+
+a:hover {
+  background-color: #f3f6ae;
+}
+
+.monaco-editor {
+  background-color: #ec4343;
+}
+
+.lines-content.monaco-editor-background {
+  background-color: #F7FDFF;
+}
+
+hr {
+  height: 0.5px;
+  background-color: #da792a;
 }
