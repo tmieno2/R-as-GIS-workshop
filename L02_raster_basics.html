@@ -590,7 +590,7 @@
   };
 
   // Store cell data
-  globalThis.qwebrCellDetails = [{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"setup","label":"unnamed-chunk-1","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"true","classes":"","editor-max-height":"","read-only":"false"},"id":1,"code":"#| \n#--- install and library the data package ---#\ninstall.packages(\"r.spatial.workshop.datasets\", repos = c(\"https://tmieno2.r-universe.dev\", \"https://cran.r-project.org\"))\n\nlibrary(\"r.spatial.workshop.datasets\")\n\ndata(reflec_blue)\nreflec_blue <- terra::rast(reflec_blue)\ndata(reflec_red)\nreflec_red <- terra::rast(reflec_red)\ndata(reflec_green)\nreflec_green <- terra::rast(reflec_green)\ndata(NIR)\nNIR <- terra::rast(NIR)\ndata(RED)\nRED <- terra::rast(RED)\nreflec_all <- c(reflec_blue, reflec_red, reflec_green)"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-2","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":2,"code":"class(reflec_blue)"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-3","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":3,"code":"reflec_blue"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-4","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":4,"code":"plot(reflec_blue)"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-5","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":5,"code":"(\nreflec_all <- c(reflec_blue, reflec_red, reflec_green)\n)"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-6","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":6,"code":"plot(reflec_all)"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-7","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":7,"code":"(\nreflec_blue_rl <- as(reflec_blue, \"Raster\")\n)"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-8","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":8,"code":"(\nreflec_all_rl <- as(reflec_all, \"Raster\")\n)"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-9","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":9,"code":"terra::rast(reflec_all_rl)"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-10","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":10,"code":"terra::crs(reflec_blue)"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-11","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":11,"code":"#--- number of columns ---#\nterra::ncol(reflec_blue)\n\n#--- number of rows ---#\nterra::nrow(reflec_blue)\n\n#--- number of layers ---#\nterra::nlyr(reflec_blue)\n\n#--- number of cells ---#\nterra::ncell(reflec_blue)"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-12","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":12,"code":"terra::res(reflec_blue)"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-13","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":13,"code":"terra::ext(reflec_blue)"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-14","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":14,"code":"#--- first six values ---#\nreflec_blue[] %>% head()"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-15","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":15,"code":"reflec_blue[10100:10120]"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-16","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":16,"code":"terra::xyFromCell(reflec_blue, cell = 1:ncell(reflec_blue)) %>% head()"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-17","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":17,"code":"#--- get the second and third layer ---#\nsubset(reflec_all, c(2, 3))"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-18","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":18,"code":"#--- get the blue layer ---#\nsubset(reflec_all, \"blue\")"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-19","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":19,"code":"reflec_b_plus_g <- reflec_blue + log(reflec_green)"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-20","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":20,"code":"c(reflec_b_plus_g[10100], reflec_blue[10100], log(reflec_green[10100]))"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-21","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":21,"code":""},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-22","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":22,"code":""},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-23","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":23,"code":"NIR\nRED"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-24","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":24,"code":""},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-25","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":25,"code":"reflec_blue"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-26","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":26,"code":"(\nreflec_blue_agg_5 <- aggregate(reflec_blue, fact = 5)\n)"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-27","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":27,"code":"plot(reflec_blue)"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-28","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":28,"code":"plot(reflec_blue_agg_5)"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-29","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":29,"code":"NIR"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-30","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":30,"code":""},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-31","fig-width":7,"out-width":"100%","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"true","classes":"","editor-max-height":"","read-only":"false"},"id":31,"code":"precip <- rast(xmin=1, xmax=11, ymin=1, ymax=11, nrows=10, ncols = 10, vals = rnorm(100), crs = \"EPSG:4326\")\n\nplot(precip)"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-32","fig-width":7,"out-width":"100%","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"true","classes":"","editor-max-height":"","read-only":"false"},"id":32,"code":"soil <- rast(xmin=0, xmax=12, ymin=0, ymax=12, nrows=26, ncols = 26, vals = 100 * runif(26 * 26), crs = \"EPSG:4326\")\n\nplot(soil)"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"output","label":"unnamed-chunk-33","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"true","classes":"","editor-max-height":"","read-only":"false"},"id":33,"code":"\nprecip_sf <- \n  st_as_stars(precip) %>%\n  st_as_sf()\n\nsoil_sf <- \n  st_as_stars(soil) %>%\n  st_as_sf()\n\nggplot() +\n  geom_sf(data = precip_sf, fill = NA, col = \"red\", linewidth = 0.8) +\n  geom_sf(data = precip_sf[1, ], fill = \"green\", col = \"red\", alpha = 0.4) +\n  geom_sf(data = soil_sf, fill = NA, col = \"blue\") +\n  theme_void()"},{"options":{"output":"true","fig-height":5,"results":"markup","message":"true","editor-font-scale":"0.7","editor-quick-suggestions":"false","warning":"true","context":"interactive","label":"unnamed-chunk-34","fig-width":7,"out-width":"700px","dpi":72,"comment":"","fig-cap":"","out-height":"","autorun":"false","classes":"","editor-max-height":"","read-only":"false"},"id":34,"code":"soil_to_precip_grids <- resample(soil, precip, method = \"cubicspline\")\n\nplot(soil_to_precip_grids)"}];
+  globalThis.qwebrCellDetails = [{"options":{"label":"unnamed-chunk-1","autorun":"true","context":"setup","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":1,"code":"#| \n#--- install and library the data package ---#\ninstall.packages(\"r.spatial.workshop.datasets\", repos = c(\"https://tmieno2.r-universe.dev\", \"https://cran.r-project.org\"))\n\nlibrary(\"r.spatial.workshop.datasets\")\n\ndata(reflec_blue)\nreflec_blue <- terra::rast(reflec_blue)\ndata(reflec_red)\nreflec_red <- terra::rast(reflec_red)\ndata(reflec_green)\nreflec_green <- terra::rast(reflec_green)\ndata(NIR)\nNIR <- terra::rast(NIR)\ndata(RED)\nRED <- terra::rast(RED)\nreflec_all <- c(reflec_blue, reflec_red, reflec_green)"},{"options":{"label":"unnamed-chunk-2","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":2,"code":"class(reflec_blue)"},{"options":{"label":"unnamed-chunk-3","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":3,"code":"reflec_blue"},{"options":{"label":"unnamed-chunk-4","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":4,"code":"plot(reflec_blue)"},{"options":{"label":"unnamed-chunk-5","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":5,"code":"(\nreflec_all <- c(reflec_blue, reflec_red, reflec_green)\n)"},{"options":{"label":"unnamed-chunk-6","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":6,"code":"plot(reflec_all)"},{"options":{"label":"unnamed-chunk-7","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":7,"code":"(\nreflec_blue_rl <- as(reflec_blue, \"Raster\")\n)"},{"options":{"label":"unnamed-chunk-8","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":8,"code":"(\nreflec_all_rl <- as(reflec_all, \"Raster\")\n)"},{"options":{"label":"unnamed-chunk-9","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":9,"code":"terra::rast(reflec_all_rl)"},{"options":{"label":"unnamed-chunk-10","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":10,"code":"terra::crs(reflec_blue)"},{"options":{"label":"unnamed-chunk-11","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":11,"code":"#--- number of columns ---#\nterra::ncol(reflec_blue)\n\n#--- number of rows ---#\nterra::nrow(reflec_blue)\n\n#--- number of layers ---#\nterra::nlyr(reflec_blue)\n\n#--- number of cells ---#\nterra::ncell(reflec_blue)"},{"options":{"label":"unnamed-chunk-12","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":12,"code":"terra::res(reflec_blue)"},{"options":{"label":"unnamed-chunk-13","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":13,"code":"terra::ext(reflec_blue)"},{"options":{"label":"unnamed-chunk-14","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":14,"code":"#--- first six values ---#\nreflec_blue[] %>% head()"},{"options":{"label":"unnamed-chunk-15","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":15,"code":"reflec_blue[10100:10120]"},{"options":{"label":"unnamed-chunk-16","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":16,"code":"terra::xyFromCell(reflec_blue, cell = 1:ncell(reflec_blue)) %>% head()"},{"options":{"label":"unnamed-chunk-17","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":17,"code":"#--- get the second and third layer ---#\nsubset(reflec_all, c(2, 3))"},{"options":{"label":"unnamed-chunk-18","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":18,"code":"#--- get the blue layer ---#\nsubset(reflec_all, \"blue\")"},{"options":{"label":"unnamed-chunk-19","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":19,"code":"reflec_b_plus_g <- reflec_blue + log(reflec_green)"},{"options":{"label":"unnamed-chunk-20","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":20,"code":"c(reflec_b_plus_g[10100], reflec_blue[10100], log(reflec_green[10100]))"},{"options":{"label":"unnamed-chunk-21","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":21,"code":""},{"options":{"label":"unnamed-chunk-22","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":22,"code":""},{"options":{"label":"unnamed-chunk-23","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":23,"code":"NIR\nRED"},{"options":{"label":"unnamed-chunk-24","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":24,"code":""},{"options":{"label":"unnamed-chunk-25","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":25,"code":"reflec_blue"},{"options":{"label":"unnamed-chunk-26","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":26,"code":"(\nreflec_blue_agg_5 <- aggregate(reflec_blue, fact = 5)\n)"},{"options":{"label":"unnamed-chunk-27","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":27,"code":"plot(reflec_blue)"},{"options":{"label":"unnamed-chunk-28","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":28,"code":"plot(reflec_blue_agg_5)"},{"options":{"label":"unnamed-chunk-29","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":29,"code":"NIR"},{"options":{"label":"unnamed-chunk-30","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":30,"code":""},{"options":{"label":"unnamed-chunk-31","autorun":"true","context":"interactive","out-width":"100%","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":31,"code":"precip <- rast(xmin=1, xmax=11, ymin=1, ymax=11, nrows=10, ncols = 10, vals = rnorm(100), crs = \"EPSG:4326\")\n\nplot(precip)"},{"options":{"label":"unnamed-chunk-32","autorun":"true","context":"interactive","out-width":"100%","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":32,"code":"soil <- rast(xmin=0, xmax=12, ymin=0, ymax=12, nrows=26, ncols = 26, vals = 100 * runif(26 * 26), crs = \"EPSG:4326\")\n\nplot(soil)"},{"options":{"label":"unnamed-chunk-33","autorun":"true","context":"output","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":33,"code":"\nprecip_sf <- \n  st_as_stars(precip) %>%\n  st_as_sf()\n\nsoil_sf <- \n  st_as_stars(soil) %>%\n  st_as_sf()\n\nggplot() +\n  geom_sf(data = precip_sf, fill = NA, col = \"red\", linewidth = 0.8) +\n  geom_sf(data = precip_sf[1, ], fill = \"green\", col = \"red\", alpha = 0.4) +\n  geom_sf(data = soil_sf, fill = NA, col = \"blue\") +\n  theme_void()"},{"options":{"label":"unnamed-chunk-34","autorun":"false","context":"interactive","out-width":"700px","fig-width":7,"editor-quick-suggestions":"false","editor-max-height":"","fig-cap":"","out-height":"","message":"true","results":"markup","comment":"","output":"true","editor-font-scale":"0.8","fig-height":5,"read-only":"false","classes":"","dpi":72,"warning":"true"},"id":34,"code":"soil_to_precip_grids <- resample(soil, precip, method = \"cubicspline\")\n\nplot(soil_to_precip_grids)"}];
 
   </script>
   <script type="module">
@@ -1669,7 +1669,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <h2>Before you start</h2>
 <p><br></p>
 <h3 id="learning-objectives">Learning objectives</h3>
-<p>The objectives of this chapter is to learn how to handle raster datasets using R.</p>
+<p>Learn how to handle raster datasets using R.</p>
 <p><br></p>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -1688,7 +1688,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </ul></li>
 <li><a href="#/sec-operations">raster operations</a>
 <ul>
-<li>arithmetic</li>
+<li>arithmetic operations</li>
 <li>aggregate</li>
 <li>resample</li>
 </ul></li>
@@ -1697,7 +1697,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <h3 id="related-contents-links">Related Contents (Links)</h3>
 <ul>
 <li><a href="https://tmieno2.github.io/R-as-GIS-workshop/L03_create_map.html">Create maps from raster data using <code>ggplot2</code></a></li>
-<li>Vector and raster data interactions
+<li><a href="https://tmieno2.github.io/R-as-GIS-workshop/L05_vector_raster_interaction.html">Vector and raster data interactions</a>
 <ul>
 <li>cropping</li>
 <li>masking</li>
@@ -1737,9 +1737,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <section id="sec-basics" class="slide level2">
 <h2>The <code>terra</code> and <code>raster</code> packages: Basics</h2>
 <div class="panel-tabset">
-<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1"><code>terra</code> and <code>raster</code></a></li><li><a href="#tabset-1-2">Object class</a></li><li><a href="#tabset-1-3"><code>SpatRaster</code></a></li><li><a href="#tabset-1-4">Quick plotting</a></li><li><a href="#tabset-1-5">Multi-layer <code>SpatRaster</code></a></li><li><a href="#tabset-1-6"><code>Raster</code>*</a></li></ul>
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1"><code>terra</code> and <code>raster</code></a></li><li><a href="#tabset-2-2">Object class</a></li><li><a href="#tabset-2-3"><code>SpatRaster</code></a></li><li><a href="#tabset-2-4">Quick plotting</a></li><li><a href="#tabset-2-5">Multi-layer <code>SpatRaster</code></a></li><li><a href="#tabset-2-6"><code>Raster</code>*</a></li></ul>
 <div class="tab-content">
-<div id="tabset-1-1">
+<div id="tabset-2-1">
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
@@ -1753,7 +1753,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 </div>
 </div>
-<div id="tabset-1-2">
+<div id="tabset-2-2">
 <div class="columns">
 <div class="column" style="width:50%;">
 <p>The <code>terra</code> and <code>raster</code> packages use different R object class to represent raster data:</p>
@@ -1786,7 +1786,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 </div>
 </div>
-<div id="tabset-1-3">
+<div id="tabset-2-3">
 <p>Let’s take a look at a <code>SpatRaster</code> object, <code>reflec_blue</code>.</p>
 <p>Check the class first:</p>
 <div id="qwebr-insertion-location-2"></div>
@@ -1816,13 +1816,13 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <li>name: name of the attribute</li>
 </ul>
 </div>
-<div id="tabset-1-4">
+<div id="tabset-2-4">
 <p>You can use <code>plot()</code> to make a map quickly:</p>
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>It automatically color the grids by the value of the attribute (<code>blue</code>).</p>
 </div>
-<div id="tabset-1-5">
+<div id="tabset-2-5">
 <p>You can simply use <code>c()</code> function to create a multi-layer <code>SpatRaster</code> just like you create a vector as long as all the layers have exactly the same dimensions, extent, and resolution.</p>
 <div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -1833,15 +1833,20 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </div>
-<div id="tabset-1-6">
+<div id="tabset-2-6">
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Introduction</a></li><li><a href="#tabset-1-2">Converting to <code>Raster</code>*</a></li><li><a href="#tabset-1-3">Converting to <code>SpatRaster</code></a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
 <p>The <code>raster</code> package differentiates single-layer and multi-layer raster data.</p>
 <ul>
 <li><code>RasterLayer</code>: single-layer</li>
 <li><code>RasterStack</code>: multi-layer</li>
 <li><code>RasterBrick</code>: multi-layer</li>
 </ul>
+</div>
+<div id="tabset-1-2">
 <p>You can convert a <code>SpatRaster</code> to a <code>Raster</code>* object using <code>as(SpatRaster, "Raster")</code>.</p>
-<hr>
 <div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>Since, <code>reflec_blue</code> is a single-layer <code>SpatRaster</code>, it was converted into a <code>RasterLayer</code>.</p>
@@ -1861,11 +1866,15 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 </div>
 </div>
-<p><br></p>
-<hr>
+</div>
+<div id="tabset-1-3">
 <p>You can convert an <code>Raster</code>* object to <code>SpatRaster</code> using <code>terra::rast()</code> function.</p>
 <div id="qwebr-insertion-location-9"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</div>
+</div>
+</div>
+<!--end of panel-->
 </div>
 </div>
 </div>
@@ -1873,26 +1882,26 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <section id="basic-operations" class="slide level2">
 <h2>Basic operations</h2>
 <div class="panel-tabset">
-<ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-4-1">Accessing the metadata</a></li><li><a href="#tabset-4-2">Extract cell information</a></li><li><a href="#tabset-4-3">Subset</a></li></ul>
+<ul id="tabset-5" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-5-1">Accessing the metadata</a></li><li><a href="#tabset-5-2">Extract cell information</a></li><li><a href="#tabset-5-3">Subset</a></li></ul>
 <div class="tab-content">
-<div id="tabset-4-1">
+<div id="tabset-5-1">
 <div class="panel-tabset">
-<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">CRS</a></li><li><a href="#tabset-2-2">dimensions</a></li><li><a href="#tabset-2-3">resolution</a></li><li><a href="#tabset-2-4">extent</a></li></ul>
+<ul id="tabset-3" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-3-1">CRS</a></li><li><a href="#tabset-3-2">dimensions</a></li><li><a href="#tabset-3-3">resolution</a></li><li><a href="#tabset-3-4">extent</a></li></ul>
 <div class="tab-content">
-<div id="tabset-2-1">
+<div id="tabset-3-1">
 <div id="qwebr-insertion-location-10"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>This is very useful. As we will see later, when interacting two spatial objects (e.g., extracting values from a raster data to <code>sf</code>) some functions require that the two spatial objects has the same CRS. You can use <code>terra::crs()</code> to get the CRS of the raster data and apply it to another spatial object.</p>
 </div>
-<div id="tabset-2-2">
+<div id="tabset-3-2">
 <div id="qwebr-insertion-location-11"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </div>
-<div id="tabset-2-3">
+<div id="tabset-3-3">
 <div id="qwebr-insertion-location-12"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </div>
-<div id="tabset-2-4">
+<div id="tabset-3-4">
 <p>This is like <code>st_bbox()</code> for <code>sf</code>.</p>
 <div id="qwebr-insertion-location-13"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -1901,11 +1910,11 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <!-- end of panel -->
 </div>
-<div id="tabset-4-2">
+<div id="tabset-5-2">
 <div class="panel-tabset">
-<ul id="tabset-3" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-3-1">cell values</a></li><li><a href="#tabset-3-2">coordinates of the cell centers</a></li></ul>
+<ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-4-1">cell values</a></li><li><a href="#tabset-4-2">coordinates of the cell centers</a></li></ul>
 <div class="tab-content">
-<div id="tabset-3-1">
+<div id="tabset-4-1">
 <p>You can access the cell values using <code>[]</code> just like a vector. Note that <code>head()</code> is there to avoid a very long vector presented on the console.</p>
 <div id="qwebr-insertion-location-14"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -1930,7 +1939,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 </div>
 </div>
-<div id="tabset-3-2">
+<div id="tabset-4-2">
 <p>You can use <code>terra::xyFromCell()</code> to get the geographic coordinates of the cell centers.</p>
 <p><br></p>
 <p><strong>Syntax</strong></p>
@@ -1950,7 +1959,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <!--end of panel-->
 </div>
-<div id="tabset-4-3">
+<div id="tabset-5-3">
 <p>You can access specific layers using <code>subset()</code>.</p>
 <p><br></p>
 <p><strong>Syntax</strong></p>
@@ -1975,11 +1984,11 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <section id="sec-io" class="slide level2">
 <h2>Raster data input and output</h2>
 <div class="panel-tabset">
-<ul id="tabset-7" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-7-1">Introduction</a></li><li><a href="#tabset-7-2">Read with <code>terra</code></a></li><li><a href="#tabset-7-3">Write with <code>terra</code></a></li></ul>
+<ul id="tabset-8" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-8-1">Introduction</a></li><li><a href="#tabset-8-2">Read with <code>terra</code></a></li><li><a href="#tabset-8-3">Write with <code>terra</code></a></li></ul>
 <div class="tab-content">
-<div id="tabset-7-1">
+<div id="tabset-8-1">
 <div class="columns">
-<div class="column" style="width:50%;">
+<div class="column" style="width:70%;">
 <p>Raster data files can come in numerous different formats.</p>
 <ul>
 <li>The most common format is GeoTiff (.tif as the file extension)</li>
@@ -1988,16 +1997,16 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <li>Other popular formats include SAGA, ENVI, and many others.</li>
 </ul>
 <p>You can read data of almost all the existing file formats with the <code>terra</code> package.</p>
-</div><div class="column" style="width:50%;">
+</div><div class="column" style="width:30%;">
 
 </div>
 </div>
 </div>
-<div id="tabset-7-2">
+<div id="tabset-8-2">
 <div class="panel-tabset">
-<ul id="tabset-5" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-5-1">How</a></li><li><a href="#tabset-5-2">Let’s try (.tif)</a></li><li><a href="#tabset-5-3">Let’s try (.bil)</a></li><li><a href="#tabset-5-4">Let’s try (.nc)</a></li></ul>
+<ul id="tabset-6" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-6-1">How</a></li><li><a href="#tabset-6-2">Let’s try (.tif)</a></li><li><a href="#tabset-6-3">Let’s try (.bil)</a></li><li><a href="#tabset-6-4">Let’s try (.nc)</a></li></ul>
 <div class="tab-content">
-<div id="tabset-5-1">
+<div id="tabset-6-1">
 <p>You can use <code>terra::rast()</code> to read raster data files.</p>
 <p><br></p>
 <p><strong>single raster data file</strong></p>
@@ -2010,7 +2019,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>drone_blue_sr <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rast</span>(<span class="fu">c</span>(path to the file <span class="dv">1</span>, path to the file <span class="dv">1</span>, ...))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<div id="tabset-5-2">
+<div id="tabset-6-2">
 <div title="Instruction">
 <div class="callout callout-note no-icon callout-titled callout-style-default">
 <div class="callout-body">
@@ -2019,7 +2028,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <div class="callout-content">
 <ul>
-<li>download <strong>reflec_blue.tif</strong>, <strong>reflec_red.tif</strong>, and <strong>reflec_green.tif</strong> from this <a href="">link</a>.</li>
+<li>download <strong>reflec_blue.tif</strong>, <strong>reflec_red.tif</strong>, and <strong>reflec_green.tif</strong> from this <a href="https://www.dropbox.com/scl/fo/ljr76u5azr7u4zx7mk55p/AB1RtEs0KyWqL6rKsiJHRKk?rlkey=ogas3pbhuhhhy94kprbd2m553&amp;st=oq35p7rx&amp;dl=0">link</a>.</li>
 <li>find the path to the three files</li>
 </ul>
 </div>
@@ -2046,7 +2055,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <span id="cb6-8"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<div id="tabset-5-3">
+<div id="tabset-6-3">
 <div title="Instruction">
 <div class="callout callout-note no-icon callout-titled callout-style-default">
 <div class="callout-body">
@@ -2055,7 +2064,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <div class="callout-content">
 <ul>
-<li>download the folder named <strong>PRISM_ppt_stable_4kmD2_20120801_bil</strong> from this <a href="">link</a>.</li>
+<li>download the folder named <strong>PRISM_ppt_stable_4kmD2_20120801_bil</strong> from this <a href="https://www.dropbox.com/scl/fo/ljr76u5azr7u4zx7mk55p/AB1RtEs0KyWqL6rKsiJHRKk?rlkey=ogas3pbhuhhhy94kprbd2m553&amp;st=oq35p7rx&amp;dl=0">link</a>.</li>
 <li>find the path to the file named <strong>PRISM_ppt_stable_4kmD2_20120801_bil.bil</strong>, which is PRISM precipitation data observed on 08-01-2012.</li>
 </ul>
 </div>
@@ -2070,7 +2079,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>prism_precip <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rast</span>(<span class="st">"data-files-for-participants/PRISM_ppt_stable_4kmD2_20120801_bil/PRISM_ppt_stable_4kmD2_20120801_bil.bil"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<div id="tabset-5-4">
+<div id="tabset-6-4">
 <p>Many weather data comes in the netCDF format with the file extension of <strong>.nc</strong>. (e.g., <a href="https://www.climatologylab.org/">gridMET</a>)</p>
 <div title="Instruction">
 <div class="callout callout-note no-icon callout-titled callout-style-default">
@@ -2080,7 +2089,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <div class="callout-content">
 <ul>
-<li>download the file named <strong>gm_precip_2018.nc</strong> from this <a href="">link</a>.</li>
+<li>download the file named <strong>gm_precip_2018.nc</strong> from this <a href="https://www.dropbox.com/scl/fo/ljr76u5azr7u4zx7mk55p/AB1RtEs0KyWqL6rKsiJHRKk?rlkey=ogas3pbhuhhhy94kprbd2m553&amp;st=oq35p7rx&amp;dl=0">link</a>.</li>
 <li>find the path to the file</li>
 </ul>
 </div>
@@ -2097,11 +2106,11 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <!-- end of panel -->
 </div>
-<div id="tabset-7-3">
+<div id="tabset-8-3">
 <div class="panel-tabset">
-<ul id="tabset-6" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-6-1">How</a></li><li><a href="#tabset-6-2">Let’s try (.tif)</a></li><li><a href="#tabset-6-3">Let’s try (.nc)</a></li></ul>
+<ul id="tabset-7" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-7-1">How</a></li><li><a href="#tabset-7-2">Let’s try (.tif)</a></li><li><a href="#tabset-7-3">Let’s try (.nc)</a></li></ul>
 <div class="tab-content">
-<div id="tabset-6-1">
+<div id="tabset-7-1">
 <p>You can use <code>terra::writeRaster()</code> to write raster data to a data file.</p>
 <p><br></p>
 <p><strong>Syntax</strong></p>
@@ -2132,7 +2141,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 </div>
 </div>
-<div id="tabset-6-2">
+<div id="tabset-7-2">
 <p><strong>single-layer</strong></p>
 <p>Write <code>reflec_blue</code> on your computer. Mine looks like this:</p>
 <div class="cell">
@@ -2160,7 +2169,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p><br></p>
 <p>Confirm that <code>reflec_all_re_read</code> is the same as <code>reflec_all</code>.</p>
 </div>
-<div id="tabset-6-3">
+<div id="tabset-7-3">
 <div class="columns">
 <div class="column" style="width:70%;">
 <p>While you can use <code>terra::writeRaster()</code> to write to a netCDF file, you will get a note saying that you should consider using <code>terra::writeCDF()</code>.</p>
@@ -2183,21 +2192,28 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <section id="sec-operations" class="slide level2">
 <h2>Raster Data Operations</h2>
 <div class="panel-tabset">
-<ul id="tabset-11" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-11-1">Arithmetic</a></li><li><a href="#tabset-11-2">Aggregate</a></li><li><a href="#tabset-11-3">Resample</a></li></ul>
+<ul id="tabset-12" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-12-1">Arithmetic operations</a></li><li><a href="#tabset-12-2">Aggregate</a></li><li><a href="#tabset-12-3">Resample</a></li></ul>
 <div class="tab-content">
-<div id="tabset-11-1">
+<div id="tabset-12-1">
 <div class="panel-tabset">
-<ul id="tabset-8" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-8-1">Introduction</a></li><li><a href="#tabset-8-2">Example</a></li><li><a href="#tabset-8-3">Exercise 1</a></li><li><a href="#tabset-8-4">Exercise 2</a></li></ul>
+<ul id="tabset-9" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-9-1">Introduction</a></li><li><a href="#tabset-9-2">Example</a></li><li><a href="#tabset-9-3">Exercise 1</a></li><li><a href="#tabset-9-4">Exercise 2</a></li></ul>
 <div class="tab-content">
-<div id="tabset-8-1">
+<div id="tabset-9-1">
+<div class="columns">
+<div class="column" style="width:70%;">
 <ul>
 <li><p>You can do basic arithmetic operations (addition, subtraction, division, etc) using raster layers as long as they share the same spatial extent and resolution</p></li>
 <li><p>You can also apply a function like <code>log()</code> to transform the value of the cells</p></li>
-<li><p>Raster arithmetic operations are done element-by-element (cell-by-cell) just like vector arithmetic.</p></li>
+<li><p>Raster arithmetic operations are done element-by-element (cell-by-cell) just like vector arithmetic operations.</p></li>
 </ul>
 <p>For example, when two <code>RasterLayer</code>s are added, then the two values associated with the same cell are added and the resulting value becomes the new value for the cell in the newly created <code>RasterLayer</code>.</p>
+</div><!--end of the 1st column--><div class="column" style="width:30%;">
+
+</div><!--end of the 2nd column-->
 </div>
-<div id="tabset-8-2">
+<!--end of the columns-->
+</div>
+<div id="tabset-9-2">
 <div id="qwebr-insertion-location-19"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><br></p>
@@ -2207,7 +2223,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p><br></p>
 <p>Yes, looks like it did. Look at different cells yourself. Note that the name of the attribute in <code>reflec_b_plus_g</code> inherited the name of the attribute in <code>reflec_blue</code> (first <code>SpatRaster</code> in the addition above).</p>
 </div>
-<div id="tabset-8-3">
+<div id="tabset-9-3">
 <p>Multiply <code>reflec_blue</code> with <code>reflec_red</code> and add square root of <code>reflec_green</code>:</p>
 <div id="qwebr-insertion-location-21"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2227,7 +2243,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </details>
 </div>
 </div>
-<div id="tabset-8-4">
+<div id="tabset-9-4">
 <p>Using <code>NIR</code> and <code>RED</code>, calculate NDVI and name it <code>NDVI</code>.</p>
 <p><span class="math inline">\(NDVI = (NIR-RED)/(NIR+RED)\)</span></p>
 <div id="qwebr-insertion-location-23"></div>
@@ -2251,11 +2267,11 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 </div>
 </div>
-<div id="tabset-11-2">
+<div id="tabset-12-2">
 <div class="panel-tabset">
-<ul id="tabset-9" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-9-1">Motivation</a></li><li><a href="#tabset-9-2">How and Example</a></li><li><a href="#tabset-9-3">Exercise</a></li></ul>
+<ul id="tabset-10" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-10-1">Motivation</a></li><li><a href="#tabset-10-2">How and Example</a></li><li><a href="#tabset-10-3">Exercise</a></li></ul>
 <div class="tab-content">
-<div id="tabset-9-1">
+<div id="tabset-10-1">
 <div class="columns">
 <div class="column" style="width:70%;">
 <p>Sometimes, you want to make your raster data have a lower resolution. For example, satellite image is often very fine with spatial resolution of say 30cm. When trying to create a map using the data, it takes long time for R to render a plot and also the size of the figure can be very large.</p>
@@ -2267,7 +2283,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 </div>
 </div>
-<div id="tabset-9-2">
+<div id="tabset-10-2">
 <p><strong>Syntax</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fu">aggregate</span>(SpatRaster, fact)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2290,7 +2306,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 </div>
 </div>
-<div id="tabset-9-3">
+<div id="tabset-10-3">
 <p>Aggregate <code>NIR</code> by factor of 2.</p>
 <div id="qwebr-insertion-location-29"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2312,11 +2328,11 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 </div>
 </div>
-<div id="tabset-11-3">
+<div id="tabset-12-3">
 <div class="panel-tabset">
-<ul id="tabset-10" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-10-1">Motivation</a></li><li><a href="#tabset-10-2">What does it do really?</a></li><li><a href="#tabset-10-3">How and example</a></li></ul>
+<ul id="tabset-11" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-11-1">Motivation</a></li><li><a href="#tabset-11-2">What does it do really?</a></li><li><a href="#tabset-11-3">How</a></li><li><a href="#tabset-11-4">Example</a></li></ul>
 <div class="tab-content">
-<div id="tabset-10-1">
+<div id="tabset-11-1">
 <ul>
 <li><p>You have two raster layers that differ in any of the dimension and resolution.</p></li>
 <li><p>You want to assign a value from one layer to each of the cells in the other layer so that you have consistent observation units for the variables from the two layers.</p></li>
@@ -2333,7 +2349,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 </div>
 </div>
-<div id="tabset-10-2">
+<div id="tabset-11-2">
 <ul>
 <li><p>Map below shows grids from <code>precip</code> (red border) and from <code>soil</code> (blue border).</p></li>
 <li><p>As you can see, the grids from the two layers are not nicely aligned.</p></li>
@@ -2343,7 +2359,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div id="qwebr-insertion-location-33"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </div>
-<div id="tabset-10-3">
+<div id="tabset-11-3">
 <p><strong>Syntax</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="fu">resample</span>(sr_1, sr_2, method)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2360,8 +2376,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <li>others (run <code>?terra::resample</code> to see all the <code>method</code> options)</li>
 </ul></li>
 </ul>
-<p><br></p>
-<p><strong>Demonstration</strong></p>
+</div>
+<div id="tabset-11-4">
 <p>Since we are resampling values from the <code>soil</code> layer to the grids of <code>precip</code>,</p>
 <div id="qwebr-insertion-location-34"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>

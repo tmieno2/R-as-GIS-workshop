@@ -5,6 +5,15 @@
 // code in a regular R code chunk
 code.sourceCode.r {
   font-size: 0.9rem;
+  background-color: #F0F8FF;
+}
+
+.lines-content.monaco-editor-background {
+  background-color: #F7FDFF;
+}
+
+div.overflow-guard div.margin {
+ background-color: #F7FDFF; 
 }
 
 // code in an webr code chunk 
@@ -20,11 +29,22 @@ code.sourceCode.r {
 
 // results of running codes
 pre div code {
+  font-size: 0.6rem;
+}
+
+// results of running codes in a regular r code chunk
+div.cell-output.cell-output-stdout pre code {
   font-size: 0.7rem;
+  background-color: #f8f2f6;
 }
 
 // results of running codes in an webr code chunk
-.reveal .qwebr-output-code-stdout{
+div.qwebr-output-code-area pre {
+  background-color: #f8f2f6;
+}
+
+// results of running codes in an webr code chunk
+.reveal .qwebr-output-code-stdout {
   font-size: 0.8rem;
 }
 
@@ -98,10 +118,6 @@ a:hover {
 
 .monaco-editor {
   background-color: #ec4343;
-}
-
-.lines-content.monaco-editor-background {
-  background-color: #F7FDFF;
 }
 
 hr {

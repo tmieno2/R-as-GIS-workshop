@@ -609,17 +609,41 @@ soy_seed <-
 
 ### Motivation
 
+::: {.columns}
+
+::: {.column width="70%"}
 + In the example of finding total corn production acreage by HUC unit using `st_join()`, we had a problem of not knowing how much of each of the intersecting counties shares the same area with the HUC unit.
 
 + If we can get the geometry of the intersecting part of the HUC unit and the county, then we can calculate its area, which in turn allows us to find area-weighted averages of joined attributes.
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
 
 ### How
 
+::: {.columns}
+
+::: {.column width="70%"}
 For these purposes, we can use `sf::st_intersection()`.
 
 + While `st_intersects()` returns the indices of intersecting objects, `st_intersection()` returns intersecting spatial objects with the non-intersecting parts of the `sf` objects cut out. 
 
 + Moreover, attribute values of the source `sf` will be merged to its intersecting `sfg` in the target `sf`. 
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
 
 ### Illustration 1: lines vs polygons
 
@@ -723,6 +747,9 @@ ggplot() +
 
 ### Illustration 2: polygons vs polygons
 
+::: {.columns}
+
+::: {.column width="70%"}
 The following code gets the intersection of polygon 1 and polygon 3 with polygon 2.
 
 ```{webr-r}
@@ -753,9 +780,21 @@ ggplot() +
   ) +
   theme_void()
 ```
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
 
 ### area-weighted average
 
+::: {.columns}
+
+::: {.column width="70%"}
 + Let's now get back to the example of HUC units and county-level nitrogen use data.
 
 + We would like to find area-weighted average of nitrogen use instead of the simple average.
@@ -782,20 +821,23 @@ HUC_intersections %>%
   geom_sf(aes(fill = huc_county)) +
   theme_void()
 ```
-
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
 
 :::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
 
-## Exercise: Cropping Join
+### Exercise
 
 ::: {.panel-tabset}
 
-### Data Preparation
-
-Run the following codes and create two sets of `sf`s that consist of two polygons.
+#### Data Preparation
 
 ```{webr-r}
-#| autorun: true
+#| context: setup
 polygon_1 <- 
   st_sfc(
     st_polygon(list(rbind(c(0, 0), c(2, 0), c(2, 2), c(0, 2), c(0, 0)))),
@@ -813,7 +855,19 @@ polygon_2 <-
   st_sf(geometry = .)
 ```
 
+::: {.columns}
+
+::: {.column width="70%"}
+We use `poygon_1` and `polygon_2` in this exercise. Inspect them to familiarize yourself with them:
+
+```{webr-r}
+polygon_1
+polygon_2
+```
+
 <br>
+
+Here is what they look like:
 
 ```{webr-r}
 #| autorun: true
@@ -823,8 +877,18 @@ ggplot() +
   geom_sf(data = polygon_2, fill = "red", alpha = 0.5) +
   theme_void()
 ```
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
 
-### Problem 1
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
+
+
+#### Problem 1
 
 Find the intersection of the two polygons using `st_intersection()`.
 
@@ -832,12 +896,32 @@ Find the intersection of the two polygons using `st_intersection()`.
 st_intersection()
 ```
 
-### Problem 2 
+<br>
 
-Find the area-weighted average of `value` for `polygon_2` based on the are of overlaps with the polygons in `polygon_1`? Use `st_area()`.
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+intersection <- st_intersection(polygon_2, polygon_1)
+```
+
+#### Problem 2 
+
+Find the area-weighted average of `value` for `polygon_2` based on the area of overlaps with the polygons in `polygon_1`?
 
 ```{webr-r}
 
 ```
 
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+intersection %>%
+  dplyr::mutate(area = as.numeric(st_area(geometry))) %>%
+  dplyr::summarize(value = sum(value * area) / sum(area))
+``` 
+
 :::
+:::
+

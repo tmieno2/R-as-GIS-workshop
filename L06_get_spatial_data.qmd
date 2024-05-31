@@ -1,0 +1,583 @@
+---
+title: "R as GIS: Download Spatial Datasets using R"
+format: 
+  revealjs: 
+    theme: [default, custom.scss]
+    fontsize: 1em
+    callout-icon: false
+    scrollable: true
+    echo: true
+    fig-dpi: 400
+webr:
+  packages: ['ggplot2', 'dplyr', 'sf', 'terra', 'stars', 'tidyterra', 'prism', 'tidyUSDA'] # Install R packages on document open
+# autoload-packages: false       # Disable automatic loading of packages
+# show-startup-message: false    # Disable displaying status of webR initialization
+  cell-options:
+    editor-font-scale: 0.8
+filters:
+  - webr
+---
+
+```{r, include = FALSE}
+library(sf)
+library(dplyr)
+library(tidyUSDA)
+library(ggplot2)
+library(tidyterra)
+library(terra)
+library(data.table)
+nass_api_key <- "61838C71-72DF-3A21-9C08-8271C19DB197"
+```
+
+## Before you start
+
+<br>
+
+### Learning objectives
+
+Learn how to download publicly available agriculture-related data from within R.
+
+<br>
+
+### Table of contents
+
+1. [USDA-NASS](#sec-usda-nass)
+2. [PRISM](#sec-prism)
+3. [Daymet](#sec-daymet)
+4. [Crop Data Layer (CDL)](#sec-cdl)
+5. [SSURGO](#sec-ssurgo)
+
+```{webr-r}
+#| context: setup
+#|
+#--- install and library the data package ---#
+install.packages("r.spatial.workshop.datasets", repos = c("https://tmieno2.r-universe.dev", "https://cran.r-project.org"))
+
+library(r.spatial.workshop.datasets)
+data(wells_ne_sf)
+data(ne_counties)
+data(treatment_blocks)
+data(corn_yield)
+data(NDRE)
+NDRE <- terra::rast(NDRE)
+data(prism_us)
+prism_us <- terra::rast(prism_us)
+nass_api_key <- "61838C71-72DF-3A21-9C08-8271C19DB197"
+```
+
+## Tips to make the most of the lecture notes
+
+<br>
+
+::: {.columns}
+
+::: {.column width="70%"}
+### Interactive navigation tools
+
++ Click on the three horizontally stacked lines at the bottom left corner of the slide, then you will see table of contents, and you can jump to the section you want
+
++ Hit letter "o" on your keyboard and you will have a panel view of all the slides
+
+<br>
+
+### Running and writing codes
+
++ The box area with a hint of blue as the background color is where you can write code (hereafter referred to as the "code area").
++ Hit the "Run Code" button to execute all the code inside the code area.
++ You can evaluate (run) code selectively by highlighting the parts you want to run and hitting Command + Enter for Mac (Ctrl + Enter for Windows).
++ If you want to run the codes on your computer, you can first click on the icon with two sheets of paper stacked on top of each other (top right corner of the code chunk), which copies the code in the code area. You can then paste it onto your computer.
++ You can click on the reload button (top right corner of the code chunk, left to the copy button) to revert back to the original code.
+
+:::
+::: {.column width="30%"}
+:::
+:::
+
+## USDA-NASS {#sec-usda-nass}
+
+::: {.panel-tabset}
+
+### Introduction
+
+::: {.columns}
+
+::: {.column width="70%"}
++ [USDA NASS Quick Stats](https://quickstats.nass.usda.gov/) provides wealth of agriculture-related datasets such as  harvested acres or irrigated acres by crop at different spatial resolutions (e.g., state, county) from both survey and census.
+
++ We use the `tidyUSDA` package to download dat from USDA NASS Quick Stat.
+
++ A nice thing about `tidyUSDA` is that it gives you an option to download data as an `sf` object, which means you can immediately visualize the data or spatially interact it with other spatial objects.
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
+### How
+
+::: {.panel-tabset}
+
+#### API key
+
++ First thing you want to do is to get an API key from this [website](https://quickstats.nass.usda.gov/api).
+  + click on **obtain an API key**
+  + save the API key somewhere 
+
++ You use this API key every time you download data from R using `tidyUSDA`.
+
+#### Download data
+
+You can download data using `tidyUSDA::getQuickstat()`.
+
+<br>
+
+**Syntax**
+
+```{r, eval = F}
+getQuickstat(
+    key,
+    program,
+    data_item,
+    geographic_level,
+    state,
+    year,
+    geometry
+  )
+```
+<br>
+
++ `key`: API key
++ `program`: either "Survey" or "Census"
++ `data_item`: name of the variable to download
++ `geographic_level`: set the level of geographical unit ("County", "State")
++ `state`: vector of states
++ `year`: vector of years in **character**
++ `geometry`: if TRUE, then the downloaded data will be `sf` with geometry included. If false, a `data.frame` without geometry is returned.
+
+<br>
+
+:::{.callout-note}
++ There are many other options. Run `?getQuickstat` to see all the options.
++ The above options should cover most of your use cases.
+:::
+
+#### Identify data item (variable) name
+
+Sometimes, you know what you would like to download, but do not the name of the variable for it. In such a case, you can first get a list of all the data item names with this:
+
+```{webr-r}
+all_items <- tidyUSDA::allDataItem
+
+#--- just see a few ---#
+head(all_items)
+```
+
+<br>
+
+You can then narrow down the list using keywords. Suppose you are interested in getting irrigated grain corn yield measured in bu/acre. 
+
+```{webr-r}
+all_items %>%
+  #--- find data items that include CORN ---#
+  grep(pattern = "CORN", ., value = TRUE) %>%
+  #--- find data items that include YIELD ---#
+  grep(pattern = "YIELD", ., value = TRUE) %>%
+  #--- find data items that include IRRIGATED ---#
+  grep(pattern = "IRRIGATED", ., value = TRUE)
+```
+
+<br>
+
+You can now copy the first entry of the results and paste it for `data_item` option.
+
+:::
+<!--end of panel-->
+
+### Demonstration
+
+::: {.panel-tabset}
+
+#### Download
+
+The code below download county-level irrigated grain corn yield (bu/acre) in Illinois and Nebraska from 2000 through 2005.
+
+```{r, eval = F}
+(
+IL_NE_ir_corn_yield <-
+  tidyUSDA::getQuickstat(
+    key = nass_api_key, # you need to replace it with your API key
+    program = "SURVEY",
+    data_item = "CORN, GRAIN, IRRIGATED - YIELD, MEASURED IN BU / ACRE",
+    geographic_level = "COUNTY",
+    state = c("ILLINOIS", "NEBRASKA"),
+    year = as.character(2000:2005),
+    geometry = TRUE
+  )
+)
+```
+
+```{r, eval = F, echo = F}
+saveRDS(IL_NE_ir_corn_yield, "Lectures/Data/il_ne_corn_yield.rds")
+```
+
+```{r, include = FALSE}
+IL_NE_ir_corn_yield <- readRDS("Data/il_ne_corn_yield.rds") 
+```
+```{r, echo = FALSE}
+IL_NE_ir_corn_yield
+```
+
+
+#### Select variables
+
+As you saw earlier, it has `r ncol(IL_NE_ir_corn_yield)` columns, most of which are not necessary.
+
+Here is the list of only variables you will probably need:
+
+```{r}
+IL_NE_ir_corn_yield %>%
+  dplyr::select(
+    year, county_name, county_code, state_name,
+    state_fips_code, short_desc, Value
+  )
+```
+
+<br>
+
+:::{.callout-note}
++ The value of the variable of your interest is stored in `Value` column.
+:::
+
+:::
+<!--end of panel-->
+
+### Caveat
+
+::: {.panel-tabset}
+
+#### Caveat 1
+
+::: {.columns}
+
+::: {.column width="70%"}
+You cannot retrieve more than 50,000 (the limit is set by QuickStat) rows of data. The query below requests much more than 50,000 observations, and fail. In this case, you need to narrow the search and chop the task into smaller tasks.
+
+Replace `nass_api_key` with your own API key and run the ode on your computer.
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
+
+```{r, eval = F}
+many_states_corn <-
+  getQuickstat(
+    key = nass_api_key,
+    program = "SURVEY",
+    commodity = "CORN",
+    geographic_level = "COUNTY",
+    state = c("ILLINOIS", "COLORADO", "NEBRASKA", "IOWA", "KANSAS"),
+    year = paste(1995:2018),
+    geometry = TRUE
+  ) 
+```
+
+
+#### Caveat 2
+
+::: {.columns}
+
+::: {.column width="70%"}
+A query returns an error when there is no observation that satisfy your query criteria. For example, even though "CORN, GRAIN, IRRIGATED - YIELD, MEASURED IN BU / ACRE" does exists as a `data_item`, there is no entry for the statistic in Illinois in 2018. Therefore, the following query fails.
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
+
+```{r, eval = F}
+many_states_corn <-
+  getQuickstat(
+    key = key_get("usda_nass_qs_api"),
+    program = "SURVEY",
+    data_item = "CORN, GRAIN, IRRIGATED - YIELD, MEASURED IN BU / ACRE",
+    geographic_level = "COUNTY",
+    state = "ILLINOIS",
+    year = "2018",
+    geometry = TRUE
+  ) 
+```
+
+:::
+<!--end of panel-->
+
+### Exercise
+
+::: {.panel-tabset}
+
+#### Identify `data_item` name
+
+You are interested in getting soybean harvested acres data. Search for the `data_item` name for this variable from `tidyUSDA::allDataItem`
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+tidyUSDA::allDataItem %>%
+  #--- find data items that include SOY ---#
+  grep(pattern = "SOY", ., value = TRUE) %>%
+  grep(pattern = "HARVESTED", ., value = TRUE) 
+
+```
+
+#### Download data
+
+Now, using the `data_item` name you got earlier, download the county-level data for Colorado and Kansas from 1990 through 1994 as an `sf` obejct.
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+
+KS_CO_soy_hacres <-
+  getQuickstat(
+    key = nass_api_key,
+    program = "SURVEY",
+    data_item = "SOYBEANS - ACRES HARVESTED",
+    geographic_level = "COUNTY",
+    state = c("KANSAS", "COLORADO"),
+    year = as.character(1990:1994),
+    geometry = TRUE
+  ) %>%
+  dplyr::select(
+    year, county_name, county_code, state_name,
+    state_fips_code, short_desc, Value
+  )
+```
+
+#### Create a map
+
+Create a map of soybean harvested acres faceted by year.
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+ggplot() +
+  geom_sf(data = KS_CO_soy_hacres, aes(fill = Value)) +
+  facet_wrap(. ~ year) +
+  theme_void()
+```
+
+:::
+<!--end of panel-->
+
+:::
+<!--end of panel-->
+
+## PRISM
+
+::: {.panel-tabset}
+### Introduction
+
+
+### How
+
+You can use `get_prism_dailys()` from the `prism` package to download PRISM data.
+
+<br>
+
+**Syntax**
+
+```{r, eval = FALSE}
+prism::get_prism_dailys(
+  type = variable type,
+  minDate = starting date as character,
+  maxDate = ending date as character,
+  keepZip = TRUE or FALSE
+) 
+```
+
++ `type`: you can select from “ppt” (precipitation), “tmean” (mean temperature), “tmin” (minimum temperature), and “tmax” (maximum temperature). 
++ `minDate`: starting date specified in format **YYYY-MM-DD**
++ `maxDate`: end date specified in format **YYYY-MM-DD** 
++ `keepZip`: if `FALSE`, the zipped folders of the downloaded files will not be kept; otherwise, they will be kept.
+
+<br>
+
+Before you download PRISM data using the function, it is recommended that you set the path to folder in which the downloaded PRISM files will be stored using.
+
+```{r, eval = FALSE}
+options(prism.path = "path")
+```
+
+### Try yourself on your computer
+
+::: {.columns}
+
+::: {.column width="70%"}
+
+First set the path:
+
+```{r, eval = FALSE}
+library(prism)
+options(prism.path = "Lectures/Data/PRISM")
+```
+
+<br>
+
+Now, download:
+
+```{r, eval = FALSE}
+prism::get_prism_dailys(
+  type = "ppt",
+  minDate = "2024-01-01",
+  maxDate = "2024-01-05",
+  keepZip = FALSE
+)
+```
+
+This will create a single folder for each day of the specified date range. Inside of the folders, you will see bunch of files with the same name except extensions.
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
+### Read PRISM files 
+
+::: {.columns}
+
+::: {.column width="70%"}
+As you have seen, we would have many files to open unless the specified date range is very short. In such case, you should take advantage of a simple for loop.
+
+First, the following code gives you the name of all the PRISM files with **.bill** extension.
+
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
+```{r}
+(
+prism_files_list <- 
+  list.files("Data/PRISM", recursive = TRUE, full.names = TRUE) %>%
+  .[grep("\\.bil", .)] %>%
+  .[!grepl("aux", .)]
+)
+
+```
+
+Just replace `"Data/PRISM"` with your folder path to the PRISM files.
+
+We can now read them using `terra::rast()` like below:
+
+```{r}
+terra::rast(prism_files_list) 
+```
+
+### Exercise
+
+::: {.panel-tabset}
+#### Download PRISM data
+
+Download PRISM maximum temperature data from "06-01-2023" to "06-03-2023".
+
+<br>
+
+**Answer**
+
+<br> 
+
+```{r, eval = FALSE}
+#| code-fold: true
+#--- set the path (you need to change the path) ---# 
+options(prism.path = "Data/PRISM/tmax")
+
+#--- download ---#
+prism::get_prism_dailys(
+  type = "tmax",
+  minDate = "2023-06-01",
+  maxDate = "2023-06-03",
+  keepZip = FALSE
+)
+```
+
+#### Read the downloaded files
+
+Read all the maximum temperature data files you just downloaded using `terra::rast()`.
+
+<br>
+
+**Answer**
+
+```{r}
+#| code-fold: true
+prism_files_list <-
+  list.files("Data/PRISM/tmax", recursive = TRUE, full.names = TRUE) %>%
+  .[grep("\\.bil", .)] %>%
+  .[!grepl("aux", .)]
+
+prism_max_temp <- terra::rast(prism_files_list)
+```
+
+#### Create a map
+
+Using the `SpatRaster` object, create a faceted map of maximum temperature.
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+ggplot() +
+  geom_spatraster(data = prism_max_temp) +
+  facet_wrap(~lyr)
+```
+
+:::
+<!--end of panel-->
+
+:::
+<!--end of panel-->
+
+## Daymet
+
+
+## Crop Data Layer
+
+
+
+::: {.panel-tabset}
+
+:::
+<!--end of panel-->
+
+## SSURGO
+
+
+
+::: {.panel-tabset}
+
+:::
+<!--end of panel-->

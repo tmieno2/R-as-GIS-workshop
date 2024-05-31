@@ -326,6 +326,8 @@ Create a map using the cropped- and masked-`prism_us` and `ne_counties`.
 
 ```
 
+<br>
+
 **Answer**
 ```{r, eval = FALSE}
 #| code-fold: true
@@ -416,7 +418,7 @@ ggplot() +
   geom_stars(data = stars_cells, alpha = 0.5) +
   scale_fill_distiller(name = "Value", palette = "Spectral") +
   geom_sf_text(data = raster_like_cells, aes(label = value)) +
-  geom_sf(data = points, aes(shape = point_name), size = 2) +
+  geom_sf(data = points, aes(shape = point_name), size = 3) +
   scale_shape(name = "Points") +
   theme_void()
 ```
@@ -756,6 +758,9 @@ NDRE_extracted_tb_twolayers %>%
 
 :::
 <!--end of panel-->
+
+### Exercises
+
 
 :::
 <!--end of panel-->

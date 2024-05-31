@@ -47,7 +47,7 @@ Learn how to handle raster datasets using R.
    - read raster data files
    - write to raster data files
 + [raster operations](#sec-operations)
-   - arithmetic
+   - arithmetic operations
    - aggregate
    - resample
 :::
@@ -56,7 +56,7 @@ Learn how to handle raster datasets using R.
 ### Related Contents (Links)
 
 + [Create maps from raster data using `ggplot2`](https://tmieno2.github.io/R-as-GIS-workshop/L03_create_map.html)
-+ Vector and raster data interactions
++ [Vector and raster data interactions](https://tmieno2.github.io/R-as-GIS-workshop/L05_vector_raster_interaction.html)
   + cropping
   + masking
   + value extraction
@@ -235,15 +235,19 @@ plot(reflec_all)
 
 ### `Raster`*
 
+::: {.panel-tabset}
+
+#### Introduction
+
 The `raster` package differentiates single-layer and multi-layer raster data. 
 
 + `RasterLayer`: single-layer
 + `RasterStack`: multi-layer
 + `RasterBrick`: multi-layer
 
-You can convert a `SpatRaster` to a `Raster`* object using `as(SpatRaster, "Raster")`. 
+#### Converting to `Raster`* 
 
----
+You can convert a `SpatRaster` to a `Raster`* object using `as(SpatRaster, "Raster")`. 
 
 ```{webr-r}
 (
@@ -271,15 +275,17 @@ Since, `reflec_all` is a multi-layer `SpatRaster`, it was converted into a `Rast
 You can convert a `RasterBrick` to a `RasterStack` by applying `stack()` to the `RasterBrick` if you want. But, you do not need to.
 :::
 
-<br>
-
----
+#### Converting to `SpatRaster`
 
 You can convert an `Raster`* object to `SpatRaster` using `terra::rast()` function.
 
 ```{webr-r}
 terra::rast(reflec_all_rl)
 ```
+:::
+<!--end of panel-->
+
+
 
 
 :::
@@ -430,7 +436,7 @@ subset(reflec_all, "blue")
 
 ::: {.columns}
 
-::: {.column width="50%"}
+::: {.column width="70%"}
 Raster data files can come in numerous different formats. 
 
 + The most common format is GeoTiff (.tif as the file extension)
@@ -440,7 +446,7 @@ Raster data files can come in numerous different formats.
 
 You can read data of almost all the existing file formats with the `terra` package.
 :::
-::: {.column width="50%"}
+::: {.column width="30%"}
 :::
 :::
 
@@ -471,7 +477,7 @@ drone_blue_sr <- terra::rast(c(path to the file 1, path to the file 1, ...))
 #### Let's try (.tif)
 
 :::{.callout-note title="Instruction"}
-+ download **reflec_blue.tif**, **reflec_red.tif**, and **reflec_green.tif** from this [link]().
++ download **reflec_blue.tif**, **reflec_red.tif**, and **reflec_green.tif** from this [link](https://www.dropbox.com/scl/fo/ljr76u5azr7u4zx7mk55p/AB1RtEs0KyWqL6rKsiJHRKk?rlkey=ogas3pbhuhhhy94kprbd2m553&st=oq35p7rx&dl=0).
 + find the path to the three files
 :::
 
@@ -505,7 +511,7 @@ reflec_all <-
 #### Let's try (.bil)
 
 :::{.callout-note title="Instruction"}
-+ download the folder named **PRISM_ppt_stable_4kmD2_20120801_bil** from this [link]().
++ download the folder named **PRISM_ppt_stable_4kmD2_20120801_bil** from this [link](https://www.dropbox.com/scl/fo/ljr76u5azr7u4zx7mk55p/AB1RtEs0KyWqL6rKsiJHRKk?rlkey=ogas3pbhuhhhy94kprbd2m553&st=oq35p7rx&dl=0).
 + find the path to the file named **PRISM_ppt_stable_4kmD2_20120801_bil.bil**, which is PRISM precipitation data observed on 08-01-2012.
 :::
 
@@ -526,7 +532,7 @@ prism_precip <- terra::rast("data-files-for-participants/PRISM_ppt_stable_4kmD2_
 Many weather data comes in the netCDF format with the file extension of **.nc**. (e.g., [gridMET](https://www.climatologylab.org/))
 
 :::{.callout-note title="Instruction"}
-+ download the file named **gm_precip_2018.nc** from this [link]().
++ download the file named **gm_precip_2018.nc** from this [link](https://www.dropbox.com/scl/fo/ljr76u5azr7u4zx7mk55p/AB1RtEs0KyWqL6rKsiJHRKk?rlkey=ogas3pbhuhhhy94kprbd2m553&st=oq35p7rx&dl=0).
 + find the path to the file
 :::
 
@@ -653,19 +659,31 @@ terra::writeCDF(reflec_all, "data/reflec_all.nc")
 
 ::: {.panel-tabset}
 
-### Arithmetic
+### Arithmetic operations
 
 ::: {.panel-tabset}
 
 #### Introduction
 
+::: {.columns}
+
+::: {.column width="70%"}
 + You can do basic arithmetic operations (addition, subtraction, division, etc) using raster layers as long as they share the same spatial extent and resolution
   
 + You can also apply a function like `log()` to transform the value of the cells
 
-+ Raster arithmetic operations are done element-by-element (cell-by-cell) just like vector arithmetic.
++ Raster arithmetic operations are done element-by-element (cell-by-cell) just like vector arithmetic operations.
 
 For example, when two `RasterLayer`s are added, then the two values associated with the same cell are added and the resulting value becomes the new value for the cell in the newly created `RasterLayer`.
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
 
 #### Example
 
@@ -909,7 +927,7 @@ ggplot() +
   theme_void()
 ```
 
-#### How and example
+#### How
 
 **Syntax**
 ```{r, eval = FALSE}
@@ -926,9 +944,7 @@ resample(sr_1, sr_2, method)
   + "bilinear": bi-linear interpolation
   + others (run `?terra::resample` to see all the `method` options)
 
-<br>
-
-**Demonstration**
+#### Example
 
 Since we are resampling values from the `soil` layer to the grids of `precip`,
 

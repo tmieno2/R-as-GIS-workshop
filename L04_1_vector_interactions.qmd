@@ -88,17 +88,21 @@ data(lines)
 ::: {.column width="30%"}
 :::
 :::
+
 ## Topological Relations
 
-<br>
+::: {.panel-tabset}
 
-#### Definition
+### Introduction
+
+
+**Definition**
 
 Topological relations refer to the way multiple spatial objects are spatially related to one another. 
 
 <br>
 
-#### Goals
+**Goals**
 
 You can identify various types of spatial relations using the `sf` package 
 
@@ -112,12 +116,11 @@ You can run `?geos_binary_pred` to find all the topological relations you can us
 ?geos_binary_pred
 ```
 
-
-## Topological Relations: `st_intersects()`
+### `st_intersects()`
 
 ::: {.panel-tabset}
 
-### Data Preparation
+#### Data Preparation
 
 We use three `sf` objects: `points`, `lines`, and `polygons`. Inspect each of them.
 
@@ -177,7 +180,7 @@ polygons <- list(polygon_1, polygon_2, polygon_3) %>%
   mutate(polygon_name = c("polygon 1", "polygon 2", "polygon 3"))
 ```
 
-### Visualized Data
+#### Visualized Data
 
 ```{webr-r}
 #| autorun: true
@@ -195,7 +198,7 @@ g_all <-
 
 ```
 
-### points and polygons
+#### points and polygons
 
 `st_intersects()` checks which of `sfg`s in an `sf` geographically intersect with which of `sfg`s in another `sf`.
 
@@ -239,7 +242,7 @@ st_intersects(points, polygons, sparse = FALSE)
 
 ::::
 
-### lines and polygons
+#### lines and polygons
 
 :::: {.columns}
 
@@ -267,7 +270,7 @@ The output is a list of which polygon(s) each of the lines intersect with.
 
 ::::
 
-### polygons and polygons
+#### polygons and polygons
 
 :::: {.columns}
 
@@ -291,18 +294,15 @@ st_intersects(polygons, polygons)
 ```
 
 For polygons vs polygons interaction, `st_intersects()` identifies any polygons that either touches (even at a point like polygons 1 and 3) or share some area.
-
 :::
-
 ::::
-
 :::
 
-## Topological Relations: `st_is_within_distance()`
+### `st_is_within_distance()`
 
 ::: {.panel-tabset}
 
-### Syntax
+#### Syntax
 
 `sf::st_is_within_distance()` function identifies whether any of `sfg`s in `sf_2` is within the specified distance from each of the `sfg`s in `sf_1`.
 
@@ -311,7 +311,7 @@ st_is_within_distance(sf_1, sf_2)
 ```
 
 
-### Data Preparation
+#### Data Preparation
 
 Create two sets of points and then inspect each of them.
 
@@ -338,7 +338,7 @@ ggplot() +
   geom_sf_text(data = points_set_2, aes(label = id), color = "blue") 
 ```
 
-### Expected Outcomes
+#### Expected Outcomes
 
 We want to know which of the blue points (`points_set_2`) are located within 0.2 from each of the red points (`points_set_1`). 
 
@@ -355,7 +355,7 @@ ggplot() +
   geom_sf_text(data = points_set_2, aes(label = id), color = "blue") 
 ```
 
-### Apply the function
+#### Apply the function
 
 :::: {.columns}
 
@@ -391,11 +391,11 @@ Confirm that your visual inspection results are consistent with the outcome of t
 ::::
 :::
 
-## Topological Relations: `st_nearest_feature()`  
+### `st_nearest_feature()`  
 
 ::: {.panel-tabset}
 
-### Syntax
+#### Syntax
 
 `sf::st_nearest_feature() identifies which `sfg`s in `sf_2` is closest in distance to each of `sf_1`.
 
@@ -403,7 +403,7 @@ Confirm that your visual inspection results are consistent with the outcome of t
 st_nearest_feature(sf_1, sf_2)
 ```
 
-### Example
+#### Example
 
 ::: {.columns}
 
@@ -425,16 +425,14 @@ st_nearest_feature(points_set_1, points_set_2)
 Confirm that your visual inspection results are consistent with the outcome of the above code using `st_is_within_distance()` function.
 
 :::
-
+:::
 :::
 
-:::
-
-## Topological Relations: Exercises
+### Exercises
 
 ::: {.panel-tabset}
 
-### Data Preparation
+#### Data Preparation
 
 Run the following codes to get `mower_sensor` and `fairway_grid` data.
 
@@ -456,8 +454,11 @@ ggplot() +
   geom_sf(data = mower_sensor)
 ```
 
-### `st_intersects()`
+#### `st_intersects()`
 
+::: {.columns}
+
+::: {.column width="70%"}
 Use `sf::st_intersects()` to find out which of the points in `mower_sensor_sf` are inside of any of the polygons in `fwy05_grid`.
 
 ```{webr-r}
@@ -465,27 +466,55 @@ Use `sf::st_intersects()` to find out which of the points in `mower_sensor_sf` a
 
 ```
 
+<br>
+
 Since there are so many points in `mower_sensor_sf`, you won't really see which ones are inside of any of the polygons in `fwy05_grid`.
 
 That is okay for now. We will later learn how to filter `sf` objects spatially. 
 
-#### Answer codes
+<br>
 
+**Answer codes**
 ```{r}
 #| code-fold: true 
 #| eval: false 
 st_intersects(mower_sensor_sf, fwy05_grid)
 ```
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
 
 :::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
 
-## Spatial Subsetting and Cropping
+
+:::
+:::
+<!--end of panel-->
+
+
+
+## Spatial Subsetting
 
 ::: {.panel-tabset}
 
 ### Introduction
 
-Spatial subsetting refers to operations that narrow down the geographic scope of a spatial object (source data) based on another spatial object (target data). 
+::: {.columns}
+
+::: {.column width="70%"}
+Spatial subsetting refers to operations that narrow down the geographic scope of a spatial object based on another spatial object. 
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
 
 ### Data preparation
 
@@ -531,13 +560,11 @@ data(railroads_ne, package = "r.spatial.workshop.datasets")
 data(hp_boundary, package = "r.spatial.workshop.datasets")
 ```
 
-:::
-
-## Spatial Subsetting: polygons (source) vs polygons (target)
+### polygons vs polygons
  
 ::: {.panel-tabset}
 
-### Goal
+#### Goal
 
 Select only the counties that intersect with the HPA boundary.
 
@@ -552,7 +579,7 @@ ggplot() +
   theme_void()
 ```
 
-### How
+#### How
 
 When subsetting a data.frame by specifying the row numbers you would like to select, you can do 
 
@@ -575,7 +602,7 @@ sf_1[sf_2, ]
 
 where you are subsetting `sf_1` based on `sf_2`. Instead of row numbers, you provide another `sf` object in place.
 
-### Demonstration
+#### Demonstration
 
 The following code spatially subsets Nebraska counties based on the HPA boundary. 
 
@@ -607,7 +634,7 @@ ggplot() +
 
 :::
 
-### Create a flag variable 
+#### Create a flag variable 
 
 Sometimes, you just want to flag whether two spatial objects intersect or not, instead of dropping non-overlapping observations like we saw with `sf_1[sf_2, ]` syntax. In that case, you can get a list of the IDs and then assign 1 (or TRUE) if in the list, 0 (or FALSE) otherwise.
 
@@ -630,7 +657,7 @@ Assign 1 or 0 to a new variable called `in_hpa` based on the list.
 ne_counties <- dplyr::mutate(ne_counties, in_hpa = ifelse(countyfp %in% county_fp_intesected_list, 1, 0))
 ```
 
-### Other topological relations
+#### Other topological relations
 
 You can specify the topological relation as in 
 
@@ -656,17 +683,17 @@ Check visually:
 ```{webr-r}	
 ggplot() +
   geom_sf(data = ne_counties_completely_within_hpa) +
-  geom_sf(data = hp_boudary, fill = "blue" ,alpha = 0.4) +
+  geom_sf(data = hp_boundary, fill = "blue" ,alpha = 0.4) +
   theme_void()
 ```
-
 :::
+<!--end of panel-->
 
-## Spatial Subsetting: points (source) vs polygons (target)
+### points vs polygons
  
 ::: {.panel-tabset}
 
-### Goal
+#### Goal
 
 Select only the wells that intersect with (or equivalently inside) the HPA boundary.
 
@@ -685,7 +712,7 @@ ggplot() +
   theme_void()  
 ```
 
-### Demonstration
+#### Demonstration
 
 We can select only the wells that reside within the HPA boundary using the same syntax as the polygon-polygon example.
 
@@ -712,7 +739,7 @@ ggplot() +
   theme_void()   
 ```
 
-### Flagging
+#### Flagging
 
 Get the list of `wellid` (ID) of the intersected wells:
 
@@ -732,11 +759,11 @@ wells_ne <- dplyr::mutate(wells_ne, in_hpa = ifelse(wellid %in% wellid_list, 1, 
 
 :::
 
-## Spatial Subsetting: lines (source) vs polygons (target)
+### lines vs polygons
  
 ::: {.panel-tabset}
 
-### Goal
+#### Goal
 
 Select only railroads that intersect with the Lancaster county in Nebraska.
 
@@ -767,7 +794,7 @@ ggplot() +
   theme_void() 
 ```
 
-### Demonstration
+#### Demonstration
 
 Just like we did in the two previous examples:
 
@@ -799,7 +826,7 @@ ggplot() +
   theme_void()
 ```
 
-### Flagging
+#### Flagging
 
 Get the list of `LINEARID` (ID) of the intersected railroads:
 
@@ -817,8 +844,11 @@ Assign 1 or 0 to a new variable called `in_hpa` based on the list.
 railroads_ne <- dplyr::mutate(railroads_ne, in_hpa = ifelse(LINEARID %in% railroads_id_list, 1, 0))
 ```
 
+:::
+<!--end of panel-->
 
 :::
+<!--end of panel-->
 
 ## Spatial Cropping
 
@@ -826,15 +856,29 @@ railroads_ne <- dplyr::mutate(railroads_ne, in_hpa = ifelse(LINEARID %in% railro
 
 ### Goal
 
+::: {.columns}
+
+::: {.column width="70%"}
 + We can use `st_crop()` to crop spatial objects to a spatial bounding box (extent) of a spatial object. 
 
 + The bounding box of an `sf` is a rectangle represented by the minimum and maximum of `x` and `y` that encompass/contain all the spatial objects in the `sf`. 
 
 + You can use `st_bbox()` to find the bounding box of an `sf` object.
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
 
 
 ### Bounding box
 
+::: {.columns}
+
+::: {.column width="70%"}
 Let's get the bounding box of the High-Plains aquifer using `st_bbox()`.
 
 ```{webr-r}
@@ -866,9 +910,21 @@ The bounding box looks like this (red rectangle):
   geom_sf(data = hp_boundary) +
   geom_sf(data = hp_bbox_sfc, fill = NA, color = "red")
 ```
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->`
+
 
 ### Crop
 
+::: {.columns}
+
+::: {.column width="70%"}
 Now, let's crop Nebraska counties to the bounding box of the High-Plains aquifer boundary.
 
 ```{webr-r}
@@ -891,6 +947,15 @@ ggplot() +
   geom_sf(data = hp_bbox_sfc, fill = NA, color = "red") +
   geom_sf(data = ne_counties_cropped_to_hp, fill = "orange", alpha = 0.4)
 ```
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
 
 ### Cropping vs Subset
 
