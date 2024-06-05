@@ -1,0 +1,1022 @@
+---
+title: "A primer of the dplyr package"
+format: 
+  revealjs: 
+    theme: [default, custom.scss]
+    fontsize: 1em
+    callout-icon: false
+    scrollable: true
+    echo: true
+    fig-dpi: 400
+    resources: 
+      - shinylive-sw.js
+webr:
+  packages: ['ggplot2', 'dplyr', 'nycflights13'] # Install R packages on document open
+# autoload-packages: false       # Disable automatic loading of packages
+# show-startup-message: false    # Disable displaying status of webR initialization
+  cell-options:
+    editor-font-scale: 0.8
+filters:
+  - webr
+  - shinylive
+---
+
+
+## Before you start
+
+<br>
+
+### Learning objectives
+
+Learn `dplyr` basics for data wrangling.
+
+<br>
+
+::: {.columns}
+
+::: {.column width="50%"}
+### Table of contents
+
++ [Piping with `%>%`](#sec-piping)
++ [Data wrangling with `dplyr` verbs](#sec-dplyr-wrangle)
++ [Group operations](#sec-group-operation)
+
+:::
+<!--end of the 1st column-->
+::: {.column width="50%"}
+:::
+
+<!--end of the 2nd column-->
+
+:::
+<!--end of the columns-->
+
+```{r}
+#| eval: false
+#| echo: false
+library("sf")
+library("data.table")
+library("ggplot2")
+library("dplyr")
+```
+
+
+## Tips to make the most of the lecture notes
+
+<br>
+
+::: {.columns}
+
+::: {.column width="70%"}
+### Interactive navigation tools
+
++ Click on the three horizontally stacked lines at the bottom left corner of the slide, then you will see table of contents, and you can jump to the section you want
+
++ Hit letter "o" on your keyboard and you will have a panel view of all the slides
+
+<br>
+
+### Running and writing codes
+
++ The box area with a hint of blue as the background color is where you can write code (hereafter referred to as the "code area").
++ Hit the "Run Code" button to execute all the code inside the code area.
++ You can evaluate (run) code selectively by highlighting the parts you want to run and hitting Command + Enter for Mac (Ctrl + Enter for Windows).
++ If you want to run the codes on your computer, you can first click on the icon with two sheets of paper stacked on top of each other (top right corner of the code chunk), which copies the code in the code area. You can then paste it onto your computer.
++ You can click on the reload button (top right corner of the code chunk, left to the copy button) to revert back to the original code.
+
+
+:::
+::: {.column width="30%"}
+:::
+:::
+
+## Data Preparation
+
+::: {.panel-tabset}
+
+We will use the following data throughout this lecture: 
+
+### `flights`
+
+We use `flights`, which is from the `nycflights13` package.
+
+```{webr-r}
+#| autorun: true
+#--- get data ---# 
+data(flights, package = "nycflights13") 
+
+#--- make it slim ---#
+(
+flights_slim <- dplyr::select(flights, year, month, origin, carrier, arr_delay)
+)
+```
+
+### `flights_mini`
+
+We also use `flights_mini`, which is created by running the code below.
+
+```{webr-r}
+#| autorun: true
+(
+  flights_mini <-
+    dplyr::distinct(flights, month, day, .keep_all = TRUE) %>%
+    dplyr::filter(day %in% c(1, 2)) %>%
+    dplyr::arrange(month) %>%
+    dplyr::select(year, month, day, dep_time, dep_delay, arr_time, arr_delay, air_time, origin)
+)
+```
+
+<br>
+
+You do not have to understand the code just yet. You will, once you have completed the lecture. Just inspect the data and familiarize yourself with it.
+
+:::
+<!--end of panel-->
+
+
+## Piping with `%>%` {#sec-piping}
+
+::: {.panel-tabset}
+
+### Introduction
+
+Let `f()` be a function and `x` is an R object that `f()` accepts. Then, 
+
+`x %>% f()` is the same as `f(x)`
+
+Try the following codes and confirm they return the same results:
+
+```{webr-r}
+#--- not piped ---#
+mean(seq(1, 99, by = 2))
+
+#--- piped ---#
+seq(1, 99, by = 2) %>% mean()
+```
+
+<br>
+
+:::{.callout-note}
+The piping operator `%>%` is actually from the `magrittr` package. But, when you load the `dplyr` package, it is automatically loaded as well.
+:::
+
+### More generally
+
+Suppose you have more than one arguments to the function like this:
+
+```{r eval = F}
+f(x1, x2, option 1, option 2)
+```
+
+<br>
+
+Then,
+
+```{r eval = F}
+z %>% f(x2, option 1, option 2)
+```
+
+<br>
+
+is equivalent to
+
+```{r eval = F}
+f(z, x2, option 1, option 2) 
+```
+
+<br>
+
+::: {.columns}
+::: {.column width="70%"}
+:::{.callout-important}
+That is, in general, an R object that precedes the piping operator (`%>%`) becomes the <span style="color:red"> first </span> argument of the function that comes after the piping operator.
+:::
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
+
+### Refer to the preceding object
+
+What if the object before the piping operator is not the first argument of the subsequent function? 
+
+```{webr-r}
+a_string <- "I do not like space"
+
+gsub(" ", "", a_string)
+```
+
+<br>
+
+This does not work:
+
+```{webr-r}
+a_string %>%  gsub(" ", "") 
+```
+
+<br>
+
+because the above is equivalent to 
+
+```{webr-r}
+a_string <- gsub(a_string, " ", "") 
+```
+
+<br>
+
+You can refer to the preceding object by `.` like this:
+
+```{webr-r}
+a_string %>% gsub(" ", "", .)  
+```
+
+### Chaining
+
+You can keep piping like this:
+
+```{webr-r}
+flights_mini %>% 
+  dplyr::select(year, month, dep_time) %>% 
+  dplyr::relocate(dep_time) %>% 
+  dplyr::filter(month <= 3)
+```
+
+<br>
+
+:::{.callout-important}
+The object created by all the codes preceding the piping operator is passed down to the function after the piping operator.
+:::
+
+For example, `relocate(dep_time)` receives as its first argument the outcome of the evaluation of the highlighted parts of the code below.
+
+### Why piping with `%>%`
+
+::: {.panel-tabset}
+
+#### Setup
+
+Consider the following sequence of actions:
+
+```{webr-r}
+a1 <- dplyr::filter(flights_mini, month <= 3)
+
+a2 <- dplyr::select(a1, year, month, dep_time)
+
+a3 <- dplyr::relocate(a2, dep_time)
+```
+
+<br>
+
++ Notice that you generated two intermediate datasets (`a1` and `a2`) to obtain the dataset you wanted (`a3`). 
+
++ These intermediate objects are generated only for the purpose of generating the final dataset.
+
++ It is easy to imagine that you will soon have lots of unnecessary intermediate objects on R.
+
+#### Alternative 1
+
+Alternatively, you can do the following:
+
+```{webr-r}
+a3 <- dplyr::relocate(
+  dplyr::select(
+    dplyr::filter(flights_mini, month <= 3)
+    , year, month, dep_time
+  ), 
+  dep_time
+)
+```
+
+<br>
+
++ This does not create any intermediate objects unlike the first example. 
+
++ However, it can be difficult to understand the code because the order of execution is the reverse of the order in which the functions are written when you read the code from left to right.
+
+#### Alternative 2 (with piping)
+
+Taking advantage of the piping operator, 
+
+```{webr-r}
+a3 <- 
+  flights_mini %>% 
+  dplyr::filter(month <= 3) %>% 
+  dplyr::select(year, month, dep_time) %>% 
+  dplyr::relocate(dep_time)
+```
+
+<br> 
+
++ This is much easier to read as the order of execution is the same as the order in which the functions are written.
+
+:::
+<!--end of panel-->
+
+:::
+<!--end of panel-->
+
+## Data wrangling with the `dplyr` package {#sec-dplyr-wrangle}
+
+::: {.panel-tabset}
+
+### What is it?
+
+The `dplyr` packages provides useful functions to transform data. 
+
++ `filter()`: select rows that satisfy user-specified conditions
++ `select()`: keep (remove) only the variables the user specified
++ `mutate()`: create (over-write) a variable based on user-specified formula
++ `rename()`: rename variables
++ `arrange()`: sort by variables specified by the user
+
+:::{.callout-note}
+There are other useful functions. But, we limit our attention to only the above as they are sufficient to keep up with the main lectures.
+:::
+
+### `filter()`
+
+::: {.panel-tabset}
+
+#### Introduction
+
+`dplyr::filter()` subsets data row-wise using logical conditions based on variables.
+
+<br>
+
+**Syntax** 
+
+```{r eval = F}
+#--- syntax ---# 
+dplyr::filter(dataset, condition 1, ..., condition K)
+```
+
+#### Examples
+
+Observations where `month` is 4:
+
+```{webr-r}
+dplyr::filter(flights_mini, month == 4) 
+```
+
+<br>
+
+Observations where `month` is NOT 4:
+
+```{webr-r}
+dplyr::filter(flights_mini, month != 4) 
+```
+
+<br>
+
+Observations where `month` is less than 4:
+
+```{webr-r}
+dplyr::filter(flights_mini, month < 4) 
+```
+
+#### multiple conditions
+
+::: {.panel-tabset}
+
+##### and (`&`)
+
+```{webr-r}
+dplyr::filter(flights_mini, month >= 9 & month <= 11) 
+
+#--- alternatively ---#
+# dplyr::filter(flights_mini, month >= 9, month <= 11)
+```
+
+
+##### or (`|`)
+
+```{webr-r}
+dplyr::filter(flights_mini, month >= 11 | month <= 1) 
+```
+
+##### in any of (`%in%`)
+
+This is very useful when you have many values to check.  
+
+```{webr-r}
+dplyr::filter(flights_mini, month %in% c(1, 2, 3)) 
+
+#--- equivalently ---#
+# dplyr::filter(flights_mini, month == 1 | month == 2 | month == 2) 
+```
+
+:::
+<!--end of panel-->
+
+#### Exercises
+
+::: {.panel-tabset}
+
+##### Exercise 1
+
+Find the observations in June and July.
+
+```{webr-r}
+
+```
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+dplyr::filter(flights_mini, month %in% c(6, 7))
+```
+
+##### Exercise 2
+
+Find the observations in January, April, July, September, and December.
+
+```{webr-r}
+
+```
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+dplyr::filter(flights_mini, month %in% c(1, 4, 6, 9, 12))
+```
+
+##### Exercise 3
+
+Find the observations by carrier "US"
+
+```{webr-r}
+
+```
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+dplyr::filter(flights_mini, carrier == "US")
+```
+
+:::
+<!--end of panel-->
+
+:::
+<!--end of panel-->
+
+### `select()`
+
+::: {.panel-tabset}
+
+#### Introduction
+
+You can select a subset of variables using `dplyr::select()`. 
+
+<br>
+
+**Syntax**
+
+```{r eval = F}
+dplyr::select(dataset, variable 1, variable 2, ...)
+```
+
+<br>
+
+---
+
+<br>
+
+If you want to drop some variables, but want to keep all the other variables, you can take advantage of  `−` operator:
+
+<br>
+
+**Syntax**
+
+```{r eval = F}
+dplyr::select(dataset, - variable 1, - variable 2, ...)
+```
+
+#### Examples
+
+Select `arr_delay`:
+
+```{webr-r}
+dplyr::select(flights_mini, arr_delay)
+```
+
+<br>
+
+Select `month`, `arr_delay`, and `dep_delay`:
+
+```{webr-r}
+dplyr::select(flights_mini, month, arr_delay, dep_delay)
+```
+
+<br>
+
+Deselect (remove) `year` and `month`:
+
+```{webr-r}
+dplyr::select(flights_mini, - year, - month)
+```
+
+#### Exercises
+
+::: {.panel-tabset}
+
+##### Exercise 1
+
+Select all the columns except `arr_delay`
+
+```{webr-r}
+
+```
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+dplyr::select(flights_mini, - arr_delay)
+```
+
+##### Exercise 2
+
+Select `arr_delay` and `month`
+
+```{webr-r}
+
+```
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+dplyr::select(flights_mini, month, arr_delay)
+```
+
+:::
+<!--end of panel-->
+
+:::
+<!--end of panel-->
+
+### `mutate()`
+
+::: {.panel-tabset}
+
+#### Introduction
+
+You can use `mutate()` to create a new variable (or overwrite the existing one) in the dataset:
+
+<br>
+
+**Syntax** 
+
+```{r eval = F}
+dplyr::mutate(data, new variable name = expression)
+```
+
+#### Example
+
+```{webr-r}
+flights_mini %>%
+  dplyr::mutate(gain = arr_delay - dep_delay) %>%
+  dplyr::filter(month <= 2) %>%
+  dplyr::relocate(gain)
+```
+
+#### Multiple variables
+
+You can define multiple variables within a single `mutate()` function.
+
+You can create a new variable based on the variables that have been just created within the same `mutate()` function.
+
+```{webr-r}
+flights_mini %>%
+  dplyr::mutate(
+    gain = arr_delay-dep_delay,
+    loss = dep_delay- arr_delay,
+    gain_per_hour = gain / (air_time / 60)
+  ) %>% 
+  dplyr::filter(month <= 2) %>% 
+  dplyr::relocate(gain, gain_per_hour)
+```
+
+#### Function
+
+You can apply functions to variables when creating new variables:
+
+```{webr-r}
+flights_mini %>%
+  dplyr::mutate(avg_arr_delay = mean(arr_delay, na.rm = TRUE)) %>%
+  dplyr::filter(month <= 1) %>%
+  dplyr::relocate(avg_arr_delay)
+```
+
+<br>
+
+:::{.callout-note}
+The function you apply has to accept a vector (a variable column).
+:::
+
+#### Selective mutation
+
+Sometimes, you want to to alter the values of a variable for specific rows that satisfy certain conditions.
+
+::: {.panel-tabset}
+
+##### Example
+
+
+Suppose you found out that `dep_time` for all the flights from `JFK` was misreported so that `dep_time` is 10 minutes earlier than the true departure times. 
+
+So, we would like to add 10 minutes to all the flights by `JFK`.
+
+You can use `ifelse()` like this:
+
+```{webr-r}
+flights_mini %>% 
+  dplyr::mutate(
+    dep_time_correct = ifelse(origin == "JFK", dep_time + 10, dep_time)
+  ) %>% 
+  dplyr::relocate(origin, dep_time, dep_time_correct) %>% 
+  dplyr::arrange(origin) 
+```
+
+##### dichotomous
+
+Suppose you want to label flights with `arr_delay > 0` to be `time-loss` and `time-gain` otherwise:
+
+You can use `ifelse()` for defining a dichotomous variable like this:
+
+```{webr-r}
+flights_mini %>% 
+  dplyr::mutate(
+    loss_or_gain = ifelse(arr_delay > 0, "time-loss", "time-gain") #<<
+  ) %>% 
+  dplyr::relocate(arr_delay, loss_or_gain)
+```
+
+##### more than two cases
+
+The `case_when()` function is useful if you have more than two cases.
+
+**Syntax**:
+
+```{r eval = F}
+case_when(
+  condition 1 ~ value to assign,
+  condition 2 ~ value to assign,
+  condition 3 ~ value to assign,
+  ...
+)
+```
+
+---
+
+**Example**:
+
+```{webr-r}
+flights_mini %>% 
+  dplyr::mutate(origin = case_when(
+    origin == "JFK" ~ "John F. Kennedy",
+    origin == "EWR" ~ "Newark Liberty International", 
+    origin == "LGA" ~ "LaGuardia" 
+    )
+  ) %>% 
+  dplyr::relocate(origin)
+```
+
+:::
+<!--end of panel-->
+
+#### Exercises
+
+::: {.panel-tabset}
+
+##### Exercise 1
+
+Find the mean value of `arr_delay` in April and May (combined) and define it as a new variable named `avg_arr_delay`
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+
+```
+
+##### Exercise 2
+
+Find the sum of `dep_delay` in January, February, and December (combined) and define it as a new variable named `sum_arr_delay`, and then move the variable to the first column of the dataset.
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+
+```
+
+:::
+
+:::
+<!--end of panel-->
+
+### `rename()`
+
+You can rename variables using `dplyr::rename()`.
+
+<br>
+
+**Syntax**
+
+```{r eval = F}
+rename(data, new variable name = old variable name, ...)
+```
+
+<br>
+
+**Example**
+
+::: {.columns}
+
+::: {.column width="50%"}
+Renamed:
+
+```{webr-r}
+#| autorun: true
+#| 
+dplyr::rename(
+  flights_mini, 
+  departure_delay = dep_delay,
+  departure_time = dep_time
+) %>% head()
+```
+:::
+<!--end of the 1st column-->
+::: {.column width="50%"}
+Original:
+
+```{webr-r}
+#| autorun: true
+flights_mini
+
+
+
+
+```
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
+### `arrange()`
+
+You can use `arrange()` to reorder rows based on the value of variables.
+
+<br>
+
+**Syntax**
+
+```{r eval = F}
+#--- Syntax (NOT RUN) ---#
+arrange(flights_mini, variable name)
+```
+
+<br>
+
+::: {.panel-tabset}
+
+#### Example (ascending)
+
+The default is the ascending order. 
+
+```{webr-r}
+dplyr::arrange(flights_mini, dep_delay) %>% head()
+```
+
+#### Example (descending)
+
+To arrange in the descending order, you use `desc()` function:
+
+```{webr-r}
+dplyr::arrange(flights_mini, desc(dep_delay)) %>% head()
+```
+
+:::
+<!--end of panel-->
+
+
+### Important
+
+Notice that the original data `flights_mini` was not affected by the `dplyr::filter()` operations in the previous slides.
+
+This is consistent across all the verbs in `dplyr`. Whatever actions you take, the original data is unaltered.
+
+To use the transformed data for later use, you need to assign it to a new object (or overwrite if that is okay):
+
+```{webr-r}
+flights_mini_filtered <- dplyr::filter(flights_mini, month == 4) 
+
+flights_mini_filtered
+```
+
+:::
+<!--end of panel-->
+
+
+## Grouped Operations {#sec-group-operation}
+
+::: {.panel-tabset}
+
+### Motivation
+
+Group-wise operations, such as the mean of arrival delay by carrier are very useful to gain an insight into differences across groups. 
+
+The `group_by()` function in conjunction with `summarize()` function does exactly that.
+
+<br>
+
+**Syntax**
+
+```{r eval = F}
+#--- group by variables ---#
+group_by(dataset, variable to group by, variable to group by, ...)  
+
+#--- summarize ---#
+summarize(grouped dataset, expression)  
+```
+
+### How
+
+::: {.panel-tabset}
+
+
+#### Step 1: grouping
+ 
+You first use `group_by()` to set the group for a dataset:
+
+```{webr-r}
+flights_carrier <- dplyr::group_by(flights_slim, carrier)  
+
+flights_carrier
+```
+
+There are no apparent differences in `flights_carrier` from `flights_slim`. The only thing you did by `group_by()` was to tell R that whatever we will do to the new dataset is going to be done by group, which is reflected in "Groups" of the printed data.
+
+#### Step 2: summarizing
+ 
+Once the group is set, we are ready to do some group-wise (by carrier) operations. Let’s now find the means of `arr_delay` by carrier so we know which carriers perform better than others. We can do so using `summarize()`. 
+
+```{webr-r}
+dplyr::summarize(flights_carrier, mean_arr_delay = mean(arr_delay, na.rm = TRUE)) 
+```
+
+
+#### Piped
+
+Using the piping operator,
+
+```{webr-r}
+flights_slim %>% 
+  dplyr::group_by(carrier) %>% 
+  dplyr::summarize(mean_arr_delay = mean(arr_delay, na.rm = TRUE)) 
+```
+
+:::
+<!--end of panel-->
+
+### Other summarizing functions
+
+You can apply any functions that work on a vector (a variable) 
+
+```{webr-r}
+flights_slim %>%  
+  dplyr::group_by(carrier) %>% 
+  dplyr::summarize(
+    mean_arr_delay = mean(arr_delay, na.rm = TRUE),
+    min_arr_delay = min(arr_delay, na.rm = TRUE),
+    quantile_arr_delay = quantile(arr_delay, prob = 0.9, na.rm = TRUE)
+  ) 
+```
+
+### New variable
+
+You can assign the results of the grouped operations to new variables using `mutate()`
+
+```{webr-r}
+flights_new <- 
+  flights_slim %>% 
+  dplyr::group_by(carrier, month) %>% 
+  dplyr::mutate(
+    mean_arr_delay = mean(arr_delay, na.rm = TRUE)
+  ) %>% 
+  dplyr::relocate(mean_arr_delay)
+
+flights_new
+```
+
+
+### Exercises
+
+::: {.panel-tabset}
+
+
+#### Exercise 1
+
+Find the carrier that had the longest average delay during May through August. Below is the output you will see if you get it right.
+
+```{webr-r}
+
+```
+
+#### Instruction
+
+For the rest of the exercises, we are going to use the weather data for the three airports in NY. First load the weather data and get familiar with the data set.
+
+```{webr-r}
+#| autorun: true
+#--- load the weather data ---#
+data(weather)
+
+#--- omit observations with NA in any of the variables ---#
+weather <- na.omit(weather)
+
+#--- take a look ---#
+weather
+```
+
+#### Exercise 2
+
+Find the daily mean temperature (temp), humidity (humid), wind speed (wind_speed), and precipitation (precip) by the origin of departure. Do not forget to name each daily weather variable. Below is the output you will see if you get it right.
+
+```{webr-r}
+#| context: output
+(
+daily_weather <- 
+  weather %>%
+  dplyr::group_by(origin, month, day) %>%
+  dplyr::summarize(
+    temp = mean(temp),
+    humid = mean(humid),
+    wind_speed = mean(wind_speed),
+    precip = mean(precip)
+  )
+)
+```
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+daily_weather <- 
+  weather %>%
+  dplyr::group_by(origin, month, day) %>%
+  dplyr::summarize(
+    temp = mean(temp),
+    humid = mean(humid),
+    wind_speed = mean(wind_speed),
+    precip = mean(precip)
+  )
+```
+
+#### Exercise 3
+
+Subset the daily weather data you obtained in exercise 2 so that it contains weather information only in Nov, Dec, Jan, and Feb for flights that depart from “EWR”. Below is the output you will see if you get it right.
+
+```{webr-r}
+#| context: output
+(
+daily_weather %>%
+  dplyr::filter(month %in% c(11, 12, 1, 2)) %>%
+  dplyr::filter(origin == "EWR")
+)
+```
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+(
+daily_weather %>%
+  dplyr::filter(month %in% c(11, 12, 1, 2)) %>%
+  dplyr::filter(origin == "EWR")
+)
+```
+
+:::
+<!--end of panel-->
+
+:::
+<!--end of panel-->

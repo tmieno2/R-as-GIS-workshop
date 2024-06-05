@@ -37,10 +37,24 @@ The objectives of this chapter is to learn spatial interactive operations that i
 
 <br>
 
+::: {.columns}
+
+::: {.column width="50%"}
 ### Table of contents
 
 1. [Topological Relations](#top)
 2. [Spatial Subsetting](#subset)
+:::
+<!--end of the 1st column-->
+::: {.column width="50%"}
+### Pre-requisite (Links)
+
++ [`ggplot2` primer](https://tmieno2.github.io/R-as-GIS-workshop/LA_1_ggplot2_primer.html)
++ [`dplyr` primer](https://tmieno2.github.io/R-as-GIS-workshop/LA_2_dplyr_primer.html)
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
 
 ```{webr-r}
 #| context: setup
@@ -59,6 +73,7 @@ data(points)
 data(polygons)
 data(lines)
 ```
+
 
 ## Tips to make the most of the lecture notes
 

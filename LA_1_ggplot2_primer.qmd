@@ -1,0 +1,637 @@
+---
+title: "A primer of the ggplot2 package"
+format: 
+  revealjs: 
+    theme: [default, custom.scss]
+    fontsize: 1em
+    callout-icon: false
+    scrollable: true
+    echo: true
+    fig-dpi: 400
+    resources: 
+      - shinylive-sw.js
+webr:
+  packages: ['ggplot2', 'dplyr', 'sf', 'sp'] # Install R packages on document open
+# autoload-packages: false       # Disable automatic loading of packages
+# show-startup-message: false    # Disable displaying status of webR initialization
+  cell-options:
+    editor-font-scale: 0.8
+filters:
+  - webr
+  - shinylive
+---
+
+
+## Before you start
+
+<br>
+
+### Learning objectives
+
+Learn `ggplot2` basics to create simple figures.
+
+<br>
+
+::: {.columns}
+
+::: {.column width="50%"}
+### Table of contents
+
+1. [Understanding the data structure of `sf`](#sec-data-structure)
+
+:::
+<!--end of the 1st column-->
+::: {.column width="50%"}
+### Related contents (Links)
+
++ [Create maps from vector data using `ggplot2`](https://tmieno2.github.io/R-as-GIS-workshop/L03_create_map.html)
+:::
+
+<!--end of the 2nd column-->
+
+:::
+<!--end of the columns-->
+
+```{r}
+#| eval: false
+#| echo: false
+library("sf")
+library("data.table")
+library("ggplot2")
+library("dplyr")
+```
+
+
+## Tips to make the most of the lecture notes
+
+<br>
+
+::: {.columns}
+
+::: {.column width="70%"}
+### Interactive navigation tools
+
++ Click on the three horizontally stacked lines at the bottom left corner of the slide, then you will see table of contents, and you can jump to the section you want
+
++ Hit letter "o" on your keyboard and you will have a panel view of all the slides
+
+<br>
+
+### Running and writing codes
+
++ The box area with a hint of blue as the background color is where you can write code (hereafter referred to as the "code area").
++ Hit the "Run Code" button to execute all the code inside the code area.
++ You can evaluate (run) code selectively by highlighting the parts you want to run and hitting Command + Enter for Mac (Ctrl + Enter for Windows).
++ If you want to run the codes on your computer, you can first click on the icon with two sheets of paper stacked on top of each other (top right corner of the code chunk), which copies the code in the code area. You can then paste it onto your computer.
++ You can click on the reload button (top right corner of the code chunk, left to the copy button) to revert back to the original code.
+
+
+:::
+::: {.column width="30%"}
+:::
+:::
+
+## Basics
+
+::: {.panel-tabset}
+
+### What is `ggplot2`?
+
+::: {.columns}
+
+::: {.column width="70%"}
++ This lecture does NOT provide a complete treatment of the basics of the ggplot2 package. 
+
++ Rather, it provides the minimal knowledge of the package so that readers who are not familiar with the package can still keep up with the [lecture on map creation](https://tmieno2.github.io/R-as-GIS-workshop/L03_create_map.html).
+
++ `ggplot2` is a general and extensive data visualization tool. It is very popular among R users due to its elegance in and ease of use in generating high-quality figures. 
+ 
++ It is designed following the "grammar of graphics,"" which makes it possible to visualize data in an easy and consistent manner irrespective of the type of figures generated, whether it is a simple scatter plot or a complicated map. 
+ 
++ This means that learning the basics of how `ggplot2` works directly helps in creating maps as well. This chapter goes over the basics of how `ggplot2` works in general.
+
+
+
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
+### Getting started
+
+::: {.panel-tabset}
+
+#### Data
+We use the `mpg` data to create a simple scatter plot. Here is what mpg dataset looks like:
+
+```{webr-r}
+mpg
+```
+
+#### Declare data
+
+::: {.columns}
+
+::: {.column width="70%"}
+In `ggplot2`, you first specify what data to use. The following code declares to R that we will be using `mpg` as the data for this figure.
+
+```{webr-r}
+#| autorun: true
+g_base <- ggplot(data = mpg)
+```
+
+Yes, it is a blank canvas. This makes sense because you have not told R how to use the data for visualization.
+
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
+#### Declare `geom_*()`
+
+::: {.columns}
+
+::: {.column width="70%"}
++ Now that you have specified the data for R to use, we are ready to explain how to use it for visualization.
+
++ You can achieve this using one of the `geom_*()` functions available in the `ggplot2` package. Here is a short list of some commonly used ones:
+  + `geom_point()`: scatter plot
+  + `geom_line()`" line plot
+  + `geom_histogram()`: histogram
+  + `geom_boxplot()`: box plot
+  + `geom_sf()`: map
+
+---
+
+Here, let's create a scatter plot.
+
+```{webr-r}
+g_base +
+  geom_point(aes(x = displ, y = hwy))
+```
+
+Note here that you <span style = "color: blue;"> added </span> a layer defined by `geom_point(aes(x = displ, y = hwy))` to `g_base`.
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
+#### `aes()`
+
+::: {.columns}
+
+::: {.column width="70%"}
+Let's now look inside of what is happening in `geom_point()`.
+
+In `aes()`, `x = displ` and `y = hwy` tells R that we want `displ` on the x-axis and `hwy` on the y-axis.
+
+Note that different `geom_*()`s accept/require different options. For example, `geom_histogram` does not have `y` as the y-axis is always count.
+
+```{webr-r}
+g_base +
+  geom_histogram(aes(x = hwy))
+```
+
+:::
+
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
+#### Without `aes()`?
+
+::: {.columns}
+
+::: {.column width="70%"}
+What happens if we remove `aes()`. It does not seem to be doing anything. Why can't we just do this?
+
+```{webr-r}
+g_base +
+  geom_point(x = displ, y = hwy)
+```
+
+Yes, `aes()` was used to tell R to look for variables inside the data you have specified for R to use earlier in `ggplot(data = mpg)`. Without `aes()`, R looks for an object named `displ` (and `hwy`), which is only defined inside of `mpg`, thus resulting in the error.
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
+:::
+<!--end of panel-->
+
+### Change appearance
+
++ Inside a `geom_*()`, you can specify a number of options to make the figure look different. 
++ Different `geom_*()`s accept different options. 
++ Same option names mean different things depending on `geom_*()` type
+
+::: {.panel-tabset}
+
+#### scatter plot
+
+```{webr-r}
+g_base +
+  geom_point(
+    aes(x = displ, y = hwy),
+    color = "red",
+    shape = 3,
+    size = 2
+  )
+```
+
++ `color`: color of the points
++ `shape`: shape of the points
++ `size`: size of the points
+
+#### histogram
+
+```{webr-r}
+g_base +
+  geom_histogram(
+    aes(x = hwy),
+    color = "red",
+    fill = "blue",
+    shape = 3,
+    linewidth = 2
+  )
+```
+
++ `color`: color of the borders of the bars
++ `fill`: color of the inside of the bars
++ `shape`: no effect
++ `linewidth`: width of the borders of the bars 
+
+#### line plot
+
+```{webr-r}
+g_base +
+  geom_line(
+    aes(x = hwy, y = displ),
+    color = "orange",
+    fill = "blue",
+    shape = 3,
+    linewidth = 2
+  )
+```
+
++ `color`: color of the line
++ `fill`: no effect
++ `shape`: no effect
++ `linewidth`: width of the line
+
+:::
+<!--end of panel-->
+
+### Multiple layers 
+
+#### Multiple layers
+
+You can easily have multiple layers in a single figure just simply adding `geom_()` on top of the previous one.
+
+```{webr-r}
+#| autorun: true
+(
+  g_point <-
+    g_base +
+    geom_point(
+      aes(x = displ, y = hwy),
+      color = "red",
+      shape = 3,
+      size = 2
+    )
+)
+```
+
+Let's now add a line plot layer to this.
+
+```{webr-r}
+g_point +
+  geom_line(
+    aes(x = displ, y = hwy),
+    color = "darkgreen",
+    linewidth = 0.5
+  )
+```
+
+### Multiple datasets
+
+::: {.panel-tabset}
+
+#### global 
+
+::: {.columns}
+
+::: {.column width="70%"}
+The way we declared the dataset to use with `ggplot(data = mpg)` tells R that `mpg` will be used for every single subsequent `geom_*()`s unless otherwise specified.
+
+In the code below, `mpg` is used for both `geom_point()` and `geom_line()`.
+
+```{webr-r}
+ggplot(data = mpg) +
+  geom_point(
+    aes(x = displ, y = hwy),
+    color = "red",
+    shape = 3,
+    size = 2
+  ) +
+  geom_line(
+    aes(x = displ, y = hwy),
+    color = "darkgreen",
+    linewidth = 0.5
+  )
+```
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
+#### local
+
+::: {.columns}
+
+::: {.column width="70%"}
+Alternatively, you could specify the dataset <span style = "color: blue;"> locally </span> inside a `geom_*()` like below, resulting in the same figure as above.
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
+```{webr-r}
+ggplot() +
+  geom_point(
+    data = mpg,
+    aes(x = displ, y = hwy),
+    color = "red",
+    shape = 3,
+    size = 2
+   ) +
+  geom_line(
+    data = mpg,
+    aes(x = displ, y = hwy),
+    color = "darkgreen",
+    linewidth = 0.5
+  )
+```
+
+<br>
+
+::: {.columns}
+
+::: {.column width="70%"}
+Now, remove `data = mpg` from the `geom_line()` above and see what happens. It will result in an error because dataset is not declared either in `ggplot()` or `geom_line()`. `geom_line()` does not know what dataset to use.
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
+#### Multiple datasets
+
+With this behavior understood, it is not hard to use multiple datasets in a single figure.
+
+You might have noticed that the line plot looks a bit weird. That is because there are multiple distinct values of `hwy` observed at the same value of `dspl`. Let's get the average value of `hwy` conditional on `displ`.
+
+```{webr-r}
+#| autorun: true
+avg_hwy <- 
+  mpg %>%
+  dplyr::group_by(displ) %>%
+  dplyr::summarize(avg_hwy = mean(hwy))
+```
+
+<br>
+
+Let's plot now,
+
+```{webr-r}
+ggplot() +
+  geom_point(
+    data = mpg,
+    aes(x = displ, y = hwy),  
+    color = "red",
+    shape = 3,
+    size = 2
+  ) +
+  geom_line(
+    data = avg_hwy,
+    aes(x = displ, y = avg_hwy),
+    color = "darkgreen",
+    linewidth = 0.5
+  )
+```
+
+
+:::
+<!--end of panel-->
+
+
+:::
+<!--end of panel-->
+
+## Variable-dependent aesthetics and faceting
+
+::: {.panel-tabset}
+
+### Variable-dependent aesthetics
+
++ In the previous examples, all the points and lines had the same color. But, you can use different colors based on the value of a variable.
+
++ To do so, you need to have the option <span style = "color: blue;"> inside </span> `aes()`.
+
+::: {.panel-tabset}
+
+#### color
+
+This code change the color of the points based on the value of `model` variable.
+
+```{webr-r}
+ggplot(data = mpg) +
+  geom_point(aes(x = displ, y = hwy, color = model))
+```
+
+
+
+#### shape
+
+This code change the shape of the points based on the value of `model` variable.
+
+```{webr-r}
+ggplot(data = mpg) +
+  geom_point(
+    aes(x = displ, y = hwy, shape = model),
+    color = "blue" 
+  )
+```
+
+#### line type and color
+
+This code change the type and color of the lines based on the value of `cyl` variable.
+
+```{webr-r}
+ggplot() +
+  geom_line(
+    data = mpg,
+    aes(x = displ, y = hwy, linetype = factor(cyl), color = factor(cyl))
+  )
+```
+
+:::
+<!--end of panel-->
+
+### Faceting
+
+
+
+::: {.panel-tabset}
+
+#### Motivation
+
+::: {.columns}
+
+::: {.column width="70%"}
++ Instead of placing all the information within a single plot, it might be better to have separate panels.
++ Faceted figures are made by effectively splitting the data into groups by a categorical or discrete variable and then apply exactly the same aesthetics to each of the groups.
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
+#### How (`_wrap`)
+
++ You can use either `facet_wrap()` or `facet_grid()` to achieve this.
++ Variable by which you facet needs to be discrete.
+
+**Syntax**:
+
+```{r, eval = FALSE}
+ggplot_object +
+  facet_wrap(var_1 ~ var_2)
+```
+
++ var_1: <span style = "color: blue;"> categorical (discrete) </span> variable by which figures are faceted
++ var_2: <span style = "color: blue;"> categorical (discrete) </span> variable by which figures are faceted
+
+You can facet by up to two variables. If you want to facet by only one variable, then put `.` in place.
+
+#### How (`_grid`)
+
+**Syntax**:
+
+```{r, eval = FALSE}
+ggplot_object +
+  facet_grid(var_1 ~ var_2)
+```
+
++ var_1: <span style = "color: blue;"> categorical (discrete) </span> variable by which figures are faceted (row)
++ var_2: <span style = "color: blue;"> categorical (discrete) </span> variable by which figures are faceted (column)
+
+You can facet by up to two variables. If you want to facet by only one variable, then put `.` in place.
+
+Yes, it is basically the same, but the order of `var_1` and `var_2` matters more than `facet_wrap()` as you will see later.
+
+#### single (`_wrap()`)
+
++ Notice that "var_1" part of the syntax is `.`, and "var_2" part is `factor(cyl)`
++ By default, the value of faceting variable (here, `cyl`) are printed within a strip.
+
+```{webr-r}
+ggplot() +
+  geom_point(
+    data = mpg,
+    aes(x = displ, y = hwy)
+  ) +
+  facet_wrap(. ~ factor(cyl))
+```
+
+:::{.callout-note}
+Switch `.` and `factor(cyl)` and see what happens.
+:::
+
+
+#### two (`_wrap()`)
+
++ Faceted by `trans` and `factor(cyl)`.
++ You can decide how many columns or rows the figure should have with `ncol` and `nrow`, respectively.
+
+```{webr-r}
+ggplot() +
+  geom_point(
+    data = mpg,
+    aes(x = displ, y = hwy)
+  ) +
+  facet_wrap(trans ~ factor(cyl), ncol = 5)
+```
+
+#### single (`_grid()`)
+
+```{webr-r}
+ggplot() +
+  geom_point(
+    data = mpg,
+    aes(x = displ, y = hwy)
+  ) +
+  facet_grid(. ~ factor(cyl))
+```
+
+:::{.callout-note}
+Switch `.` and `factor(cyl)` and see what happens.
+:::
+
+#### two (`_grid()`)
+
++ Faceted by `trans` and `factor(cyl)`.
++ You <span style = "color: blue;"> cannot </span> decide how many columns or rows the figure should have unlike `facet_wrap()` as the number of levels for the faceting variables dictates them.
+
+
+```{webr-r}
+ggplot() +
+  geom_point(
+    data = mpg,
+    aes(x = displ, y = hwy)
+  ) +
+  facet_grid(trans ~ factor(cyl))
+```
+
+
+:::
+<!--end of panel-->
+
+
+
+:::
+<!--end of panel-->

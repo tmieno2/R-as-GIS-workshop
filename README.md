@@ -16,4 +16,10 @@ This repository hosts all the codes used in creating lecture slides for the R-as
 
 + Lecture 5: Spatial interaction of vector and raster data ([slide](https://tmieno2.github.io/R-as-GIS-workshop/L05_vector_raster_interaction.html))
 
-+ Lecture 6: Obtain spatial data using R([slide]())
++ Lecture 6: Obtain spatial data using R ([slide]())
+
+## Supplementary Slides
+
++ SS 1: `ggplot2` primer ([slide](https://tmieno2.github.io/R-as-GIS-workshop/LA_1_ggplot2_primer.html))
+
++ SS 2: `dplyr` primer ([slide](https://tmieno2.github.io/R-as-GIS-workshop/LA_2_dplyr_primer.html))

@@ -39,6 +39,9 @@ Learn how to download publicly available agriculture-related data from within R.
 
 <br>
 
+::: {.columns}
+
+::: {.column width="50%"}
 ### Table of contents
 
 1. [USDA-NASS](#sec-usda-nass)
@@ -46,6 +49,18 @@ Learn how to download publicly available agriculture-related data from within R.
 3. [Daymet](#sec-daymet)
 4. [Crop Data Layer (CDL)](#sec-cdl)
 5. [SSURGO](#sec-ssurgo)
+:::
+<!--end of the 1st column-->
+::: {.column width="50%"}
+### Pre-requisite (Links)
+
++ [`ggplot2` primer](https://tmieno2.github.io/R-as-GIS-workshop/LA_1_ggplot2_primer.html)
++ [`dplyr` primer](https://tmieno2.github.io/R-as-GIS-workshop/LA_2_dplyr_primer.html)
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns--> 
+
 
 ```{webr-r}
 #| context: setup

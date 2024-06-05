@@ -18,7 +18,7 @@ webr:
     editor-font-scale: 0.8
 filters:
   - webr
-  # - shinylive
+  - shinylive
 ---
 
 
@@ -50,13 +50,21 @@ The objectives of this chapter is to learn how to use R as GIS, specifically how
 :::
 <!--end of the 1st column-->
 ::: {.column width="50%"}
+
+### Pre-requisite (Links)
+
++ [`ggplot2` primer](https://tmieno2.github.io/R-as-GIS-workshop/LA_1_ggplot2_primer.html)
++ [`dplyr` primer](https://tmieno2.github.io/R-as-GIS-workshop/LA_2_dplyr_primer.html)
+
+<br>
+
 ### Related contents (Links)
 
 + [Create maps from vector data using `ggplot2`](https://tmieno2.github.io/R-as-GIS-workshop/L03_create_map.html)
 + Spatial interaction of vector data
   + [Topological relations and subset](https://tmieno2.github.io/R-as-GIS-workshop/L04_1_vector_interactions.html)
   + [Spatial join](https://tmieno2.github.io/R-as-GIS-workshop/L04_2_spatial_join.html)
-+ Vector and raster data interactions
++ [Vector and raster data interactions](https://tmieno2.github.io/R-as-GIS-workshop/L05_vector_raster_interaction.html)
   + cropping
   + masking
   + value extraction
@@ -67,6 +75,7 @@ The objectives of this chapter is to learn how to use R as GIS, specifically how
 
 ```{r}
 #| eval: false 
+#| echo: false 
 library("sf") 
 library("data.table") 
 library("dplyr") 
@@ -114,6 +123,8 @@ data(wells_ne)
 ::: {.column width="30%"}
 :::
 :::
+
+
 ## Getting started
 
 ::: {.panel-tabset}
@@ -1692,11 +1703,5 @@ st_distance(buffers_centroids)
 ```
 
 
-
-
-
-
-
-
-
 :::
+

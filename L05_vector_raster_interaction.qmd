@@ -38,11 +38,26 @@ Learn the spatial interactions of a vector and raster dataset. Specifically,
 
 <br>
 
+::: {.columns}
+
+::: {.column width="50%"}
 ### Table of contents
 
 1. [Cropping raster datasets](#crop)
 2. [Extract values from raster datasets](#extract)
 3. [Basic speed comparison](#speed)
+:::
+<!--end of the 1st column-->
+::: {.column width="50%"}
+### Pre-requisite (Links)
+
++ [`ggplot2` primer](https://tmieno2.github.io/R-as-GIS-workshop/LA_1_ggplot2_primer.html)
++ [`dplyr` primer](https://tmieno2.github.io/R-as-GIS-workshop/LA_2_dplyr_primer.html)
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
 
 ```{webr-r}
 #| context: setup

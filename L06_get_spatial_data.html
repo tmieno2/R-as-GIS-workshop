@@ -590,7 +590,7 @@
   };
 
   // Store cell data
-  globalThis.qwebrCellDetails = [{"id":1,"options":{"output":"true","editor-max-height":"","dpi":72,"label":"unnamed-chunk-1","out-height":"","editor-quick-suggestions":"false","fig-width":7,"autorun":"true","classes":"","fig-height":5,"out-width":"700px","context":"setup","comment":"","warning":"true","fig-cap":"","results":"markup","message":"true","editor-font-scale":"0.8","read-only":"false"},"code":"#|\n#--- install and library the data package ---#\ninstall.packages(\"r.spatial.workshop.datasets\", repos = c(\"https://tmieno2.r-universe.dev\", \"https://cran.r-project.org\"))\n\nlibrary(r.spatial.workshop.datasets)\ndata(wells_ne_sf)\ndata(ne_counties)\ndata(treatment_blocks)\ndata(corn_yield)\ndata(NDRE)\nNDRE <- terra::rast(NDRE)\ndata(prism_us)\nprism_us <- terra::rast(prism_us)\nnass_api_key <- \"61838C71-72DF-3A21-9C08-8271C19DB197\""},{"id":2,"options":{"output":"true","editor-max-height":"","dpi":72,"label":"unnamed-chunk-2","out-height":"","editor-quick-suggestions":"false","fig-width":7,"autorun":"false","classes":"","fig-height":5,"out-width":"700px","context":"interactive","comment":"","warning":"true","fig-cap":"","results":"markup","message":"true","editor-font-scale":"0.8","read-only":"false"},"code":"all_items <- tidyUSDA::allDataItem\n\n#--- just see a few ---#\nhead(all_items)"},{"id":3,"options":{"output":"true","editor-max-height":"","dpi":72,"label":"unnamed-chunk-3","out-height":"","editor-quick-suggestions":"false","fig-width":7,"autorun":"false","classes":"","fig-height":5,"out-width":"700px","context":"interactive","comment":"","warning":"true","fig-cap":"","results":"markup","message":"true","editor-font-scale":"0.8","read-only":"false"},"code":"all_items %>%\n  #--- find data items that include CORN ---#\n  grep(pattern = \"CORN\", ., value = TRUE) %>%\n  #--- find data items that include YIELD ---#\n  grep(pattern = \"YIELD\", ., value = TRUE) %>%\n  #--- find data items that include IRRIGATED ---#\n  grep(pattern = \"IRRIGATED\", ., value = TRUE)"}];
+  globalThis.qwebrCellDetails = [{"id":1,"options":{"fig-width":7,"classes":"","editor-font-scale":"0.8","warning":"true","editor-max-height":"","out-height":"","fig-height":5,"label":"unnamed-chunk-1","fig-cap":"","autorun":"true","message":"true","results":"markup","comment":"","out-width":"700px","output":"true","context":"setup","read-only":"false","dpi":72,"editor-quick-suggestions":"false"},"code":"#|\n#--- install and library the data package ---#\ninstall.packages(\"r.spatial.workshop.datasets\", repos = c(\"https://tmieno2.r-universe.dev\", \"https://cran.r-project.org\"))\n\nlibrary(r.spatial.workshop.datasets)\ndata(wells_ne_sf)\ndata(ne_counties)\ndata(treatment_blocks)\ndata(corn_yield)\ndata(NDRE)\nNDRE <- terra::rast(NDRE)\ndata(prism_us)\nprism_us <- terra::rast(prism_us)\nnass_api_key <- \"61838C71-72DF-3A21-9C08-8271C19DB197\""},{"id":2,"options":{"fig-width":7,"classes":"","editor-font-scale":"0.8","warning":"true","editor-max-height":"","out-height":"","fig-height":5,"label":"unnamed-chunk-2","fig-cap":"","autorun":"false","message":"true","results":"markup","comment":"","out-width":"700px","output":"true","context":"interactive","read-only":"false","dpi":72,"editor-quick-suggestions":"false"},"code":"all_items <- tidyUSDA::allDataItem\n\n#--- just see a few ---#\nhead(all_items)"},{"id":3,"options":{"fig-width":7,"classes":"","editor-font-scale":"0.8","warning":"true","editor-max-height":"","out-height":"","fig-height":5,"label":"unnamed-chunk-3","fig-cap":"","autorun":"false","message":"true","results":"markup","comment":"","out-width":"700px","output":"true","context":"interactive","read-only":"false","dpi":72,"editor-quick-suggestions":"false"},"code":"all_items %>%\n  #--- find data items that include CORN ---#\n  grep(pattern = \"CORN\", ., value = TRUE) %>%\n  #--- find data items that include YIELD ---#\n  grep(pattern = \"YIELD\", ., value = TRUE) %>%\n  #--- find data items that include IRRIGATED ---#\n  grep(pattern = \"IRRIGATED\", ., value = TRUE)"}];
 
   </script>
   <script type="module">
@@ -1671,6 +1671,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <h3 id="learning-objectives">Learning objectives</h3>
 <p>Learn how to download publicly available agriculture-related data from within R.</p>
 <p><br></p>
+<div class="columns">
+<div class="column" style="width:50%;">
 <h3 id="table-of-contents">Table of contents</h3>
 <ol type="1">
 <li><a href="#/sec-usda-nass">USDA-NASS</a></li>
@@ -1679,6 +1681,15 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <li><a href="#/sec-cdl">Crop Data Layer (CDL)</a></li>
 <li><a href="#/sec-ssurgo">SSURGO</a></li>
 </ol>
+</div><!--end of the 1st column--><div class="column" style="width:50%;">
+<h3 id="pre-requisite-links">Pre-requisite (Links)</h3>
+<ul>
+<li><a href="https://tmieno2.github.io/R-as-GIS-workshop/LA_1_ggplot2_primer.html"><code>ggplot2</code> primer</a></li>
+<li><a href="https://tmieno2.github.io/R-as-GIS-workshop/LA_2_dplyr_primer.html"><code>dplyr</code> primer</a></li>
+</ul>
+</div><!--end of the 2nd column-->
+</div>
+<!--end of the columns-->
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
