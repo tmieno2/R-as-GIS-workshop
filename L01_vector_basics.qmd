@@ -74,8 +74,7 @@ The objectives of this chapter is to learn how to use R as GIS, specifically how
 <!--end of the columns-->
 
 ```{r}
-#| eval: false 
-#| echo: false 
+#| include: false
 library("sf") 
 library("data.table") 
 library("dplyr") 
