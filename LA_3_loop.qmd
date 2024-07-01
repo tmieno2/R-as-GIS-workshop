@@ -1,0 +1,234 @@
+---
+title: "A primer of looping in R"
+format: 
+  revealjs: 
+    theme: [default, custom.scss]
+    fontsize: 1em
+    callout-icon: false
+    scrollable: true
+    echo: true
+    fig-dpi: 400
+    resources: 
+      - shinylive-sw.js
+webr:
+  packages: ['ggplot2', 'dplyr', 'nycflights13'] # Install R packages on document open
+# autoload-packages: false       # Disable automatic loading of packages
+# show-startup-message: false    # Disable displaying status of webR initialization
+  cell-options:
+    editor-font-scale: 0.8
+filters:
+  - webr
+  - shinylive
+---
+
+
+## Before you start
+
+<br>
+
+### Learning objectives
+
+Learn how to use loop (repeated actions) in R.
+
+```{r}
+#| eval: false
+#| echo: false
+library("sf")
+library("data.table")
+library("ggplot2")
+library("dplyr")
+```
+
+
+## Tips to make the most of the lecture notes
+
+<br>
+
+::: {.columns}
+
+::: {.column width="70%"}
+### Interactive navigation tools
+
++ Click on the three horizontally stacked lines at the bottom left corner of the slide, then you will see table of contents, and you can jump to the section you want
+
++ Hit letter "o" on your keyboard and you will have a panel view of all the slides
+
+<br>
+
+### Running and writing codes
+
++ The box area with a hint of blue as the background color is where you can write code (hereafter referred to as the "code area").
++ Hit the "Run Code" button to execute all the code inside the code area.
++ You can evaluate (run) code selectively by highlighting the parts you want to run and hitting Command + Enter for Mac (Ctrl + Enter for Windows).
++ If you want to run the codes on your computer, you can first click on the icon with two sheets of paper stacked on top of each other (top right corner of the code chunk), which copies the code in the code area. You can then paste it onto your computer.
++ You can click on the reload button (top right corner of the code chunk, left to the copy button) to revert back to the original code.
+
+
+:::
+::: {.column width="30%"}
+:::
+:::
+
+## Loop
+
+::: {.panel-tabset}
+
+
+### Motivation
+
+::: {.columns}
+
+::: {.column width="70%"}
++ We sometimes need to run the same process over and over again often with slight changes in parameters. 
+ 
++ In such a case, it is very time-consuming and messy to write all of the steps one bye one. 
+
++ For example, suppose you are interested in knowing the square of 1 through 5 with a step of 1 ([1,2,3,4,5]). The following code certainly works:
+
+```{r eval = F}
+1^2
+2^2
+3^2
+4^2
+5^2
+```
+
++ However, imagine you have to do this for 1000 integers. 
+
++ Yes, you don’t want to write each one of them one by one as that would occupy 1000 lines of your code, and it would be time-consuming. 
+
++ Things will be even worse if you need to repeat much more complicated processes like Monte Carlo simulations.
++ We will learn how to write a program to do repetitive jobs effectively using loop.
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
+### What is loop?
+
++ Looping is repeatedly evaluating the same (except parameters) process over and over again. 
+
++ In the example above, 
+  * the same repeated process is the action of squaring 
+  * what you square (parameter) changes 
+
+### How
+
+**Syntax** 
+
+```{r eval = F}
+#--- NOT RUN ---#
+for (x in a_list_of_values){
+  you do what you want to do with x
+}
+```
+
+### Examples
+
+::: {.panel-tabset}
+
+#### Example 1
+
+Here is a simple example.
+
+```{webr-r}
+for (x in 1:5){
+  print(x^2)
+}  
+```
+
+#### Example 1
+
+This does the same:
+
+```{webr-r}
+for (bluh_bluh_bluh in 1:5){
+  print(bluh_bluh_bluh^2)
+}  
+```
+:::
+<!--end of panel-->
+
+### Exercise
+
+Write a for loop that cubes each element of the sequence of numbers that starts from 5 and increases up to 50 with the incremental step of 5.
+
+```{webr-r}
+num_seq <- seq(5, 50, by = 5)| 
+
+#--- loop below ---#
+
+```
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+num_seq <- seq(5, 50, by = 5)| 
+
+for (num in num_seq) {
+  num^3
+}
+```
+
+:::
+<!--end of panel-->
+
+## Looping with `lapply()`
+
+::: {.panel-tabset}
+
+### Instruction
+
+Instead of using a `for` loop, we can use the `lapply()` function from the base package to loop.
+
+**Syntax**
+
+```{r lapply-s, eval = F}
+#--- NOT RUN ---#
+lapply(A, B)
+```
+
++ `A` is the list of values 
++ `B` is the function you would like to apply to each of the values in `A` 
+
+:::{.callout-note}
++ `A` is a vector, `lapply()` works on each of the vector elements
++ `A` is a list, `lapply()` works on each of the list elements whatever they may be 
++ `A` is a `data.frame`, `lapply()` works on each of the columns (`data.frame` is a list of columns of equal length)
+:::
+
+### Illustration
+
+This does the same thing as the for loop example we looked at earlier:
+
+```{webr-r}
+(
+loop_res <- lapply(1:5, function(x){x^2})  
+)
+```
+
+<br>
+
+The key difference from a for loop is the object class of the output after the loop. 
+
+```{webr-r}
+class(loop_res)
+```
+
+As you can see, the output type of `lappy()` is always a `list` (that's why it is called `lapply`)
+
+In the recent versions of R, you can use `\(x)` in place of `function(x)` like below:
+
+```{webr-r}
+lapply(1:5, \(x){x^2})
+```
+
+:::
+<!--end of panel-->
+

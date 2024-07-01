@@ -1,0 +1,413 @@
+---
+title: "Additional Exercises"
+format: 
+  revealjs: 
+    theme: [default, custom.scss]
+    fontsize: 1em
+    callout-icon: false
+    scrollable: true
+    echo: true
+    fig-dpi: 400
+webr:
+  packages: ['ggplot2', 'sf', 'rnaturalearth', 'spData'] # Install R packages on document open
+# autoload-packages: false       # Disable automatic loading of packages
+# show-startup-message: false    # Disable displaying status of webR initialization
+  cell-options:
+    editor-font-scale: 0.8
+filters:
+  - webr
+---
+
+```{r, eval = FALSE, echo = FALSE}
+library("ggplot2") 
+library("sf") 
+library("rnaturalearth") 
+```
+
+## Basics: `sf`, `sfc`, and `sf`
+
+::: {.panel-tabset}
+### `sfg`
+
+::: {.panel-tabset}
+
+### Definition
+
+What is `sfg`?
+
+<br>
+
+<details>
+  <summary>Answer</summary>
+  `sfg` stands for "simple feature geometry." It represents individual geometric shapes such as points, lines, or polygons. These geometries are the building blocks of sf objects, which can be thought of as data frames with a special column (usually named geometry) that contains the geometric data.
+</details>
+
+### Create a line
+
+Create a line `sfg` that consists of 3 points, and then plot it using `plot()`.
+
+<br>
+
+```{webr-r}
+
+```
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+
+line_coords <-
+  matrix(
+    c(
+      0, 0, # Starting point
+      2, 1, # Second point
+      3, 2 # Third point
+    ),
+    ncol = 2,
+    byrow = TRUE
+  )
+
+line <- st_linestring(line_coords)
+
+plot(st_sfc(line))
+```
+
+### Create a polygon
+
+Create a polygon `sfg` that consists of 5 points, and then plot it using `plot()`.
+
+<br>
+
+```{webr-r}
+
+```
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+
+polygon_coords <- 
+  matrix(
+    c(
+      0, 0, # Starting point
+      2, 0, # Second point
+      2, 2, # Third point
+      0, 2, # Fourth point
+      0, 0 # Closing the polygon
+    ), 
+    ncol = 2, 
+    byrow = TRUE
+  )
+
+polygon <- st_polygon(list(polygon_coords))
+
+plot(st_sfc(polygon))
+```
+
+:::
+<!--end of panel-->
+
+
+### `sfc`
+
+::: {.panel-tabset}
+
+### Definition
+
+What is `sfc`?
+
+<br>
+
+<details>
+  <summary>Answer</summary>
+`sfc` stands for "simple feature collection." It represents a collection of simple feature geometries (`sfg` objects). An `sfc` object is essentially a list of `sfg` objects that share the same coordinate reference system (CRS).
+</details>
+
+### Create an `sfc`
+
+Create an `sfc` using the line and polygon `sfg`s you created earlier, and then plot it using `plot()`.
+
+<br>
+
+```{webr-r}
+
+```
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+an_sfc <- st_sfc(list(line, polygon))
+
+plot(an_sfc)
+```
+
+:::
+<!--end of panel-->
+
+### `sf`
+
+::: {.panel-tabset}
+
+### Definition
+
+What is `sf`?
+
+<br>
+
+<details>
+  <summary>Answer</summary>
+  An `sf` object is a spatial data frame that combines geometric information with attribute data. It extends the concept of a standard data frame by adding a special column (usually named geometry) that contains the geometric data. This allows users to work with spatial data in a way that integrates seamlessly with the rest of the R ecosystem.
+</details>
+
+### Create an `sf`
+
+You have the following attribute data as a `data.frame`. First and second rows correspond to the line and polygon `sfg`s respectively.
+
+```{webr-r}
+attr_data <- 
+  data.frame(
+    value = c(1, 2),
+    id = c(1, 2)
+  )
+```
+
+<br>
+
+Combine `attr_data` and `sfc` to create an `sf` object using `st_as_sf()`.
+
+```{webr-r}
+
+```
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+attr_data$geometry <- an_sfc 
+
+an_sf <- st_as_sf(attr_data)
+```
+
+:::
+<!--end of panel-->
+
+:::
+<!--end of panel-->
+
+## Project (re-project)
+
+::: {.panel-tabset}
+### Exercise 1
+
+::: {.panel-tabset}
+
+#### Preparation
+
+First, run the code below to create `world` and inspect it.
+
+```{webr-r}
+#--- load  world map ---#
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+#--- visualize the data ---#
+ggplot() +
+  geom_sf(data = world) +
+  ggtitle("Original CRS")
+```
+
+#### Check the current CRS
+
+Check the current CRS of `world`.
+
+```{webr-r}
+```
+
+Is `world` projected or not?
+
+<br>
+
+<details>
+  <summary>Answer</summary>
+```{r, eval = FALSE}
+st_crs(world)
+```
+
+<br>
+
+No, it is not projected.
+
+</details>
+
+#### Project
+
+Project `world` to UTM zone 33N using its ERSG code (look it up online). Name it `world_utm`.  
+
+```{webr-r}
+```
+
+<br>
+
+See how numbers representing `sfg`s in the geometry columns are different from the original one. 
+
+<br>
+
+:::{.callout-note}
+Do <span style = "color: red;"> NOT </span> use this CRS in practice for a world map. This is just a practice.
+:::
+
+<br>
+
+<details>
+  <summary>Answer</summary>
+```{r, eval = FALSE}
+world_utm <- st_transform(world, crs = 32633)
+```
+</details>
+
+
+#### Create a map
+
+Create a world map using `world_utm` using the `ggplot2` package.
+
+```{webr-r}
+
+```
+
+<br>
+
+<details>
+  <summary>Answer</summary>
+
+```{r, eval = FALSE}
+ggplot() +
+  geom_sf(data = world_utm) +
+  ggtitle("Re-projected to UTM zone 33N")
+```
+
+</details>
+
+:::
+<!--end of panel-->
+
+### Exercise 2
+
+::: {.panel-tabset}
+
+#### Preparation
+
+Run the following code to get the dataset you will be using for the rest of the exercises:
+
+```{webr-r}
+#| context: setup
+us_states <- spData::us_states
+```
+
+#### Check the current CRS
+
+Check the current CRS.
+
+```{webr-r}
+
+```
+
+<br>  
+
+Is it projected?
+
+<br>
+
+<details>
+  <summary>Answer</summary>
+
+```{r, eval = FALSE}
+st_crs(us_states)
+```
+
+<br>
+
+No, it's not projected.
+
+</details> 
+
+#### Project
+
+Project `us_states` using Conus Albers CRS. First find its EPSG number and then apply `st_transform()` using the EPSG number. Name it `us_states_aea`.
+
+```{webr-r}
+
+```
+
+<br>
+
+<details>
+  <summary>Answer</summary>
+
+```{r, eval = FALSE}
+us_states_aea <- st_transform(us_states, crs = 5070)
+```
+
+</details>
+
+
+#### Create a map
+
+Create maps using `us_states` and `us_states_aea` separately and compare them.
+
+```{webr-r}
+
+```
+
+<br>
+<details>
+  <summary>Answer</summary>
+
+```{r, eval = F}
+ggplot() +
+  geom_sf(data = us_states) +
+  ggtitle("Original CRS")
+
+ggplot() +
+  geom_sf(data = us_states_aea) +
+  ggtitle("New CRS")
+```
+
+</details>
+
+:::
+<!--end of panel-->
+
+:::
+<!--end of panel--> 
+
+## Non-interactive geometrical operations
+
+::: {.panel-tabset}
+
+### Data Preparation
+
+Run the following to load `fairway_grid` data.
+
+```{webr-r}
+#| autorun: true
+data(fairway_grid)
+```
+
+<br>
+
+Here is what it looks like:
+
+```{webr-r}
+ggplot(fairway_grid) +
+  geom_sf()
+```
+
+:::
+<!--end of panel-->
+ 

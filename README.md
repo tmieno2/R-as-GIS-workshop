@@ -23,3 +23,8 @@ This repository hosts all the codes used in creating lecture slides for the R-as
 + SS 1: `ggplot2` primer ([slide](https://tmieno2.github.io/R-as-GIS-workshop/LA_1_ggplot2_primer.html))
 
 + SS 2: `dplyr` primer ([slide](https://tmieno2.github.io/R-as-GIS-workshop/LA_2_dplyr_primer.html))
+
+
+## Additional Exercises
+
++ AE 1: `sf` basics ([slide](https://tmieno2.github.io/R-as-GIS-workshop/E01_sf_basics.html))

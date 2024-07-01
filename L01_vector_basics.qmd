@@ -8,6 +8,7 @@ format:
     scrollable: true
     echo: true
     fig-dpi: 400
+    chalkboard: true
     resources: 
       - shinylive-sw.js
 webr:
@@ -75,10 +76,10 @@ The objectives of this chapter is to learn how to use R as GIS, specifically how
 
 ```{r}
 #| include: false
-library("sf") 
-library("data.table") 
-library("dplyr") 
-```  
+library("sf")
+library("data.table")
+library("dplyr")
+```
 
 ```{webr-r}
 #| context: setup
@@ -201,7 +202,7 @@ class(nc)
 ## Understanding the data structure of `sf` {#sec-data-structure}
 
 ::: {.panel-tabset}
-### Inside an sf obejct
+### Inside an sf object
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -810,13 +811,13 @@ A format that is increasingly popular is [GeoJSON](https://geojson.org/).
 
 + Unlike the shapefile system, it produces only a single file with **.geojson** extension.
 
-+ GeoPackage files can also be read into ArcGIS. 
++ GeoJSON files can also be read into ArcGIS. 
 
 <br>
 
 **Write**
 
-To write an `sf` object to a geopackage file, you simply give the file path to the `dsn` option (note that you do not use the `layer` option unlike the shape files case).
+To write an `sf` object to a GeoJSON file, you simply give the file path to the `dsn` option (note that you do not use the `layer` option unlike the shape files case).
 
 ```{r geojson}
 #| eval: false
@@ -828,7 +829,7 @@ st_write(nc, dsn = "Data/nc_exported.geojson")
 
 **Read**
 
-You can use the `sf::st_read()` function to read a geopacakge file like below:
+You can use the `sf::st_read()` function to read a GeoJSON file like below:
 
 ```{r eval = F}
 #| eval: false
@@ -858,7 +859,7 @@ One of the alternative data formats that is considered superior to the shapefile
 
 **Write**
 
-To write an `sf` object to a geopackage file, you simply give the file path to the `dsn` option (note that you do not use the `layer` option unlike the shape files case).
+To write an `sf` object to a GeoPackage file, you simply give the file path to the `dsn` option (note that you do not use the `layer` option unlike the shape files case).
 
 ```{r gpkg}
 #| eval: false
@@ -871,7 +872,7 @@ st_write(nc_imported, dsn = "Data/nc_exported.gpkg")
 
 **Read**
 
-You can use the `sf::st_read()` function to read a geopacakge file like below:
+You can use the `sf::st_read()` function to read a GeoPackage file like below:
 
 ```{r eval = F}
 #| eval: false
@@ -1177,7 +1178,7 @@ mapview::mapView(nc)
 ```
 :::
 
-## Turning a data.frame of points into an `sf` {#sec-dataframe-sf}
+## Turning a `data.frame` of points into an `sf` {#sec-dataframe-sf}
 
 ::: {.panel-tabset}
 ### Motivation
@@ -1612,7 +1613,7 @@ plot(nc_one)
 
 Run the following code to get `fairway_grid` data. Then, inspect the data (e.g., by plotting) to get a good sense of what the data looks like.
 
-```{r}
+```{webr-r}
 data(fairway_grid)
 ```
 

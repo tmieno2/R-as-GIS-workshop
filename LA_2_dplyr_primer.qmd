@@ -107,7 +107,7 @@ data(flights, package = "nycflights13")
 
 #--- make it slim ---#
 (
-flights_slim <- dplyr::select(flights, year, month, origin, carrier, arr_delay)
+flights_slim <- dplyr::select(flights, year, month, origin, carrier, arr_delay, dep_delay)
 )
 ```
 
@@ -415,6 +415,8 @@ dplyr::filter(flights_mini, month %in% c(1, 2, 3))
 #### Exercises
 
 ::: {.panel-tabset}
+
+Use `flights_mini` dataset 
 
 ##### Exercise 1
 
@@ -933,7 +935,7 @@ flights_new
 
 #### Exercise 1
 
-Find the carrier that had the longest average delay during May through August. Below is the output you will see if you get it right.
+Find the carrier that had the longest average departure delay (`dep_delay`) during May through August. Below is the output you will see if you get it right.
 
 ```{webr-r}
 

@@ -8,8 +8,9 @@ format:
     scrollable: true
     echo: true
     fig-dpi: 400
+    chalkboard: true
 webr:
-  packages: ['ggplot2', 'dplyr', 'sf', 'terra', 'stars', 'tidyterra', 'prism', 'tidyUSDA'] # Install R packages on document open
+  packages: ['ggplot2', 'dplyr', 'sf', 'terra', 'stars', 'tidyterra', 'prism', 'tidyUSDA', 'tigris'] # Install R packages on document open
 # autoload-packages: false       # Disable automatic loading of packages
 # show-startup-message: false    # Disable displaying status of webR initialization
   cell-options:
@@ -44,11 +45,11 @@ Learn how to download publicly available agriculture-related data from within R.
 ::: {.column width="50%"}
 ### Table of contents
 
-1. [USDA-NASS](#sec-usda-nass)
-2. [PRISM](#sec-prism)
-3. [Daymet](#sec-daymet)
+1. [tigris](#sec-tigris)
+2. [USDA-NASS](#sec-usda-nass)
+3. [PRISM](#sec-prism)
 4. [Crop Data Layer (CDL)](#sec-cdl)
-5. [SSURGO](#sec-ssurgo)
+
 :::
 <!--end of the 1st column-->
 ::: {.column width="50%"}
@@ -80,7 +81,7 @@ prism_us <- terra::rast(prism_us)
 nass_api_key <- "61838C71-72DF-3A21-9C08-8271C19DB197"
 ```
 
-## Tips to make the most of the lecture notes
+## Tips to make the most of the lecture notes 
 
 <br>
 
@@ -107,6 +108,76 @@ nass_api_key <- "61838C71-72DF-3A21-9C08-8271C19DB197"
 ::: {.column width="30%"}
 :::
 :::
+
+## U.S. county and state boundary {#sec-tigris}
+
+::: {.panel-tabset}
+
+### Introduction
+
++ U.S. county and state boundary data are commonly used in many scientific studies. 
+
++ The `tigris` package is one of the packages that let you download them from within R.
+
++ It lets you download much more than just county and state boundaries. See other type of data [here](https://github.com/walkerke/tigris?tab=readme-ov-file)
+
+### How (state)
+
++ You can use `tigris::states()` to download the state boundary data as an `sf` object.
+
++ By default, the most detailed boundary data is downloaded, which can be quite large
+  + creating map using `ggplot()` can take significantly more time
+  + the map can be quite large in size
+
++ By adding `cb = TRUE`, you will get generalized (less detailed) boundary data, which is usually sufficient.
+
+```{r, cache = TRUE}
+#| message: false
+#| warning: false
+states_sf <- tigris::states(cb = TRUE, progress_bar = FALSE)
+```
+
+<br>
+
+```{r}
+ggplot(states_sf) +
+  geom_sf() +
+  theme_void()
+```
+
+### How (county)
+
++ You can use `tigris::counties()` to download the county boundary data as an `sf` object.
+
++ You can specify states by the `state` option.
+
+```{r, cache = TRUE}
+IL_IN_county <- 
+  tigris::counties(
+    state = c("IL", "IN"), 
+    cb = TRUE, 
+    progress_bar = FALSE
+  )
+```
+
+<br>
+
+```{r}
+ggplot() +
+  geom_sf(data = IL_IN_county) +
+  geom_sf(
+    data = dplyr::filter(states_sf, NAME %in% c("Illinois", "Indiana")),
+    fill = NA,
+    color = "blue",
+    linewidth = 1
+  ) +
+  theme_void()
+```
+
+:::
+<!--end of panel-->
+
+
 
 ## USDA-NASS {#sec-usda-nass}
 
@@ -273,7 +344,7 @@ IL_NE_ir_corn_yield %>%
 
 ::: {.panel-tabset}
 
-#### Caveat 1
+#### Caveat 1 {#sec-caveat-num-limit}
 
 ::: {.columns}
 
@@ -298,7 +369,7 @@ many_states_corn <-
     commodity = "CORN",
     geographic_level = "COUNTY",
     state = c("ILLINOIS", "COLORADO", "NEBRASKA", "IOWA", "KANSAS"),
-    year = paste(1995:2018),
+    year = as.character(1995:2018),
     geometry = TRUE
   ) 
 ```
@@ -332,6 +403,53 @@ many_states_corn <-
     geometry = TRUE
   ) 
 ```
+
+:::
+<!--end of panel-->
+
+### Loop
+
+::: {.panel-tabset}
+
+#### Motivation
+
++ As mentioned [here](#sec-caveat-num-limit), there is a limit to how much data you can download with one query. 
++ When your target dataset exceeds the limit, you can break it up into pieces and download them repeatedly using loop.
+
+#### How
+
+There are two dimensions that seems easy to loop over: `state` and `year`. Here, let's loop over year.
+
+We first create a sequence of years to loop over one by one:
+
+```{r, eval = FALSE}
+#--- for the sake of shorter run time, we use 2015:2018 here ---#
+year_list <- as.character(20015:2018)
+```
+<br>
+
+We now download data year by year using for loop:
+
+```{r, eval = FALSE}
+lapply(
+  year_list, # list of objects to loop over
+  \(x) {
+    getQuickstat(
+      key = nass_api_key,
+      program = "SURVEY",
+      commodity = "CORN",
+      geographic_level = "COUNTY",
+      state = c("ILLINOIS", "COLORADO", "NEBRASKA", "IOWA", "KANSAS"),
+      year = x, # use the year 
+      geometry = TRUE
+    )
+  }
+) %>%
+# combine a list of sf into a single sf
+dplyr::bind_rows() 
+```
+
+
 
 :::
 <!--end of panel-->
@@ -403,11 +521,42 @@ ggplot() +
 :::
 <!--end of panel-->
 
-## PRISM
+## PRISM {#sec-prism}
 
 ::: {.panel-tabset}
 ### Introduction
 
+::: {.columns}
+
+::: {.column width="70%"}
+[PRISM dataset](https://prism.oregonstate.edu/) provide model-based estimates of daily precipitation, maximum temperature, and minimum temperature for the U.S. at the 4km by 4km spatial resolution.
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
+
+```{r, echo = FALSE}
+# options(prism.path = here::here("Lectures/Data/PRISM"))
+
+# prism::get_prism_dailys(
+#   type = "tmax",
+#   minDate = "2012-08-01",
+#   maxDate = "2012-08-01",
+#   keepZip = FALSE
+# )
+
+prism_temp <- terra::rast("/Users/tmieno2/Dropbox/TeachingUNL/R-spatial-micro-credit/Lectures/Data/PRISM/PRISM_tmax_stable_4kmD2_20120801_bil/PRISM_tmax_stable_4kmD2_20120801_bil.bil")
+
+ggplot() +
+  geom_spatraster(data = prism_temp) +
+  scale_fill_viridis_c() +
+  theme_void()
+```
 
 ### How
 
@@ -576,23 +725,213 @@ ggplot() +
 :::
 <!--end of panel-->
 
-## Daymet
-
-
 ## Crop Data Layer
 
+::: {.panel-tabset}
 
+### Introduction
+
+::: {.columns}
+
+::: {.column width="70%"}
++ The Cropland Data Layer (CDL) is a data product produced by the National Agricultural Statistics Service of U.S. Department of Agriculture. 
+
++ CDL provides geo-referenced, high accuracy, 30 (after 2007) or 56 (in 2006 and 2007) meter resolution, crop-specific cropland land cover information for up to 48 contiguous states in the U.S. from 1997 to the present. 
+
++ This data product has been extensively used in agricultural research. CropScape is an [interactive Web CDL exploring system](https://nassgeodata.gmu.edu/CropScape/), and it was developed to query, visualize, disseminate, and analyze CDL data geospatially through standard geospatial web services in a publicly accessible on-line environment (Han et al., 2012).
+
++ This section shows how to use the CropScapeR package (Chen 2020) to download and explore the CDL data. 
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns--> 
+
+
+### `CropScapeR` package
+
+::: {.columns}
+
+::: {.column width="70%"}
++ The package implements some of the most useful geospatial processing services provided by the CropScape, and it allows users to efficiently process the CDL data within the R environment. 
+
++ Specifically, the CropScapeR package provides four functions that implement different kinds of geospatial processing services provided by the CropScape. 
+
++ `GetCDLData()` in particular is the most important function as it lets you download the raw CDL data. 
+
++ The other functions provide the users with the CDL data summarized or transformed in particular manners that may suit the need of some users.
+
+<!-- Note: There is a known problem with Mac users requesting CDL data services using the CropScape API, which causes errors when using the functions provided by the package. Please see section 9.2.4 for a workaround. -->
+:::
+<!--end of the 1st column-->
+::: {.column width="30%"}
+
+:::
+<!--end of the 2nd column-->
+:::
+<!--end of the columns-->
+
+
+### How
+
+`GetCDLData()` allows us to obtain CDL data for any Area of Interest (AOI) in a given year. It requires three parameters to make a valid data request:
+
++ `aoi`: Area of Interest (AOI).
++ `year`: Year of the data to request.
++ `type`: Type of AOI.
+
+The following AOI-type combinations are accepted:
+
++ any spatial object as an sf or sfc object - `type = "b"`
++ county (defined by a 5-digit county FIPS code) - `type = "f"`
++ state (defined by a 2-digit state FIPS code) - `type = "f"`
++ bounding box (defined by four corner points) - `type = "b"`
++ polygon area (defined by at least three coordinates) - `type = "ps"`
++ single point (defined by a coordinate) - `type = "p"`
+
+:::{.callout-important}
+The downloaded raster data is `RasterLayer` defined by the `raster` package, not `SpatRaster` by the `terra` package.
+:::
+
+### Example 1
+
++ Suppose you are interested in getting CDL data for the entire Nebraska.
+
++ In this case we can use the state FIP code for NE (31) for `aoi` and specify `type` to be `"f"` (Note that this would take some time if you run it.).
+
++ This can take a while. Since the spatial resolution is 30m, the CDL data covering the entire IL would have lots of cells and thus memory-intensive.
+
+```{r, eval = FALSE}
+cdl_NE <-
+  CropScapeR::GetCDLData(
+    aoi = 31,
+    year = "2018",
+    type = "f"
+  )
+```
+
+
+### Example 2
 
 ::: {.panel-tabset}
+
+#### Area of interest
+
+In this example, we are interested in obtaining CDL data for the following four counties in Illinois: Champaign, Vermilion, Ford, and Iroquois.
+
+Let's first get the county boundary data for them:
+
+```{r, cache = TRUE}
+IL_county <- tigris::counties(state = "IL", cb = TRUE, progress_bar = FALSE)
+
+IL_4_county <- dplyr::filter(IL_county, NAME %in% c("Champaign", "Vermilion", "Ford", "Iroquois"))
+```
+
+<br>
+
+Here is where they are:
+
+```{r, echo = FALSE, cache = TRUE}
+ggplot() +
+  geom_sf(data = IL_county) +
+  geom_sf(data = IL_4_county, fill = "lightblue") +
+  theme_void()
+```
+
+
+#### Download
+
+When you provide `aoi` using an `sf` object, CDL data for the bounding box of the `sf` will be downloaded. So, you should pick `"b"` as the `type`.
+
+```{r, eval = FALSE}
+GetCDLData(
+  aoi = IL_4_county,
+  year = "2018",
+  type = "b"
+)
+```
+:::
+<!--end of panel--> 
+
+### Exercise
+
+::: {.panel-tabset}
+
+#### AOI
+
+Using the `tigris` package, download the county boundary for Iowa, and then filter it to keep only the Sioux county. Name the `sf` file `sioux_county`.
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+sioux_county <-
+  tigris::counties(state = "IA", cb = TRUE) %>%
+  dplyr::filter(NAME == "Sioux")
+```
+
+#### Download
+
+Using the `CropScapeR::GetCDLData()`, download the 2022 CDL data covering the Sioux County. Then, convert it to a `SpatRaster` object. Name the final product `sioux_cdl_2022`. 
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+sioux_cdl_2022 <-
+  GetCDLData(
+    aoi = sioux_county,
+    year = "2022",
+    type = "b"
+  ) %>%
+  terra::rast()
+```
+
+#### Mask
+
+Mask the CDL data you just downloaded using `sioux_county` using `terra::mask()`.
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+sioux_masked <- terra::mask(sioux_cdl_2022, st_transform(sioux_county, crs(sioux_cdl_2022)))
+```
+
+#### Aggregate
+
+Before creating a map from the downloaded CDL layer data, let's aggregate the data by factor of 10 using `terra::aggregate()`. Call it `sioux_aggregated`.
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+sioux_aggregated <- terra::aggregate(sioux_masked, fact = 10)
+```
+
+#### Map
+
+Create a map of land use type using the aggregate Sioux county CDL data using `tidyterra::geom_spatraster()`.
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+ggplot() +
+  geom_spatraster(data = sioux_aggregated)
+```
 
 :::
 <!--end of panel-->
 
-## SSURGO
-
-
-
-::: {.panel-tabset}
-
 :::
 <!--end of panel-->
+

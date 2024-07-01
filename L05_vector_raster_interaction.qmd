@@ -8,6 +8,7 @@ format:
     scrollable: true
     echo: true
     fig-dpi: 400
+    chalkboard: true
 webr:
   packages: ['ggplot2', 'dplyr', 'sf', 'terra', 'stars', 'tidyterra'] # Install R packages on document open
 # autoload-packages: false       # Disable automatic loading of packages

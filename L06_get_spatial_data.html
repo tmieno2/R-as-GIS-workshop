@@ -98,6 +98,8 @@
   <link href="L06_get_spatial_data_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="L06_get_spatial_data_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="L06_get_spatial_data_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="L06_get_spatial_data_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="L06_get_spatial_data_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
   <link href="L06_get_spatial_data_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
@@ -568,7 +570,7 @@
   // Document level settings ----
 
   // Determine if we need to install R packages
-  globalThis.qwebrInstallRPackagesList = ['ggplot2', 'dplyr', 'sf', 'terra', 'stars', 'tidyterra', 'prism', 'tidyUSDA'];
+  globalThis.qwebrInstallRPackagesList = ['ggplot2', 'dplyr', 'sf', 'terra', 'stars', 'tidyterra', 'prism', 'tidyUSDA', 'tigris'];
 
   // Specify possible locations to search for the repository
   globalThis.qwebrPackageRepoURLS = ['https://repo.r-wasm.org/'];
@@ -590,7 +592,7 @@
   };
 
   // Store cell data
-  globalThis.qwebrCellDetails = [{"id":1,"options":{"fig-width":7,"classes":"","editor-font-scale":"0.8","warning":"true","editor-max-height":"","out-height":"","fig-height":5,"label":"unnamed-chunk-1","fig-cap":"","autorun":"true","message":"true","results":"markup","comment":"","out-width":"700px","output":"true","context":"setup","read-only":"false","dpi":72,"editor-quick-suggestions":"false"},"code":"#|\n#--- install and library the data package ---#\ninstall.packages(\"r.spatial.workshop.datasets\", repos = c(\"https://tmieno2.r-universe.dev\", \"https://cran.r-project.org\"))\n\nlibrary(r.spatial.workshop.datasets)\ndata(wells_ne_sf)\ndata(ne_counties)\ndata(treatment_blocks)\ndata(corn_yield)\ndata(NDRE)\nNDRE <- terra::rast(NDRE)\ndata(prism_us)\nprism_us <- terra::rast(prism_us)\nnass_api_key <- \"61838C71-72DF-3A21-9C08-8271C19DB197\""},{"id":2,"options":{"fig-width":7,"classes":"","editor-font-scale":"0.8","warning":"true","editor-max-height":"","out-height":"","fig-height":5,"label":"unnamed-chunk-2","fig-cap":"","autorun":"false","message":"true","results":"markup","comment":"","out-width":"700px","output":"true","context":"interactive","read-only":"false","dpi":72,"editor-quick-suggestions":"false"},"code":"all_items <- tidyUSDA::allDataItem\n\n#--- just see a few ---#\nhead(all_items)"},{"id":3,"options":{"fig-width":7,"classes":"","editor-font-scale":"0.8","warning":"true","editor-max-height":"","out-height":"","fig-height":5,"label":"unnamed-chunk-3","fig-cap":"","autorun":"false","message":"true","results":"markup","comment":"","out-width":"700px","output":"true","context":"interactive","read-only":"false","dpi":72,"editor-quick-suggestions":"false"},"code":"all_items %>%\n  #--- find data items that include CORN ---#\n  grep(pattern = \"CORN\", ., value = TRUE) %>%\n  #--- find data items that include YIELD ---#\n  grep(pattern = \"YIELD\", ., value = TRUE) %>%\n  #--- find data items that include IRRIGATED ---#\n  grep(pattern = \"IRRIGATED\", ., value = TRUE)"}];
+  globalThis.qwebrCellDetails = [{"id":1,"options":{"output":"true","label":"unnamed-chunk-1","editor-max-height":"","fig-height":5,"autorun":"true","out-width":"700px","out-height":"","classes":"","warning":"true","comment":"","fig-width":7,"read-only":"false","message":"true","results":"markup","dpi":72,"editor-font-scale":"0.8","fig-cap":"","context":"setup","editor-quick-suggestions":"false"},"code":"#|\n#--- install and library the data package ---#\ninstall.packages(\"r.spatial.workshop.datasets\", repos = c(\"https://tmieno2.r-universe.dev\", \"https://cran.r-project.org\"))\n\nlibrary(r.spatial.workshop.datasets)\ndata(wells_ne_sf)\ndata(ne_counties)\ndata(treatment_blocks)\ndata(corn_yield)\ndata(NDRE)\nNDRE <- terra::rast(NDRE)\ndata(prism_us)\nprism_us <- terra::rast(prism_us)\nnass_api_key <- \"61838C71-72DF-3A21-9C08-8271C19DB197\""},{"id":2,"options":{"output":"true","label":"unnamed-chunk-2","editor-max-height":"","fig-height":5,"autorun":"false","out-width":"700px","out-height":"","classes":"","warning":"true","comment":"","fig-width":7,"read-only":"false","message":"true","results":"markup","dpi":72,"editor-font-scale":"0.8","fig-cap":"","context":"interactive","editor-quick-suggestions":"false"},"code":"all_items <- tidyUSDA::allDataItem\n\n#--- just see a few ---#\nhead(all_items)"},{"id":3,"options":{"output":"true","label":"unnamed-chunk-3","editor-max-height":"","fig-height":5,"autorun":"false","out-width":"700px","out-height":"","classes":"","warning":"true","comment":"","fig-width":7,"read-only":"false","message":"true","results":"markup","dpi":72,"editor-font-scale":"0.8","fig-cap":"","context":"interactive","editor-quick-suggestions":"false"},"code":"all_items %>%\n  #--- find data items that include CORN ---#\n  grep(pattern = \"CORN\", ., value = TRUE) %>%\n  #--- find data items that include YIELD ---#\n  grep(pattern = \"YIELD\", ., value = TRUE) %>%\n  #--- find data items that include IRRIGATED ---#\n  grep(pattern = \"IRRIGATED\", ., value = TRUE)"}];
 
   </script>
   <script type="module">
@@ -1675,11 +1677,10 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div class="column" style="width:50%;">
 <h3 id="table-of-contents">Table of contents</h3>
 <ol type="1">
+<li><a href="#/sec-tigris">tigris</a></li>
 <li><a href="#/sec-usda-nass">USDA-NASS</a></li>
 <li><a href="#/sec-prism">PRISM</a></li>
-<li><a href="#/sec-daymet">Daymet</a></li>
 <li><a href="#/sec-cdl">Crop Data Layer (CDL)</a></li>
-<li><a href="#/sec-ssurgo">SSURGO</a></li>
 </ol>
 </div><!--end of the 1st column--><div class="column" style="width:50%;">
 <h3 id="pre-requisite-links">Pre-requisite (Links)</h3>
@@ -1717,12 +1718,88 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 </div>
 </section>
+<section id="sec-tigris" class="slide level2">
+<h2>U.S. county and state boundary</h2>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Introduction</a></li><li><a href="#tabset-1-2">How (state)</a></li><li><a href="#tabset-1-3">How (county)</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
+<ul>
+<li><p>U.S. county and state boundary data are commonly used in many scientific studies.</p></li>
+<li><p>The <code>tigris</code> package is one of the packages that let you download them from within R.</p></li>
+<li><p>It lets you download much more than just county and state boundaries. See other type of data <a href="https://github.com/walkerke/tigris?tab=readme-ov-file">here</a></p></li>
+</ul>
+</div>
+<div id="tabset-1-2">
+<ul>
+<li><p>You can use <code>tigris::states()</code> to download the state boundary data as an <code>sf</code> object.</p></li>
+<li><p>By default, the most detailed boundary data is downloaded, which can be quite large</p>
+<ul>
+<li>creating map using <code>ggplot()</code> can take significantly more time</li>
+<li>the map can be quite large in size</li>
+</ul></li>
+<li><p>By adding <code>cb = TRUE</code>, you will get generalized (less detailed) boundary data, which is usually sufficient.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>states_sf <span class="ot">&lt;-</span> tigris<span class="sc">::</span><span class="fu">states</span>(<span class="at">cb =</span> <span class="cn">TRUE</span>, <span class="at">progress_bar =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="fu">ggplot</span>(states_sf) <span class="sc">+</span></span>
+<span id="cb2-2"><a href=""></a>  <span class="fu">geom_sf</span>() <span class="sc">+</span></span>
+<span id="cb2-3"><a href=""></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="L06_get_spatial_data_files/figure-revealjs/unnamed-chunk-3-1.png" width="4000"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-3">
+<ul>
+<li><p>You can use <code>tigris::counties()</code> to download the county boundary data as an <code>sf</code> object.</p></li>
+<li><p>You can specify states by the <code>state</code> option.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>IL_IN_county <span class="ot">&lt;-</span> </span>
+<span id="cb3-2"><a href=""></a>  tigris<span class="sc">::</span><span class="fu">counties</span>(</span>
+<span id="cb3-3"><a href=""></a>    <span class="at">state =</span> <span class="fu">c</span>(<span class="st">"IL"</span>, <span class="st">"IN"</span>), </span>
+<span id="cb3-4"><a href=""></a>    <span class="at">cb =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb3-5"><a href=""></a>    <span class="at">progress_bar =</span> <span class="cn">FALSE</span></span>
+<span id="cb3-6"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb4-2"><a href=""></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> IL_IN_county) <span class="sc">+</span></span>
+<span id="cb4-3"><a href=""></a>  <span class="fu">geom_sf</span>(</span>
+<span id="cb4-4"><a href=""></a>    <span class="at">data =</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(states_sf, NAME <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Illinois"</span>, <span class="st">"Indiana"</span>)),</span>
+<span id="cb4-5"><a href=""></a>    <span class="at">fill =</span> <span class="cn">NA</span>,</span>
+<span id="cb4-6"><a href=""></a>    <span class="at">color =</span> <span class="st">"blue"</span>,</span>
+<span id="cb4-7"><a href=""></a>    <span class="at">linewidth =</span> <span class="dv">1</span></span>
+<span id="cb4-8"><a href=""></a>  ) <span class="sc">+</span></span>
+<span id="cb4-9"><a href=""></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="L06_get_spatial_data_files/figure-revealjs/unnamed-chunk-5-1.png" width="4000"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!--end of panel-->
+</section>
 <section id="sec-usda-nass" class="slide level2">
 <h2>USDA-NASS</h2>
 <div class="panel-tabset">
-<ul id="tabset-5" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-5-1">Introduction</a></li><li><a href="#tabset-5-2">How</a></li><li><a href="#tabset-5-3">Demonstration</a></li><li><a href="#tabset-5-4">Caveat</a></li><li><a href="#tabset-5-5">Exercise</a></li></ul>
+<ul id="tabset-7" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-7-1">Introduction</a></li><li><a href="#tabset-7-2">How</a></li><li><a href="#tabset-7-3">Demonstration</a></li><li><a href="#tabset-7-4">Caveat</a></li><li><a href="#tabset-7-5">Loop</a></li><li><a href="#tabset-7-6">Exercise</a></li></ul>
 <div class="tab-content">
-<div id="tabset-5-1">
+<div id="tabset-7-1">
 <div class="columns">
 <div class="column" style="width:70%;">
 <ul>
@@ -1736,11 +1813,11 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <!--end of the columns-->
 </div>
-<div id="tabset-5-2">
+<div id="tabset-7-2">
 <div class="panel-tabset">
-<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">API key</a></li><li><a href="#tabset-1-2">Download data</a></li><li><a href="#tabset-1-3">Identify data item (variable) name</a></li></ul>
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">API key</a></li><li><a href="#tabset-2-2">Download data</a></li><li><a href="#tabset-2-3">Identify data item (variable) name</a></li></ul>
 <div class="tab-content">
-<div id="tabset-1-1">
+<div id="tabset-2-1">
 <ul>
 <li>First thing you want to do is to get an API key from this <a href="https://quickstats.nass.usda.gov/api">website</a>.
 <ul>
@@ -1750,20 +1827,20 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <li>You use this API key every time you download data from R using <code>tidyUSDA</code>.</li>
 </ul>
 </div>
-<div id="tabset-1-2">
+<div id="tabset-2-2">
 <p>You can download data using <code>tidyUSDA::getQuickstat()</code>.</p>
 <p><br></p>
 <p><strong>Syntax</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">getQuickstat</span>(</span>
-<span id="cb1-2"><a href=""></a>    key,</span>
-<span id="cb1-3"><a href=""></a>    program,</span>
-<span id="cb1-4"><a href=""></a>    data_item,</span>
-<span id="cb1-5"><a href=""></a>    geographic_level,</span>
-<span id="cb1-6"><a href=""></a>    state,</span>
-<span id="cb1-7"><a href=""></a>    year,</span>
-<span id="cb1-8"><a href=""></a>    geometry</span>
-<span id="cb1-9"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">getQuickstat</span>(</span>
+<span id="cb5-2"><a href=""></a>    key,</span>
+<span id="cb5-3"><a href=""></a>    program,</span>
+<span id="cb5-4"><a href=""></a>    data_item,</span>
+<span id="cb5-5"><a href=""></a>    geographic_level,</span>
+<span id="cb5-6"><a href=""></a>    state,</span>
+<span id="cb5-7"><a href=""></a>    year,</span>
+<span id="cb5-8"><a href=""></a>    geometry</span>
+<span id="cb5-9"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br></p>
 <ul>
@@ -1790,7 +1867,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 </div>
 </div>
-<div id="tabset-1-3">
+<div id="tabset-2-3">
 <p>Sometimes, you know what you would like to download, but do not the name of the variable for it. In such a case, you can first get a list of all the data item names with this:</p>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -1805,25 +1882,25 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <!--end of panel-->
 </div>
-<div id="tabset-5-3">
+<div id="tabset-7-3">
 <div class="panel-tabset">
-<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Download</a></li><li><a href="#tabset-2-2">Select variables</a></li></ul>
+<ul id="tabset-3" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-3-1">Download</a></li><li><a href="#tabset-3-2">Select variables</a></li></ul>
 <div class="tab-content">
-<div id="tabset-2-1">
+<div id="tabset-3-1">
 <p>The code below download county-level irrigated grain corn yield (bu/acre) in Illinois and Nebraska from 2000 through 2005.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>(</span>
-<span id="cb2-2"><a href=""></a>IL_NE_ir_corn_yield <span class="ot">&lt;-</span></span>
-<span id="cb2-3"><a href=""></a>  tidyUSDA<span class="sc">::</span><span class="fu">getQuickstat</span>(</span>
-<span id="cb2-4"><a href=""></a>    <span class="at">key =</span> nass_api_key, <span class="co"># you need to replace it with your API key</span></span>
-<span id="cb2-5"><a href=""></a>    <span class="at">program =</span> <span class="st">"SURVEY"</span>,</span>
-<span id="cb2-6"><a href=""></a>    <span class="at">data_item =</span> <span class="st">"CORN, GRAIN, IRRIGATED - YIELD, MEASURED IN BU / ACRE"</span>,</span>
-<span id="cb2-7"><a href=""></a>    <span class="at">geographic_level =</span> <span class="st">"COUNTY"</span>,</span>
-<span id="cb2-8"><a href=""></a>    <span class="at">state =</span> <span class="fu">c</span>(<span class="st">"ILLINOIS"</span>, <span class="st">"NEBRASKA"</span>),</span>
-<span id="cb2-9"><a href=""></a>    <span class="at">year =</span> <span class="fu">as.character</span>(<span class="dv">2000</span><span class="sc">:</span><span class="dv">2005</span>),</span>
-<span id="cb2-10"><a href=""></a>    <span class="at">geometry =</span> <span class="cn">TRUE</span></span>
-<span id="cb2-11"><a href=""></a>  )</span>
-<span id="cb2-12"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>(</span>
+<span id="cb6-2"><a href=""></a>IL_NE_ir_corn_yield <span class="ot">&lt;-</span></span>
+<span id="cb6-3"><a href=""></a>  tidyUSDA<span class="sc">::</span><span class="fu">getQuickstat</span>(</span>
+<span id="cb6-4"><a href=""></a>    <span class="at">key =</span> nass_api_key, <span class="co"># you need to replace it with your API key</span></span>
+<span id="cb6-5"><a href=""></a>    <span class="at">program =</span> <span class="st">"SURVEY"</span>,</span>
+<span id="cb6-6"><a href=""></a>    <span class="at">data_item =</span> <span class="st">"CORN, GRAIN, IRRIGATED - YIELD, MEASURED IN BU / ACRE"</span>,</span>
+<span id="cb6-7"><a href=""></a>    <span class="at">geographic_level =</span> <span class="st">"COUNTY"</span>,</span>
+<span id="cb6-8"><a href=""></a>    <span class="at">state =</span> <span class="fu">c</span>(<span class="st">"ILLINOIS"</span>, <span class="st">"NEBRASKA"</span>),</span>
+<span id="cb6-9"><a href=""></a>    <span class="at">year =</span> <span class="fu">as.character</span>(<span class="dv">2000</span><span class="sc">:</span><span class="dv">2005</span>),</span>
+<span id="cb6-10"><a href=""></a>    <span class="at">geometry =</span> <span class="cn">TRUE</span></span>
+<span id="cb6-11"><a href=""></a>  )</span>
+<span id="cb6-12"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -1957,15 +2034,15 @@ First 10 features:
 </div>
 </div>
 </div>
-<div id="tabset-2-2">
+<div id="tabset-3-2">
 <p>As you saw earlier, it has 58 columns, most of which are not necessary.</p>
 <p>Here is the list of only variables you will probably need:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>IL_NE_ir_corn_yield <span class="sc">%&gt;%</span></span>
-<span id="cb4-2"><a href=""></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
-<span id="cb4-3"><a href=""></a>    year, county_name, county_code, state_name,</span>
-<span id="cb4-4"><a href=""></a>    state_fips_code, short_desc, Value</span>
-<span id="cb4-5"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>IL_NE_ir_corn_yield <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href=""></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb8-3"><a href=""></a>    year, county_name, county_code, state_name,</span>
+<span id="cb8-4"><a href=""></a>    state_fips_code, short_desc, Value</span>
+<span id="cb8-5"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Simple feature collection with 546 features and 7 fields (with 6 geometries empty)
 Geometry type: MULTIPOLYGON
@@ -2026,11 +2103,11 @@ First 10 features:
 </div>
 <!--end of panel-->
 </div>
-<div id="tabset-5-4">
+<div id="tabset-7-4">
 <div class="panel-tabset">
-<ul id="tabset-3" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-3-1">Caveat 1</a></li><li><a href="#tabset-3-2">Caveat 2</a></li></ul>
+<ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-4-1">Caveat 1</a></li><li><a href="#tabset-4-2">Caveat 2</a></li></ul>
 <div class="tab-content">
-<div id="tabset-3-1">
+<div id="tabset-4-1">
 <div class="columns">
 <div class="column" style="width:70%;">
 <p>You cannot retrieve more than 50,000 (the limit is set by QuickStat) rows of data. The query below requests much more than 50,000 observations, and fail. In this case, you need to narrow the search and chop the task into smaller tasks.</p>
@@ -2041,19 +2118,19 @@ First 10 features:
 </div>
 <!--end of the columns-->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>many_states_corn <span class="ot">&lt;-</span></span>
-<span id="cb6-2"><a href=""></a>  <span class="fu">getQuickstat</span>(</span>
-<span id="cb6-3"><a href=""></a>    <span class="at">key =</span> nass_api_key,</span>
-<span id="cb6-4"><a href=""></a>    <span class="at">program =</span> <span class="st">"SURVEY"</span>,</span>
-<span id="cb6-5"><a href=""></a>    <span class="at">commodity =</span> <span class="st">"CORN"</span>,</span>
-<span id="cb6-6"><a href=""></a>    <span class="at">geographic_level =</span> <span class="st">"COUNTY"</span>,</span>
-<span id="cb6-7"><a href=""></a>    <span class="at">state =</span> <span class="fu">c</span>(<span class="st">"ILLINOIS"</span>, <span class="st">"COLORADO"</span>, <span class="st">"NEBRASKA"</span>, <span class="st">"IOWA"</span>, <span class="st">"KANSAS"</span>),</span>
-<span id="cb6-8"><a href=""></a>    <span class="at">year =</span> <span class="fu">paste</span>(<span class="dv">1995</span><span class="sc">:</span><span class="dv">2018</span>),</span>
-<span id="cb6-9"><a href=""></a>    <span class="at">geometry =</span> <span class="cn">TRUE</span></span>
-<span id="cb6-10"><a href=""></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>many_states_corn <span class="ot">&lt;-</span></span>
+<span id="cb10-2"><a href=""></a>  <span class="fu">getQuickstat</span>(</span>
+<span id="cb10-3"><a href=""></a>    <span class="at">key =</span> nass_api_key,</span>
+<span id="cb10-4"><a href=""></a>    <span class="at">program =</span> <span class="st">"SURVEY"</span>,</span>
+<span id="cb10-5"><a href=""></a>    <span class="at">commodity =</span> <span class="st">"CORN"</span>,</span>
+<span id="cb10-6"><a href=""></a>    <span class="at">geographic_level =</span> <span class="st">"COUNTY"</span>,</span>
+<span id="cb10-7"><a href=""></a>    <span class="at">state =</span> <span class="fu">c</span>(<span class="st">"ILLINOIS"</span>, <span class="st">"COLORADO"</span>, <span class="st">"NEBRASKA"</span>, <span class="st">"IOWA"</span>, <span class="st">"KANSAS"</span>),</span>
+<span id="cb10-8"><a href=""></a>    <span class="at">year =</span> <span class="fu">as.character</span>(<span class="dv">1995</span><span class="sc">:</span><span class="dv">2018</span>),</span>
+<span id="cb10-9"><a href=""></a>    <span class="at">geometry =</span> <span class="cn">TRUE</span></span>
+<span id="cb10-10"><a href=""></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<div id="tabset-3-2">
+<div id="tabset-4-2">
 <div class="columns">
 <div class="column" style="width:70%;">
 <p>A query returns an error when there is no observation that satisfy your query criteria. For example, even though “CORN, GRAIN, IRRIGATED - YIELD, MEASURED IN BU / ACRE” does exists as a <code>data_item</code>, there is no entry for the statistic in Illinois in 2018. Therefore, the following query fails.</p>
@@ -2063,75 +2140,117 @@ First 10 features:
 </div>
 <!--end of the columns-->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>many_states_corn <span class="ot">&lt;-</span></span>
-<span id="cb7-2"><a href=""></a>  <span class="fu">getQuickstat</span>(</span>
-<span id="cb7-3"><a href=""></a>    <span class="at">key =</span> <span class="fu">key_get</span>(<span class="st">"usda_nass_qs_api"</span>),</span>
-<span id="cb7-4"><a href=""></a>    <span class="at">program =</span> <span class="st">"SURVEY"</span>,</span>
-<span id="cb7-5"><a href=""></a>    <span class="at">data_item =</span> <span class="st">"CORN, GRAIN, IRRIGATED - YIELD, MEASURED IN BU / ACRE"</span>,</span>
-<span id="cb7-6"><a href=""></a>    <span class="at">geographic_level =</span> <span class="st">"COUNTY"</span>,</span>
-<span id="cb7-7"><a href=""></a>    <span class="at">state =</span> <span class="st">"ILLINOIS"</span>,</span>
-<span id="cb7-8"><a href=""></a>    <span class="at">year =</span> <span class="st">"2018"</span>,</span>
-<span id="cb7-9"><a href=""></a>    <span class="at">geometry =</span> <span class="cn">TRUE</span></span>
-<span id="cb7-10"><a href=""></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>many_states_corn <span class="ot">&lt;-</span></span>
+<span id="cb11-2"><a href=""></a>  <span class="fu">getQuickstat</span>(</span>
+<span id="cb11-3"><a href=""></a>    <span class="at">key =</span> <span class="fu">key_get</span>(<span class="st">"usda_nass_qs_api"</span>),</span>
+<span id="cb11-4"><a href=""></a>    <span class="at">program =</span> <span class="st">"SURVEY"</span>,</span>
+<span id="cb11-5"><a href=""></a>    <span class="at">data_item =</span> <span class="st">"CORN, GRAIN, IRRIGATED - YIELD, MEASURED IN BU / ACRE"</span>,</span>
+<span id="cb11-6"><a href=""></a>    <span class="at">geographic_level =</span> <span class="st">"COUNTY"</span>,</span>
+<span id="cb11-7"><a href=""></a>    <span class="at">state =</span> <span class="st">"ILLINOIS"</span>,</span>
+<span id="cb11-8"><a href=""></a>    <span class="at">year =</span> <span class="st">"2018"</span>,</span>
+<span id="cb11-9"><a href=""></a>    <span class="at">geometry =</span> <span class="cn">TRUE</span></span>
+<span id="cb11-10"><a href=""></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
 </div>
 <!--end of panel-->
 </div>
-<div id="tabset-5-5">
+<div id="tabset-7-5">
 <div class="panel-tabset">
-<ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-4-1">Identify <code>data_item</code> name</a></li><li><a href="#tabset-4-2">Download data</a></li><li><a href="#tabset-4-3">Create a map</a></li></ul>
+<ul id="tabset-5" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-5-1">Motivation</a></li><li><a href="#tabset-5-2">How</a></li></ul>
 <div class="tab-content">
-<div id="tabset-4-1">
+<div id="tabset-5-1">
+<ul>
+<li>As mentioned <a href="#/sec-caveat-num-limit">here</a>, there is a limit to how much data you can download with one query.</li>
+<li>When your target dataset exceeds the limit, you can break it up into pieces and download them repeatedly using loop.</li>
+</ul>
+</div>
+<div id="tabset-5-2">
+<p>There are two dimensions that seems easy to loop over: <code>state</code> and <code>year</code>. Here, let’s loop over year.</p>
+<p>We first create a sequence of years to loop over one by one:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="co">#--- for the sake of shorter run time, we use 2015:2018 here ---#</span></span>
+<span id="cb12-2"><a href=""></a>year_list <span class="ot">&lt;-</span> <span class="fu">as.character</span>(<span class="dv">20015</span><span class="sc">:</span><span class="dv">2018</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>We now download data year by year using for loop:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">lapply</span>(</span>
+<span id="cb13-2"><a href=""></a>  year_list, <span class="co"># list of objects to loop over</span></span>
+<span id="cb13-3"><a href=""></a>  \(x) {</span>
+<span id="cb13-4"><a href=""></a>    <span class="fu">getQuickstat</span>(</span>
+<span id="cb13-5"><a href=""></a>      <span class="at">key =</span> nass_api_key,</span>
+<span id="cb13-6"><a href=""></a>      <span class="at">program =</span> <span class="st">"SURVEY"</span>,</span>
+<span id="cb13-7"><a href=""></a>      <span class="at">commodity =</span> <span class="st">"CORN"</span>,</span>
+<span id="cb13-8"><a href=""></a>      <span class="at">geographic_level =</span> <span class="st">"COUNTY"</span>,</span>
+<span id="cb13-9"><a href=""></a>      <span class="at">state =</span> <span class="fu">c</span>(<span class="st">"ILLINOIS"</span>, <span class="st">"COLORADO"</span>, <span class="st">"NEBRASKA"</span>, <span class="st">"IOWA"</span>, <span class="st">"KANSAS"</span>),</span>
+<span id="cb13-10"><a href=""></a>      <span class="at">year =</span> x, <span class="co"># use the year </span></span>
+<span id="cb13-11"><a href=""></a>      <span class="at">geometry =</span> <span class="cn">TRUE</span></span>
+<span id="cb13-12"><a href=""></a>    )</span>
+<span id="cb13-13"><a href=""></a>  }</span>
+<span id="cb13-14"><a href=""></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-15"><a href=""></a><span class="co"># combine a list of sf into a single sf</span></span>
+<span id="cb13-16"><a href=""></a>dplyr<span class="sc">::</span><span class="fu">bind_rows</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<!--end of panel-->
+</div>
+<div id="tabset-7-6">
+<div class="panel-tabset">
+<ul id="tabset-6" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-6-1">Identify <code>data_item</code> name</a></li><li><a href="#tabset-6-2">Download data</a></li><li><a href="#tabset-6-3">Create a map</a></li></ul>
+<div class="tab-content">
+<div id="tabset-6-1">
 <p>You are interested in getting soybean harvested acres data. Search for the <code>data_item</code> name for this variable from <code>tidyUSDA::allDataItem</code></p>
 <p><br></p>
 <p><strong>Answer</strong></p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>tidyUSDA<span class="sc">::</span>allDataItem <span class="sc">%&gt;%</span></span>
-<span id="cb8-2"><a href=""></a>  <span class="co">#--- find data items that include SOY ---#</span></span>
-<span id="cb8-3"><a href=""></a>  <span class="fu">grep</span>(<span class="at">pattern =</span> <span class="st">"SOY"</span>, ., <span class="at">value =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-4"><a href=""></a>  <span class="fu">grep</span>(<span class="at">pattern =</span> <span class="st">"HARVESTED"</span>, ., <span class="at">value =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>tidyUSDA<span class="sc">::</span>allDataItem <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href=""></a>  <span class="co">#--- find data items that include SOY ---#</span></span>
+<span id="cb14-3"><a href=""></a>  <span class="fu">grep</span>(<span class="at">pattern =</span> <span class="st">"SOY"</span>, ., <span class="at">value =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href=""></a>  <span class="fu">grep</span>(<span class="at">pattern =</span> <span class="st">"HARVESTED"</span>, ., <span class="at">value =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </div>
-<div id="tabset-4-2">
+<div id="tabset-6-2">
 <p>Now, using the <code>data_item</code> name you got earlier, download the county-level data for Colorado and Kansas from 1990 through 1994 as an <code>sf</code> obejct.</p>
 <p><br></p>
 <p><strong>Answer</strong></p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>KS_CO_soy_hacres <span class="ot">&lt;-</span></span>
-<span id="cb9-2"><a href=""></a>  <span class="fu">getQuickstat</span>(</span>
-<span id="cb9-3"><a href=""></a>    <span class="at">key =</span> nass_api_key,</span>
-<span id="cb9-4"><a href=""></a>    <span class="at">program =</span> <span class="st">"SURVEY"</span>,</span>
-<span id="cb9-5"><a href=""></a>    <span class="at">data_item =</span> <span class="st">"SOYBEANS - ACRES HARVESTED"</span>,</span>
-<span id="cb9-6"><a href=""></a>    <span class="at">geographic_level =</span> <span class="st">"COUNTY"</span>,</span>
-<span id="cb9-7"><a href=""></a>    <span class="at">state =</span> <span class="fu">c</span>(<span class="st">"KANSAS"</span>, <span class="st">"COLORADO"</span>),</span>
-<span id="cb9-8"><a href=""></a>    <span class="at">year =</span> <span class="fu">as.character</span>(<span class="dv">1990</span><span class="sc">:</span><span class="dv">1994</span>),</span>
-<span id="cb9-9"><a href=""></a>    <span class="at">geometry =</span> <span class="cn">TRUE</span></span>
-<span id="cb9-10"><a href=""></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb9-11"><a href=""></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
-<span id="cb9-12"><a href=""></a>    year, county_name, county_code, state_name,</span>
-<span id="cb9-13"><a href=""></a>    state_fips_code, short_desc, Value</span>
-<span id="cb9-14"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a>KS_CO_soy_hacres <span class="ot">&lt;-</span></span>
+<span id="cb15-2"><a href=""></a>  <span class="fu">getQuickstat</span>(</span>
+<span id="cb15-3"><a href=""></a>    <span class="at">key =</span> nass_api_key,</span>
+<span id="cb15-4"><a href=""></a>    <span class="at">program =</span> <span class="st">"SURVEY"</span>,</span>
+<span id="cb15-5"><a href=""></a>    <span class="at">data_item =</span> <span class="st">"SOYBEANS - ACRES HARVESTED"</span>,</span>
+<span id="cb15-6"><a href=""></a>    <span class="at">geographic_level =</span> <span class="st">"COUNTY"</span>,</span>
+<span id="cb15-7"><a href=""></a>    <span class="at">state =</span> <span class="fu">c</span>(<span class="st">"KANSAS"</span>, <span class="st">"COLORADO"</span>),</span>
+<span id="cb15-8"><a href=""></a>    <span class="at">year =</span> <span class="fu">as.character</span>(<span class="dv">1990</span><span class="sc">:</span><span class="dv">1994</span>),</span>
+<span id="cb15-9"><a href=""></a>    <span class="at">geometry =</span> <span class="cn">TRUE</span></span>
+<span id="cb15-10"><a href=""></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb15-11"><a href=""></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb15-12"><a href=""></a>    year, county_name, county_code, state_name,</span>
+<span id="cb15-13"><a href=""></a>    state_fips_code, short_desc, Value</span>
+<span id="cb15-14"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </div>
-<div id="tabset-4-3">
+<div id="tabset-6-3">
 <p>Create a map of soybean harvested acres faceted by year.</p>
 <p><br></p>
 <p><strong>Answer</strong></p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb10-2"><a href=""></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> KS_CO_soy_hacres, <span class="fu">aes</span>(<span class="at">fill =</span> Value)) <span class="sc">+</span></span>
-<span id="cb10-3"><a href=""></a>  <span class="fu">facet_wrap</span>(. <span class="sc">~</span> year) <span class="sc">+</span></span>
-<span id="cb10-4"><a href=""></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb16-2"><a href=""></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> KS_CO_soy_hacres, <span class="fu">aes</span>(<span class="at">fill =</span> Value)) <span class="sc">+</span></span>
+<span id="cb16-3"><a href=""></a>  <span class="fu">facet_wrap</span>(. <span class="sc">~</span> year) <span class="sc">+</span></span>
+<span id="cb16-4"><a href=""></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </div>
@@ -2143,25 +2262,41 @@ First 10 features:
 </div>
 <!--end of panel-->
 </section>
-<section id="prism" class="slide level2">
+<section id="sec-prism" class="slide level2">
 <h2>PRISM</h2>
 <div class="panel-tabset">
-<ul id="tabset-7" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-7-1">Introduction</a></li><li><a href="#tabset-7-2">How</a></li><li><a href="#tabset-7-3">Try yourself on your computer</a></li><li><a href="#tabset-7-4">Read PRISM files</a></li><li><a href="#tabset-7-5">Exercise</a></li></ul>
+<ul id="tabset-9" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-9-1">Introduction</a></li><li><a href="#tabset-9-2">How</a></li><li><a href="#tabset-9-3">Try yourself on your computer</a></li><li><a href="#tabset-9-4">Read PRISM files</a></li><li><a href="#tabset-9-5">Exercise</a></li></ul>
 <div class="tab-content">
-<div id="tabset-7-1">
+<div id="tabset-9-1">
+<div class="columns">
+<div class="column" style="width:70%;">
+<p><a href="https://prism.oregonstate.edu/">PRISM dataset</a> provide model-based estimates of daily precipitation, maximum temperature, and minimum temperature for the U.S. at the 4km by 4km spatial resolution.</p>
+</div><!--end of the 1st column--><div class="column" style="width:30%;">
 
+</div><!--end of the 2nd column-->
 </div>
-<div id="tabset-7-2">
+<!--end of the columns-->
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="L06_get_spatial_data_files/figure-revealjs/unnamed-chunk-19-1.png" width="4000"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-9-2">
 <p>You can use <code>get_prism_dailys()</code> from the <code>prism</code> package to download PRISM data.</p>
 <p><br></p>
 <p><strong>Syntax</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>prism<span class="sc">::</span><span class="fu">get_prism_dailys</span>(</span>
-<span id="cb11-2"><a href=""></a>  <span class="at">type =</span> variable type,</span>
-<span id="cb11-3"><a href=""></a>  <span class="at">minDate =</span> starting date as character,</span>
-<span id="cb11-4"><a href=""></a>  <span class="at">maxDate =</span> ending date as character,</span>
-<span id="cb11-5"><a href=""></a>  <span class="at">keepZip =</span> <span class="cn">TRUE</span> or <span class="cn">FALSE</span></span>
-<span id="cb11-6"><a href=""></a>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>prism<span class="sc">::</span><span class="fu">get_prism_dailys</span>(</span>
+<span id="cb17-2"><a href=""></a>  <span class="at">type =</span> variable type,</span>
+<span id="cb17-3"><a href=""></a>  <span class="at">minDate =</span> starting date as character,</span>
+<span id="cb17-4"><a href=""></a>  <span class="at">maxDate =</span> ending date as character,</span>
+<span id="cb17-5"><a href=""></a>  <span class="at">keepZip =</span> <span class="cn">TRUE</span> or <span class="cn">FALSE</span></span>
+<span id="cb17-6"><a href=""></a>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li><code>type</code>: you can select from “ppt” (precipitation), “tmean” (mean temperature), “tmin” (minimum temperature), and “tmax” (maximum temperature).</li>
@@ -2172,26 +2307,26 @@ First 10 features:
 <p><br></p>
 <p>Before you download PRISM data using the function, it is recommended that you set the path to folder in which the downloaded PRISM files will be stored using.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">options</span>(<span class="at">prism.path =</span> <span class="st">"path"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fu">options</span>(<span class="at">prism.path =</span> <span class="st">"path"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<div id="tabset-7-3">
+<div id="tabset-9-3">
 <div class="columns">
 <div class="column" style="width:70%;">
 <p>First set the path:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">library</span>(prism)</span>
-<span id="cb13-2"><a href=""></a><span class="fu">options</span>(<span class="at">prism.path =</span> <span class="st">"Lectures/Data/PRISM"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">library</span>(prism)</span>
+<span id="cb19-2"><a href=""></a><span class="fu">options</span>(<span class="at">prism.path =</span> <span class="st">"Lectures/Data/PRISM"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br></p>
 <p>Now, download:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>prism<span class="sc">::</span><span class="fu">get_prism_dailys</span>(</span>
-<span id="cb14-2"><a href=""></a>  <span class="at">type =</span> <span class="st">"ppt"</span>,</span>
-<span id="cb14-3"><a href=""></a>  <span class="at">minDate =</span> <span class="st">"2024-01-01"</span>,</span>
-<span id="cb14-4"><a href=""></a>  <span class="at">maxDate =</span> <span class="st">"2024-01-05"</span>,</span>
-<span id="cb14-5"><a href=""></a>  <span class="at">keepZip =</span> <span class="cn">FALSE</span></span>
-<span id="cb14-6"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>prism<span class="sc">::</span><span class="fu">get_prism_dailys</span>(</span>
+<span id="cb20-2"><a href=""></a>  <span class="at">type =</span> <span class="st">"ppt"</span>,</span>
+<span id="cb20-3"><a href=""></a>  <span class="at">minDate =</span> <span class="st">"2024-01-01"</span>,</span>
+<span id="cb20-4"><a href=""></a>  <span class="at">maxDate =</span> <span class="st">"2024-01-05"</span>,</span>
+<span id="cb20-5"><a href=""></a>  <span class="at">keepZip =</span> <span class="cn">FALSE</span></span>
+<span id="cb20-6"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This will create a single folder for each day of the specified date range. Inside of the folders, you will see bunch of files with the same name except extensions.</p>
 </div><!--end of the 1st column--><div class="column" style="width:30%;">
@@ -2200,7 +2335,7 @@ First 10 features:
 </div>
 <!--end of the columns-->
 </div>
-<div id="tabset-7-4">
+<div id="tabset-9-4">
 <div class="columns">
 <div class="column" style="width:70%;">
 <p>As you have seen, we would have many files to open unless the specified date range is very short. In such case, you should take advantage of a simple for loop.</p>
@@ -2211,48 +2346,49 @@ First 10 features:
 </div>
 <!--end of the columns-->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a>(</span>
-<span id="cb15-2"><a href=""></a>prism_files_list <span class="ot">&lt;-</span> </span>
-<span id="cb15-3"><a href=""></a>  <span class="fu">list.files</span>(<span class="st">"Data/PRISM"</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb15-4"><a href=""></a>  .[<span class="fu">grep</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">.bil"</span>, .)] <span class="sc">%&gt;%</span></span>
-<span id="cb15-5"><a href=""></a>  .[<span class="sc">!</span><span class="fu">grepl</span>(<span class="st">"aux"</span>, .)]</span>
-<span id="cb15-6"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a>(</span>
+<span id="cb21-2"><a href=""></a>prism_files_list <span class="ot">&lt;-</span> </span>
+<span id="cb21-3"><a href=""></a>  <span class="fu">list.files</span>(<span class="st">"Data/PRISM"</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-4"><a href=""></a>  .[<span class="fu">grep</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">.bil"</span>, .)] <span class="sc">%&gt;%</span></span>
+<span id="cb21-5"><a href=""></a>  .[<span class="sc">!</span><span class="fu">grepl</span>(<span class="st">"aux"</span>, .)]</span>
+<span id="cb21-6"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Data/PRISM/PRISM_ppt_provisional_4kmD2_20240101_bil/PRISM_ppt_provisional_4kmD2_20240101_bil.bil"
 [2] "Data/PRISM/PRISM_ppt_provisional_4kmD2_20240102_bil/PRISM_ppt_provisional_4kmD2_20240102_bil.bil"
 [3] "Data/PRISM/PRISM_ppt_provisional_4kmD2_20240103_bil/PRISM_ppt_provisional_4kmD2_20240103_bil.bil"
 [4] "Data/PRISM/PRISM_ppt_provisional_4kmD2_20240104_bil/PRISM_ppt_provisional_4kmD2_20240104_bil.bil"
 [5] "Data/PRISM/PRISM_ppt_provisional_4kmD2_20240105_bil/PRISM_ppt_provisional_4kmD2_20240105_bil.bil"
-[6] "Data/PRISM/tmax/PRISM_tmax_stable_4kmD2_20230601_bil/PRISM_tmax_stable_4kmD2_20230601_bil.bil"   
-[7] "Data/PRISM/tmax/PRISM_tmax_stable_4kmD2_20230602_bil/PRISM_tmax_stable_4kmD2_20230602_bil.bil"   
-[8] "Data/PRISM/tmax/PRISM_tmax_stable_4kmD2_20230603_bil/PRISM_tmax_stable_4kmD2_20230603_bil.bil"   </code></pre>
+[6] "Data/PRISM/PRISM_tmax_stable_4kmD2_20120801_bil/PRISM_tmax_stable_4kmD2_20120801_bil.bil"        
+[7] "Data/PRISM/tmax/PRISM_tmax_stable_4kmD2_20230601_bil/PRISM_tmax_stable_4kmD2_20230601_bil.bil"   
+[8] "Data/PRISM/tmax/PRISM_tmax_stable_4kmD2_20230602_bil/PRISM_tmax_stable_4kmD2_20230602_bil.bil"   
+[9] "Data/PRISM/tmax/PRISM_tmax_stable_4kmD2_20230603_bil/PRISM_tmax_stable_4kmD2_20230603_bil.bil"   </code></pre>
 </div>
 </div>
 <p>Just replace <code>"Data/PRISM"</code> with your folder path to the PRISM files.</p>
 <p>We can now read them using <code>terra::rast()</code> like below:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>terra<span class="sc">::</span><span class="fu">rast</span>(prism_files_list) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a>terra<span class="sc">::</span><span class="fu">rast</span>(prism_files_list) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>class       : SpatRaster 
-dimensions  : 621, 1405, 8  (nrow, ncol, nlyr)
+dimensions  : 621, 1405, 9  (nrow, ncol, nlyr)
 resolution  : 0.04166667, 0.04166667  (x, y)
 extent      : -125.0208, -66.47917, 24.0625, 49.9375  (xmin, xmax, ymin, ymax)
 coord. ref. : lon/lat NAD83 
 sources     : PRISM_ppt_provisional_4kmD2_20240101_bil.bil  
               PRISM_ppt_provisional_4kmD2_20240102_bil.bil  
               PRISM_ppt_provisional_4kmD2_20240103_bil.bil  
-              ... and 5 more source(s)
+              ... and 6 more source(s)
 names       : PRISM~1_bil, PRISM~2_bil, PRISM~3_bil, PRISM~4_bil, PRISM~5_bil, PRISM~1_bil, ... 
-min values  :       0.000,      0.0000,      0.0000,      0.0000,      0.0000,      0.1955, ... 
-max values  :      42.917,     10.2093,     87.7497,     37.0813,     90.0984,     39.1786, ... </code></pre>
+min values  :       0.000,      0.0000,      0.0000,      0.0000,      0.0000,       7.408, ... 
+max values  :      42.917,     10.2093,     87.7497,     37.0813,     90.0984,      46.303, ... </code></pre>
 </div>
 </div>
 </div>
-<div id="tabset-7-5">
+<div id="tabset-9-5">
 <div class="panel-tabset">
-<ul id="tabset-6" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-6-1">Download PRISM data</a></li><li><a href="#tabset-6-2">Read the downloaded files</a></li><li><a href="#tabset-6-3">Create a map</a></li></ul>
+<ul id="tabset-8" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-8-1">Download PRISM data</a></li><li><a href="#tabset-8-2">Read the downloaded files</a></li><li><a href="#tabset-8-3">Create a map</a></li></ul>
 <div class="tab-content">
-<div id="tabset-6-1">
+<div id="tabset-8-1">
 <p>Download PRISM maximum temperature data from “06-01-2023” to “06-03-2023”.</p>
 <p><br></p>
 <p><strong>Answer</strong></p>
@@ -2260,45 +2396,45 @@ max values  :      42.917,     10.2093,     87.7497,     37.0813,     90.0984,  
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="co">#--- set the path (you need to change the path) ---# </span></span>
-<span id="cb19-2"><a href=""></a><span class="fu">options</span>(<span class="at">prism.path =</span> <span class="st">"Data/PRISM/tmax"</span>)</span>
-<span id="cb19-3"><a href=""></a></span>
-<span id="cb19-4"><a href=""></a><span class="co">#--- download ---#</span></span>
-<span id="cb19-5"><a href=""></a>prism<span class="sc">::</span><span class="fu">get_prism_dailys</span>(</span>
-<span id="cb19-6"><a href=""></a>  <span class="at">type =</span> <span class="st">"tmax"</span>,</span>
-<span id="cb19-7"><a href=""></a>  <span class="at">minDate =</span> <span class="st">"2023-06-01"</span>,</span>
-<span id="cb19-8"><a href=""></a>  <span class="at">maxDate =</span> <span class="st">"2023-06-03"</span>,</span>
-<span id="cb19-9"><a href=""></a>  <span class="at">keepZip =</span> <span class="cn">FALSE</span></span>
-<span id="cb19-10"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="co">#--- set the path (you need to change the path) ---# </span></span>
+<span id="cb25-2"><a href=""></a><span class="fu">options</span>(<span class="at">prism.path =</span> <span class="st">"Data/PRISM/tmax"</span>)</span>
+<span id="cb25-3"><a href=""></a></span>
+<span id="cb25-4"><a href=""></a><span class="co">#--- download ---#</span></span>
+<span id="cb25-5"><a href=""></a>prism<span class="sc">::</span><span class="fu">get_prism_dailys</span>(</span>
+<span id="cb25-6"><a href=""></a>  <span class="at">type =</span> <span class="st">"tmax"</span>,</span>
+<span id="cb25-7"><a href=""></a>  <span class="at">minDate =</span> <span class="st">"2023-06-01"</span>,</span>
+<span id="cb25-8"><a href=""></a>  <span class="at">maxDate =</span> <span class="st">"2023-06-03"</span>,</span>
+<span id="cb25-9"><a href=""></a>  <span class="at">keepZip =</span> <span class="cn">FALSE</span></span>
+<span id="cb25-10"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </div>
-<div id="tabset-6-2">
+<div id="tabset-8-2">
 <p>Read all the maximum temperature data files you just downloaded using <code>terra::rast()</code>.</p>
 <p><br></p>
 <p><strong>Answer</strong></p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>prism_files_list <span class="ot">&lt;-</span></span>
-<span id="cb20-2"><a href=""></a>  <span class="fu">list.files</span>(<span class="st">"Data/PRISM/tmax"</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb20-3"><a href=""></a>  .[<span class="fu">grep</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">.bil"</span>, .)] <span class="sc">%&gt;%</span></span>
-<span id="cb20-4"><a href=""></a>  .[<span class="sc">!</span><span class="fu">grepl</span>(<span class="st">"aux"</span>, .)]</span>
-<span id="cb20-5"><a href=""></a></span>
-<span id="cb20-6"><a href=""></a>prism_max_temp <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rast</span>(prism_files_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a>prism_files_list <span class="ot">&lt;-</span></span>
+<span id="cb26-2"><a href=""></a>  <span class="fu">list.files</span>(<span class="st">"Data/PRISM/tmax"</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb26-3"><a href=""></a>  .[<span class="fu">grep</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">.bil"</span>, .)] <span class="sc">%&gt;%</span></span>
+<span id="cb26-4"><a href=""></a>  .[<span class="sc">!</span><span class="fu">grepl</span>(<span class="st">"aux"</span>, .)]</span>
+<span id="cb26-5"><a href=""></a></span>
+<span id="cb26-6"><a href=""></a>prism_max_temp <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rast</span>(prism_files_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </div>
-<div id="tabset-6-3">
+<div id="tabset-8-3">
 <p>Using the <code>SpatRaster</code> object, create a faceted map of maximum temperature.</p>
 <p><br></p>
 <p><strong>Answer</strong></p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb21-2"><a href=""></a>  <span class="fu">geom_spatraster</span>(<span class="at">data =</span> prism_max_temp) <span class="sc">+</span></span>
-<span id="cb21-3"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>lyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb27-2"><a href=""></a>  <span class="fu">geom_spatraster</span>(<span class="at">data =</span> prism_max_temp) <span class="sc">+</span></span>
+<span id="cb27-3"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>lyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </div>
@@ -2310,25 +2446,194 @@ max values  :      42.917,     10.2093,     87.7497,     37.0813,     90.0984,  
 </div>
 <!--end of panel-->
 </section>
-<section id="daymet" class="slide level2">
-<h2>Daymet</h2>
-</section>
 <section id="crop-data-layer" class="slide level2">
 <h2>Crop Data Layer</h2>
 <div class="panel-tabset">
-<ul id="tabset-8" class="panel-tabset-tabby"></ul>
+<ul id="tabset-12" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-12-1">Introduction</a></li><li><a href="#tabset-12-2"><code>CropScapeR</code> package</a></li><li><a href="#tabset-12-3">How</a></li><li><a href="#tabset-12-4">Example 1</a></li><li><a href="#tabset-12-5">Example 2</a></li><li><a href="#tabset-12-6">Exercise</a></li></ul>
 <div class="tab-content">
+<div id="tabset-12-1">
+<div class="columns">
+<div class="column" style="width:70%;">
+<ul>
+<li><p>The Cropland Data Layer (CDL) is a data product produced by the National Agricultural Statistics Service of U.S. Department of Agriculture.</p></li>
+<li><p>CDL provides geo-referenced, high accuracy, 30 (after 2007) or 56 (in 2006 and 2007) meter resolution, crop-specific cropland land cover information for up to 48 contiguous states in the U.S. from 1997 to the present.</p></li>
+<li><p>This data product has been extensively used in agricultural research. CropScape is an <a href="https://nassgeodata.gmu.edu/CropScape/">interactive Web CDL exploring system</a>, and it was developed to query, visualize, disseminate, and analyze CDL data geospatially through standard geospatial web services in a publicly accessible on-line environment (Han et al., 2012).</p></li>
+<li><p>This section shows how to use the CropScapeR package (Chen 2020) to download and explore the CDL data.</p></li>
+</ul>
+</div><!--end of the 1st column--><div class="column" style="width:30%;">
 
+</div><!--end of the 2nd column-->
+</div>
+<!--end of the columns-->
+</div>
+<div id="tabset-12-2">
+<div class="columns">
+<div class="column" style="width:70%;">
+<ul>
+<li><p>The package implements some of the most useful geospatial processing services provided by the CropScape, and it allows users to efficiently process the CDL data within the R environment.</p></li>
+<li><p>Specifically, the CropScapeR package provides four functions that implement different kinds of geospatial processing services provided by the CropScape.</p></li>
+<li><p><code>GetCDLData()</code> in particular is the most important function as it lets you download the raw CDL data.</p></li>
+<li><p>The other functions provide the users with the CDL data summarized or transformed in particular manners that may suit the need of some users.</p></li>
+</ul>
+<!-- Note: There is a known problem with Mac users requesting CDL data services using the CropScape API, which causes errors when using the functions provided by the package. Please see section 9.2.4 for a workaround. -->
+</div><!--end of the 1st column--><div class="column" style="width:30%;">
+
+</div><!--end of the 2nd column-->
+</div>
+<!--end of the columns-->
+</div>
+<div id="tabset-12-3">
+<p><code>GetCDLData()</code> allows us to obtain CDL data for any Area of Interest (AOI) in a given year. It requires three parameters to make a valid data request:</p>
+<ul>
+<li><code>aoi</code>: Area of Interest (AOI).</li>
+<li><code>year</code>: Year of the data to request.</li>
+<li><code>type</code>: Type of AOI.</li>
+</ul>
+<p>The following AOI-type combinations are accepted:</p>
+<ul>
+<li>any spatial object as an sf or sfc object - <code>type = "b"</code></li>
+<li>county (defined by a 5-digit county FIPS code) - <code>type = "f"</code></li>
+<li>state (defined by a 2-digit state FIPS code) - <code>type = "f"</code></li>
+<li>bounding box (defined by four corner points) - <code>type = "b"</code></li>
+<li>polygon area (defined by at least three coordinates) - <code>type = "ps"</code></li>
+<li>single point (defined by a coordinate) - <code>type = "p"</code></li>
+</ul>
+<div class="callout callout-important no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p>The downloaded raster data is <code>RasterLayer</code> defined by the <code>raster</code> package, not <code>SpatRaster</code> by the <code>terra</code> package.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-12-4">
+<ul>
+<li><p>Suppose you are interested in getting CDL data for the entire Nebraska.</p></li>
+<li><p>In this case we can use the state FIP code for NE (31) for <code>aoi</code> and specify <code>type</code> to be <code>"f"</code> (Note that this would take some time if you run it.).</p></li>
+<li><p>This can take a while. Since the spatial resolution is 30m, the CDL data covering the entire IL would have lots of cells and thus memory-intensive.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>cdl_NE <span class="ot">&lt;-</span></span>
+<span id="cb28-2"><a href=""></a>  CropScapeR<span class="sc">::</span><span class="fu">GetCDLData</span>(</span>
+<span id="cb28-3"><a href=""></a>    <span class="at">aoi =</span> <span class="dv">31</span>,</span>
+<span id="cb28-4"><a href=""></a>    <span class="at">year =</span> <span class="st">"2018"</span>,</span>
+<span id="cb28-5"><a href=""></a>    <span class="at">type =</span> <span class="st">"f"</span></span>
+<span id="cb28-6"><a href=""></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-12-5">
+<div class="panel-tabset">
+<ul id="tabset-10" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-10-1">Area of interest</a></li><li><a href="#tabset-10-2">Download</a></li></ul>
+<div class="tab-content">
+<div id="tabset-10-1">
+<p>In this example, we are interested in obtaining CDL data for the following four counties in Illinois: Champaign, Vermilion, Ford, and Iroquois.</p>
+<p>Let’s first get the county boundary data for them:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a>IL_county <span class="ot">&lt;-</span> tigris<span class="sc">::</span><span class="fu">counties</span>(<span class="at">state =</span> <span class="st">"IL"</span>, <span class="at">cb =</span> <span class="cn">TRUE</span>, <span class="at">progress_bar =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb29-2"><a href=""></a></span>
+<span id="cb29-3"><a href=""></a>IL_4_county <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(IL_county, NAME <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Champaign"</span>, <span class="st">"Vermilion"</span>, <span class="st">"Ford"</span>, <span class="st">"Iroquois"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>Here is where they are:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="L06_get_spatial_data_files/figure-revealjs/unnamed-chunk-31-1.png" width="4000"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-10-2">
+<p>When you provide <code>aoi</code> using an <code>sf</code> object, CDL data for the bounding box of the <code>sf</code> will be downloaded. So, you should pick <code>"b"</code> as the <code>type</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="fu">GetCDLData</span>(</span>
+<span id="cb30-2"><a href=""></a>  <span class="at">aoi =</span> IL_4_county,</span>
+<span id="cb30-3"><a href=""></a>  <span class="at">year =</span> <span class="st">"2018"</span>,</span>
+<span id="cb30-4"><a href=""></a>  <span class="at">type =</span> <span class="st">"b"</span></span>
+<span id="cb30-5"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
 </div>
 </div>
 <!--end of panel-->
-</section>
-<section id="ssurgo" class="slide level2">
-<h2>SSURGO</h2>
+</div>
+<div id="tabset-12-6">
 <div class="panel-tabset">
-<ul id="tabset-9" class="panel-tabset-tabby"></ul>
+<ul id="tabset-11" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-11-1">AOI</a></li><li><a href="#tabset-11-2">Download</a></li><li><a href="#tabset-11-3">Mask</a></li><li><a href="#tabset-11-4">Aggregate</a></li><li><a href="#tabset-11-5">Map</a></li></ul>
 <div class="tab-content">
-
+<div id="tabset-11-1">
+<p>Using the <code>tigris</code> package, download the county boundary for Iowa, and then filter it to keep only the Sioux county. Name the <code>sf</code> file <code>sioux_county</code>.</p>
+<p><br></p>
+<p><strong>Answer</strong></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>sioux_county <span class="ot">&lt;-</span></span>
+<span id="cb31-2"><a href=""></a>  tigris<span class="sc">::</span><span class="fu">counties</span>(<span class="at">state =</span> <span class="st">"IA"</span>, <span class="at">cb =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a href=""></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(NAME <span class="sc">==</span> <span class="st">"Sioux"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<div id="tabset-11-2">
+<p>Using the <code>CropScapeR::GetCDLData()</code>, download the 2022 CDL data covering the Sioux County. Then, convert it to a <code>SpatRaster</code> object. Name the final product <code>sioux_cdl_2022</code>.</p>
+<p><br></p>
+<p><strong>Answer</strong></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a>sioux_cdl_2022 <span class="ot">&lt;-</span></span>
+<span id="cb32-2"><a href=""></a>  <span class="fu">GetCDLData</span>(</span>
+<span id="cb32-3"><a href=""></a>    <span class="at">aoi =</span> sioux_county,</span>
+<span id="cb32-4"><a href=""></a>    <span class="at">year =</span> <span class="st">"2022"</span>,</span>
+<span id="cb32-5"><a href=""></a>    <span class="at">type =</span> <span class="st">"b"</span></span>
+<span id="cb32-6"><a href=""></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb32-7"><a href=""></a>  terra<span class="sc">::</span><span class="fu">rast</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<div id="tabset-11-3">
+<p>Mask the CDL data you just downloaded using <code>sioux_county</code> using <code>terra::mask()</code>.</p>
+<p><br></p>
+<p><strong>Answer</strong></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>sioux_masked <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">mask</span>(sioux_cdl_2022, <span class="fu">st_transform</span>(sioux_county, <span class="fu">crs</span>(sioux_cdl_2022)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<div id="tabset-11-4">
+<p>Before creating a map from the downloaded CDL layer data, let’s aggregate the data by factor of 10 using <code>terra::aggregate()</code>. Call it <code>sioux_aggregated</code>.</p>
+<p><br></p>
+<p><strong>Answer</strong></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a>sioux_aggregated <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">aggregate</span>(sioux_masked, <span class="at">fact =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<div id="tabset-11-5">
+<p>Create a map of land use type using the aggregate Sioux county CDL data using <code>tidyterra::geom_spatraster()</code>.</p>
+<p><br></p>
+<p><strong>Answer</strong></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb35-2"><a href=""></a>  <span class="fu">geom_spatraster</span>(<span class="at">data =</span> sioux_aggregated)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<!--end of panel-->
+</div>
 </div>
 </div>
 <!--end of panel-->
@@ -2348,6 +2653,7 @@ max values  :      42.917,     10.2093,     87.7497,     37.0813,     90.0984,  
   <script src="L06_get_spatial_data_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
   <script src="L06_get_spatial_data_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
   <script src="L06_get_spatial_data_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="L06_get_spatial_data_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
   <script src="L06_get_spatial_data_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
@@ -2368,7 +2674,8 @@ max values  :      42.917,     10.2093,     87.7497,     37.0813,     90.0984,  
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
-'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -2539,7 +2846,7 @@ max values  :      42.917,     10.2093,     87.7497,     37.0813,     90.0984,  
         },
 
         // reveal.js plugins
-        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
 
           RevealMath,
           RevealNotes,

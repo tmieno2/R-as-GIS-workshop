@@ -8,6 +8,8 @@ format:
     scrollable: true
     echo: true
     fig-dpi: 400
+    # embed-resources: true
+    chalkboard: true
     resources: 
       - shinylive-sw.js
 webr:
