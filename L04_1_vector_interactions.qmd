@@ -413,7 +413,7 @@ Confirm that your visual inspection results are consistent with the outcome of t
 
 #### Syntax
 
-`sf::st_nearest_feature() identifies which `sfg`s in `sf_2` is closest in distance to each of `sf_1`.
+`sf::st_nearest_feature()` identifies which `sfg`s in `sf_2` is closest in distance to each of `sf_1`.
 
 ```{r eval = F}
 st_nearest_feature(sf_1, sf_2)
