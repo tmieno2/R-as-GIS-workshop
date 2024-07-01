@@ -454,7 +454,9 @@ Run the following codes to get `mower_sensor` and `fairway_grid` data.
 
 ```{webr-r}
 #--- mower sensor ---#
-data(mower_sensor, package = "r.spatial.workshop.datasets") 
+data(mower_sensor, package = "r.spatial.workshop.datasets")
+
+mower_sensor_sf <- st_as_sf(mower_sensor, coords = c("LNG", "LAT"), crs = st_crs(fairway_grid))
 
 #--- fairway grid ---#
 data(fairway_grid, package = "r.spatial.workshop.datasets")
@@ -475,7 +477,7 @@ ggplot() +
 ::: {.columns}
 
 ::: {.column width="70%"}
-Use `sf::st_intersects()` to find out which of the points in `mower_sensor_sf` are inside of any of the polygons in `fwy05_grid`.
+Use `sf::st_intersects()` to find out which of the points in `mower_sensor_sf` are inside of any of the polygons in `fairway_grid`.
 
 ```{webr-r}
 #--- type your answer here ---#
@@ -484,7 +486,7 @@ Use `sf::st_intersects()` to find out which of the points in `mower_sensor_sf` a
 
 <br>
 
-Since there are so many points in `mower_sensor_sf`, you won't really see which ones are inside of any of the polygons in `fwy05_grid`.
+Since there are so many points in `mower_sensor_sf`, you won't really see which ones are inside of any of the polygons in `fairway_grid`.
 
 That is okay for now. We will later learn how to filter `sf` objects spatially. 
 
@@ -494,7 +496,7 @@ That is okay for now. We will later learn how to filter `sf` objects spatially.
 ```{r}
 #| code-fold: true 
 #| eval: false 
-st_intersects(mower_sensor_sf, fwy05_grid)
+st_intersects(mower_sensor_sf, fairway_grid)
 ```
 :::
 <!--end of the 1st column-->
