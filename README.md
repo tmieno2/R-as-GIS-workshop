@@ -12,7 +12,7 @@ This repository hosts all the codes used in creating lecture slides for the R-as
 
 + Lecture 4: Spatial interaction of vector data 
   + 4.1: Topological relations and subset ([slide](https://tmieno2.github.io/R-as-GIS-workshop/L04_1_vector_interactions.html))
-  + 4.2: Spatial join ([slide](https://tmieno2.github.io/R-as-GIS-workshop/L04_2_spatial_join.html))
+  + 4.2: Spatial join ([slide](https://tmieno2.github.io/R-as-GIS-workshop/L04_2_vector_spatial_join.html))
 
 + Lecture 5: Spatial interaction of vector and raster data ([slide](https://tmieno2.github.io/R-as-GIS-workshop/L05_vector_raster_interaction.html))
 
