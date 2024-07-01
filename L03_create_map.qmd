@@ -1012,7 +1012,7 @@ As the warning message suggests, both layers are plotted by default. You can spe
 
 ```{webr-r}
 ggplot() +
-  geom_spatraster(data = nir_red)
+  geom_spatraster(data = nir_red, aes(fill = NIR))
 ```
 
 :::{.callout-note}
