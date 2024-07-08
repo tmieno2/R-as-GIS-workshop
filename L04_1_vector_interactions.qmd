@@ -682,7 +682,7 @@ You can specify the topological relation as in
 ```{r}
 #| eval: false
 #--- NOT RUN ---#
-sf_1[sf_2, op = topological_relation_type] 
+sf_1[sf_2, , op = topological_relation_type] 
 ```
 
 <br>

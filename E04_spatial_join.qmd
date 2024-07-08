@@ -1,0 +1,134 @@
+---
+title: "Additional Exercises: Spatial Joining"
+format: 
+  revealjs: 
+    theme: [default, custom.scss]
+    fontsize: 1em
+    callout-icon: false
+    scrollable: true
+    echo: true
+    fig-dpi: 400
+webr:
+  packages: ['ggplot2', 'sf', 'datasets', 'tigris', 'spData', 'maps', 'tidygeocoder'] # Install R packages on document open
+# autoload-packages: false       # Disable automatic loading of packages
+# show-startup-message: false    # Disable displaying status of webR initialization
+  cell-options:
+    editor-font-scale: 0.8
+filters:
+  - webr
+---
+
+```{r, eval = FALSE, echo = FALSE}
+library("ggplot2") 
+library("sf") 
+library("USAboundaries") 
+```
+
+## Spatial Joining
+
+::: {.panel-tabset}
+
+### Data preparation
+
+We will use `quakes` from the `dastasets` package and `world` from the `spData` package.
+
+```{webr-r}
+#--- get quake data ---# 
+data("quakes")
+#--- convert quakes to sf object ---#
+quakes_sf <- st_as_sf(quakes, coords = c("long", "lat"), crs = 4326)
+
+#--- world data (from the spData pacakge) ---#
+world
+```
+
+<!--end of panel-->
+
+### Spatial Joining
+
+Find in which countries the quakes recorded in `quakes` occurred. Count the number of quakes by country.
+
+```{webr-r}
+
+```
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+joined_data <- 
+  st_join(world, quakes_sf) %>% 
+  dplyr::filter(!is.na(depth)) %>%
+  dplyr::group_by(name_long) %>%
+  dplyr::summarize(coutn = dplyr::n())
+
+```
+
+
+:::
+
+## Spatial Join: which cities in which country?
+
+
+::: {.panel-tabset}
+
+### Data Preparation
+
+We will use `world.cities` from the `dastasets` package and `world` from the `spData` package.
+
+```{webr-r}
+#--- world cities ---#
+data("world.cities")
+cities_sf <- st_as_sf(world.cities, coords = c("long", "lat"), crs = 4326)
+
+#--- countries ---#
+world 
+```
+
+### Spatial Join
+
+Identify which cities belong to which country.
+
+```{webr-r}
+
+```
+
+<br>
+
+**Answer**
+```{r, eval = FALSE}
+#| code-fold: true
+joined_data <- st_join(world, cities_sf)
+```
+
+:::
+
+<!--end of panel-->
+
+## Spatial Join
+
+```{webr-r}
+library(sf)
+library(tidygeocoder)
+library(maps)
+
+# Load datasets
+data("world.cities", package = "maps")
+breweries <- us_breweries() # Example function, replace with actual data loading
+
+# Convert datasets to sf objects
+breweries_sf <- st_as_sf(breweries, coords = c("lon", "lat"), crs = 4326)
+cities_sf <- st_as_sf(us_cities, coords = c("long", "lat"), crs = 4326)
+
+# Find nearest city to each brewery
+nearest_city_indices <- st_nearest_feature(breweries_sf, cities_sf)
+nearest_cities <- cities_sf[nearest_city_indices, ]
+
+# Perform spatial join
+joined_data <- st_join(breweries_sf, nearest_cities, join = st_nearest_feature)
+
+# Inspect the result
+head(joined_data)
+
+```

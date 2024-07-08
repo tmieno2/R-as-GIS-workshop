@@ -273,9 +273,10 @@ ggplot() +
 
 <br>
 
-We create a fake variable that represents groundwater extraction (acre-feet) from the aquifer.  
+We create a fake variable that represents groundwater extraction (acre-feet) from the aquifer.
 
 ```{webr-r}
+#| autorun: true
 wells_ne <- 
   wells_ne %>%
   dplyr::mutate(gw_extraction = runif(nrow(.), min = 50, max = 400))
@@ -365,7 +366,7 @@ Nitrogen use (lb/acre) by county in Iowa (Note: this is a fake dataset that is g
 ia_nitrogen
 
 ggplot() +
-  geom_sf(data = ia_nitrogen, aes(fill = acres))
+  geom_sf(data = ia_nitrogen, aes(fill = nitrogen_rate))
 ```
 
 <br>
@@ -393,7 +394,7 @@ ggplot() +
   geom_sf(
     data = ia_nitrogen,
     alpha = 0.6,
-    aes(fill = acres)
+    aes(fill = nitrogen_rate)
   ) +
   geom_sf(
     data = huc_ia,
@@ -431,6 +432,7 @@ We can now find average nitrogen use (lb/acre) by HUC unit:
 
 ```{webr-r}
 huc_joined_with_acres %>%
+  as.data.frame()
   dplyr::group_by(HUC_CODE) %>%
   dplyr::summarize(total_corn_acres = mean(acres))
 ```
@@ -445,8 +447,8 @@ Note that the resulting dataset does not tell you the nature of intersections. T
 
 ```{webr-r}
 ggplot() +
-  geom_sf(data = huc_07060004) +
-  geom_sf(data = dplyr::filter(ia_nitrogen, county_code %in% huc_07060004$county_code))
+  geom_sf(data = dplyr::filter(ia_nitrogen, countyfp %in% huc_07060004$countyfp)) +
+  geom_sf(data = huc_07060004)
 ```
 
 <br>
