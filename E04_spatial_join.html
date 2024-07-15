@@ -568,7 +568,7 @@
   // Document level settings ----
 
   // Determine if we need to install R packages
-  globalThis.qwebrInstallRPackagesList = ['ggplot2', 'sf', 'datasets', 'tigris', 'spData', 'maps'];
+  globalThis.qwebrInstallRPackagesList = ['ggplot2', 'sf', 'datasets', 'tigris', 'spData', 'maps', 'tidygeocoder'];
 
   // Specify possible locations to search for the repository
   globalThis.qwebrPackageRepoURLS = ['https://repo.r-wasm.org/'];
@@ -590,7 +590,7 @@
   };
 
   // Store cell data
-  globalThis.qwebrCellDetails = [{"code":"#--- get quake data ---# \ndata(\"quakes\")\n#--- convert quakes to sf object ---#\nquakes_sf <- st_as_sf(quakes, coords = c(\"long\", \"lat\"), crs = 4326)\n\n#--- world data (from the spData pacakge) ---#\nworld","id":1,"options":{"read-only":"false","context":"interactive","results":"markup","fig-height":5,"editor-max-height":"","message":"true","fig-cap":"","dpi":72,"editor-font-scale":"0.8","fig-width":7,"autorun":"false","editor-quick-suggestions":"false","out-width":"700px","label":"unnamed-chunk-1","classes":"","comment":"","output":"true","warning":"true","out-height":""}},{"code":"","id":2,"options":{"read-only":"false","context":"interactive","results":"markup","fig-height":5,"editor-max-height":"","message":"true","fig-cap":"","dpi":72,"editor-font-scale":"0.8","fig-width":7,"autorun":"false","editor-quick-suggestions":"false","out-width":"700px","label":"unnamed-chunk-2","classes":"","comment":"","output":"true","warning":"true","out-height":""}},{"code":"#--- world cities ---#\ndata(\"world.cities\")\ncities_sf <- st_as_sf(world.cities, coords = c(\"long\", \"lat\"), crs = 4326)\n\n#--- countries ---#\nworld ","id":3,"options":{"read-only":"false","context":"interactive","results":"markup","fig-height":5,"editor-max-height":"","message":"true","fig-cap":"","dpi":72,"editor-font-scale":"0.8","fig-width":7,"autorun":"false","editor-quick-suggestions":"false","out-width":"700px","label":"unnamed-chunk-3","classes":"","comment":"","output":"true","warning":"true","out-height":""}},{"code":"","id":4,"options":{"read-only":"false","context":"interactive","results":"markup","fig-height":5,"editor-max-height":"","message":"true","fig-cap":"","dpi":72,"editor-font-scale":"0.8","fig-width":7,"autorun":"false","editor-quick-suggestions":"false","out-width":"700px","label":"unnamed-chunk-4","classes":"","comment":"","output":"true","warning":"true","out-height":""}}];
+  globalThis.qwebrCellDetails = [{"options":{"comment":"","output":"true","editor-font-scale":"0.8","warning":"true","out-width":"700px","autorun":"false","read-only":"false","fig-cap":"","message":"true","editor-max-height":"","fig-width":7,"results":"markup","fig-height":5,"classes":"","label":"unnamed-chunk-1","dpi":72,"out-height":"","context":"interactive","editor-quick-suggestions":"false"},"id":1,"code":"#--- get quake data ---# \ndata(\"quakes\")\n#--- convert quakes to sf object ---#\nquakes_sf <- st_as_sf(quakes, coords = c(\"long\", \"lat\"), crs = 4326)\n\n#--- world data (from the spData pacakge) ---#\nworld"},{"options":{"comment":"","output":"true","editor-font-scale":"0.8","warning":"true","out-width":"700px","autorun":"false","read-only":"false","fig-cap":"","message":"true","editor-max-height":"","fig-width":7,"results":"markup","fig-height":5,"classes":"","label":"unnamed-chunk-2","dpi":72,"out-height":"","context":"interactive","editor-quick-suggestions":"false"},"id":2,"code":""},{"options":{"comment":"","output":"true","editor-font-scale":"0.8","warning":"true","out-width":"700px","autorun":"false","read-only":"false","fig-cap":"","message":"true","editor-max-height":"","fig-width":7,"results":"markup","fig-height":5,"classes":"","label":"unnamed-chunk-3","dpi":72,"out-height":"","context":"interactive","editor-quick-suggestions":"false"},"id":3,"code":"#--- world cities ---#\ndata(\"world.cities\")\ncities_sf <- st_as_sf(world.cities, coords = c(\"long\", \"lat\"), crs = 4326)\n\n#--- countries ---#\nworld "},{"options":{"comment":"","output":"true","editor-font-scale":"0.8","warning":"true","out-width":"700px","autorun":"false","read-only":"false","fig-cap":"","message":"true","editor-max-height":"","fig-width":7,"results":"markup","fig-height":5,"classes":"","label":"unnamed-chunk-4","dpi":72,"out-height":"","context":"interactive","editor-quick-suggestions":"false"},"id":4,"code":""},{"options":{"comment":"","output":"true","editor-font-scale":"0.8","warning":"true","out-width":"700px","autorun":"false","read-only":"false","fig-cap":"","message":"true","editor-max-height":"","fig-width":7,"results":"markup","fig-height":5,"classes":"","label":"unnamed-chunk-5","dpi":72,"out-height":"","context":"interactive","editor-quick-suggestions":"false"},"id":5,"code":"library(sf)\nlibrary(tidygeocoder)\nlibrary(maps)\n\n# Load datasets\ndata(\"world.cities\", package = \"maps\")\nbreweries <- us_breweries() # Example function, replace with actual data loading\n\n# Convert datasets to sf objects\nbreweries_sf <- st_as_sf(breweries, coords = c(\"lon\", \"lat\"), crs = 4326)\ncities_sf <- st_as_sf(us_cities, coords = c(\"long\", \"lat\"), crs = 4326)\n\n# Find nearest city to each brewery\nnearest_city_indices <- st_nearest_feature(breweries_sf, cities_sf)\nnearest_cities <- cities_sf[nearest_city_indices, ]\n\n# Perform spatial join\njoined_data <- st_join(breweries_sf, nearest_cities, join = st_nearest_feature)\n\n# Inspect the result\nhead(joined_data)"}];
 
   </script>
   <script type="module">
@@ -1722,6 +1722,11 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 </div>
 <!--end of panel-->
+</section>
+<section id="spatial-join-1" class="slide level2">
+<h2>Spatial Join</h2>
+<div id="qwebr-insertion-location-5"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 

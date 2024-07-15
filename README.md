@@ -24,6 +24,8 @@ This repository hosts all the codes used in creating lecture slides for the R-as
 
 + SS 2: `dplyr` primer ([slide](https://tmieno2.github.io/R-as-GIS-workshop/LA_2_dplyr_primer.html))
 
++ SS 3: Looping primer ([slide](https://tmieno2.github.io/R-as-GIS-workshop/LA_3_loop.html))
+
 
 ## Additional Exercises
 
