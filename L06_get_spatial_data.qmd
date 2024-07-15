@@ -424,8 +424,9 @@ We first create a sequence of years to loop over one by one:
 
 ```{r, eval = FALSE}
 #--- for the sake of shorter run time, we use 2015:2018 here ---#
-year_list <- as.character(20015:2018)
+year_list <- as.character(2015:2018)
 ```
+
 <br>
 
 We now download data year by year using for loop:
