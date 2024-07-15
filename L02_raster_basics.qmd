@@ -85,6 +85,8 @@ NIR <- terra::rast(NIR)
 data(RED)
 RED <- terra::rast(RED)
 reflec_all <- c(reflec_blue, reflec_red, reflec_green)
+prism_saunders <- terra::rast(prism_saunders)
+prism_douglas <- terra::rast(prism_douglas)
 ```
 
 ## Tips to make the most of the lecture notes
@@ -963,5 +965,79 @@ plot(soil_to_precip_grids)
 :::
 
 :::
+
+### Merge
+
+::: {.panel-tabset}
+
+#### Motivation
+
+Sometimes, you have two or more raster layers that have different spatial coverages. In such a case, you might want to merge them into a single raster layer.
+
+For demonstration purpose, we will use two `SpatRaster` objects: `prism_saunders` and `prism_douglas`. They are PRISM maximum temperature observed on 08/01/2012 in the Saunders and Douglas counties in Nebraska, which are adjacent to each other.
+
+```{webr-r}
+#| autorun: true
+ggplot() +
+  geom_spatraster(data = prism_saunders) +
+  geom_spatraster(data = prism_douglas)
+```
+
+:::{.callout-note}
+Note that this is different from combining multiple single-layer raster data of the same spatial extent and resolution into multi-layer raster data.
+:::
+
+#### How
+
+You can use the `terra::merge()` function to merge two raster datasets into one.
+
+```{webr-r}
+prism_merged <- terra::merge(prism_saunders, prism_douglas)
+```
+
+<br>
+
+You can check the result of the merging below:
+
+```{webr-r}
+ggplot() +
+  geom_spatraster(data = prism_merged)
+```
+
+<br>
+
+:::{.callout-note}
+Remember that raster object has to be perfectly rectangular. The result of merging will construct a rectangle that encompasses both `prism_saunders` and `prism_douglas`. All the cells that are not covered by `prism_saunders` and `prism_douglas` will be assigned NA.
+:::
+
+
+#### Caveat
+
+When merging two `SpatRaster` objects and when they have spatial overlaps, the value of the first `SpatRaster` object will be respected.
+
+Let's run a little experiment. We will assign a high value to all the cells in `prism_saunders`. This will make this phenomenon easy to detect.
+
+```{webr-r}
+values(prism_saunders) <- 120
+```
+
+<br> 
+
+**`prism_saunders` first**
+
+```{webr-r}
+merge(prism_saunders, prism_douglas) %>% plot()
+```
+
+<br>
+
+**`prism_douglas` first**
+
+```{webr-r}
+merge(prism_douglas, prism_saunders) %>% plot()
+```
+
+:::
+<!--end of panel-->
 
 :::
