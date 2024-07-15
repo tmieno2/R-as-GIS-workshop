@@ -1,0 +1,142 @@
+---
+title: "Final Assignment"
+---
+
+# Instruction 
+
++ We are going to use data files found [here](https://www.dropbox.com/scl/fo/ljr76u5azr7u4zx7mk55p/AB1RtEs0KyWqL6rKsiJHRKk?rlkey=ogas3pbhuhhhy94kprbd2m553&e=1&st=oq35p7rx&dl=0). Note that you have downloaded these data files already during the class. So, if you know where they are, you do not need to download them again of course. Otherwise, please download them again (You need only some of them, but it is just easier to download them all.).
+
++ Knowing what packages to use is also part of the assignment. Load them using `library()` as you find them necessary.
+
+```{r, include = FALSE}
+library(sf)
+library(ggplot2)
+library(terra)
+library(tidyterra)
+```
+
+# Problem 1
+
+## Reading a shape file
+
+Read `nc_practice.shp` file and assign it to an R object named `nc_counties`. 
+
+Here is what a successfully imported file looks like:
+
+```{r, echo = F}
+nc_counties <- st_read("/Users/tmieno2/Dropbox/TeachingUNL/R-spatial-micro-credit/Lectures/Data/nc_practice.shp")
+```
+
+##  Map creation using an `sf` object
+
+Create a simple map using `ggplot()`. 
+
+Here is what it should look like:
+
+```{r, echo = F}
+ggplot(nc_counties) +
+  geom_sf()
+```
+
+# Problem 2
+
+## Read raster data files
+
+Read PRISM precipitation data from January 1 through January 5 in 2024 as a single `SpatRaster` object named `ppt_5`. The files are found inside the PRISM folder. 
+
+Here is what the `SpatRaster` object look like:
+
+```{r, echo = F}
+(
+  ppt_5 <-
+    terra::rast(
+      c(
+        "Data/PRISM/PRISM_ppt_provisional_4kmD2_20240101_bil/PRISM_ppt_provisional_4kmD2_20240101_bil.bil",
+        "Data/PRISM/PRISM_ppt_provisional_4kmD2_20240102_bil/PRISM_ppt_provisional_4kmD2_20240102_bil.bil",
+        "Data/PRISM/PRISM_ppt_provisional_4kmD2_20240103_bil/PRISM_ppt_provisional_4kmD2_20240103_bil.bil",
+        "Data/PRISM/PRISM_ppt_provisional_4kmD2_20240104_bil/PRISM_ppt_provisional_4kmD2_20240104_bil.bil",
+        "Data/PRISM/PRISM_ppt_provisional_4kmD2_20240105_bil/PRISM_ppt_provisional_4kmD2_20240105_bil.bil"
+      )
+    )
+)
+
+```
+
+## Cropping
+
+Crop `ppt_5` to the bounding box of `nc_counties` and save the resulting object as `ppt_5_cropped`.
+
+```{r, echo = FALSE}
+(
+ppt_5_cropped <- terra::crop(ppt_5, nc_counties)
+)
+```
+
+## Map making using raster data
+
+Create a map of precipitation in North Carolina faceted by day (Hint: use the `tidyterra` package) 
+
+```{r, echo = FALSE}
+ggplot() +
+  geom_spatraster(data = ppt_5_cropped) +
+  facet_wrap(. ~ lyr)
+```
+
+# Problem 3
+
+## Raster value extraction
+
+Using `ppt_5`, extract precipitation values for each of the counties in `nc_counties`. Name the resulting object `ppt_5_extracted`.
+
+Here is the first 6 rows of the successfully extracted values:
+
+```{r, echo = FALSE}
+ppt_5_extracted <- 
+  terra::extract(ppt_5_cropped, nc_counties)
+
+head(ppt_5_extracted)
+```
+
+## Summarize 
+
+First run the following code to simplify the subsequent operations, which will make the variable names shorter.
+
+```{r}
+names(ppt_5_extracted) <- c("id", "ppt_01", "ppt_02", "ppt_03", "ppt_04", "ppt_05")
+
+head(ppt_5_extracted)
+```
+
+Now, calculate the mean of of the precipitation values for each of the counties each day and name it `ppt_5_mean`. [Hint: use `dplyr::group_by()` and `summarize()`] 
+
+Here is what the summarized numbers look like:
+
+```{r, echo = FALSE}
+(
+ppt_5_mean <- 
+  ppt_5_extracted %>%
+  group_by(id) %>%
+  summarize(
+    ppt_01 = mean(ppt_01),
+    ppt_02 = mean(ppt_02),
+    ppt_03 = mean(ppt_03),
+    ppt_04 = mean(ppt_04),
+    ppt_05 = mean(ppt_05)
+  )
+)
+
+```
+
+## Identify the county with the most precipitation  
+
+Find the name of the county that had the most precipitation on January 4th, 2024. [Hint: Remember `id` value corresponds to the row number of `nc_counties`. For example, `id` = 1 corresponds to the first row of `nc_counties`.]
+
+Here is the county:
+
+```{r, echo = FALSE}
+county_id <- 
+  dplyr::filter(ppt_5_mean, ppt_04 == max(ppt_04)) %>%
+  pull(id)
+
+nc_counties[county_id, ]
+```

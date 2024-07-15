@@ -18,6 +18,10 @@ This repository hosts all the codes used in creating lecture slides for the R-as
 
 + Lecture 6: Obtain spatial data using R ([slide](https://tmieno2.github.io/R-as-GIS-workshop/L06_get_spatial_data.html))
 
+## Final Assignment
+
++ Final assignment ([html](https://tmieno2.github.io/R-as-GIS-workshop/final_assignment.html))
+
 ## Supplementary Slides
 
 + SS 1: `ggplot2` primer ([slide](https://tmieno2.github.io/R-as-GIS-workshop/LA_1_ggplot2_primer.html))
@@ -25,7 +29,6 @@ This repository hosts all the codes used in creating lecture slides for the R-as
 + SS 2: `dplyr` primer ([slide](https://tmieno2.github.io/R-as-GIS-workshop/LA_2_dplyr_primer.html))
 
 + SS 3: Looping primer ([slide](https://tmieno2.github.io/R-as-GIS-workshop/LA_3_loop.html))
-
 
 ## Additional Exercises
 
